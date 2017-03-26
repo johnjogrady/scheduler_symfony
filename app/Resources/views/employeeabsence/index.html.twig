@@ -1,0 +1,43 @@
+{% extends '_base.html.twig' %}
+employeeabsence_show
+{% block body %}
+    <h1>Employeeabsences list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Starttime</th>
+            <th>Endtime</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for employeeAbsence in employeeAbsences %}
+            <tr>
+                <td>
+                    <a href="{{ path('employeeabsence_show', { 'id': employeeAbsence.id }) }}">{{ employeeAbsence.id }}</a>
+                </td>
+                <td>{% if employeeAbsence.startTime %}{{ employeeAbsence.startTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+                <td>{% if employeeAbsence.endTime %}{{ employeeAbsence.endTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('employeeabsence_show', { 'id': employeeAbsence.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('employeeabsence_edit', { 'id': employeeAbsence.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('employeeabsence_new') }}">Create a new employeeAbsence</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Unavailabilityreasons list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Employee Id</th>
+            <th>Unavailabilityreason</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for unavailabilityReason in unavailabilityReasons %}
+            <tr>
+                <td>
+                    <a href="{{ path('unavailabilityreason_show', { 'id': unavailabilityReason.id }) }}">{{ unavailabilityReason.id }}</a>
+                </td>
+                <td>{{ unavailabilityReason.unavailabilityReason }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('unavailabilityreason_show', { 'id': unavailabilityReason.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('unavailabilityreason_edit', { 'id': unavailabilityReason.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('unavailabilityreason_new') }}">Create a new unavailabilityReason</a>
+        </li>
+    </ul>
+{% endblock %}

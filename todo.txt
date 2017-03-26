@@ -1,0 +1,7 @@
+To do:
+
+Improve Routing with Session based temporary variables to highlight recently updated values
+PHP Unit testing
+Customise Symfony Form Controls e.g. 
+Implement Security Roles
+Google Maps integration- distance/ location/Mapping via Web Service API.

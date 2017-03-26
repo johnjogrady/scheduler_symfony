@@ -1,0 +1,71 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Customer</h1>
+
+    <table>
+        <tbody>
+        <tr>
+            <th>Customer name</th>
+            <td>{{ customer.customerName }}</td>
+        </tr>
+        <tr>
+            <th>Address line1</th>
+            <td>{{ customer.addressLine1 }}</td>
+        </tr>
+        <tr>
+            <th>Address line2</th>
+            <td>{{ customer.addressLine2 }}</td>
+        </tr>
+        <tr>
+            <th>Address line3</th>
+            <td>{{ customer.addressLine3 }}</td>
+        </tr>
+        <tr>
+            <th>County/Postcode</th>
+            <td>{{ customer.countyPostcode }}</td>
+        </tr>
+        <tr>
+            <th>Eircode</th>
+            <td>{{ customer.eirCode }}</td>
+        </tr>
+        <tr>
+            <th>Landline telephone</th>
+            <td>{{ customer.landlineTelephone }}</td>
+        </tr>
+        <tr>
+            <th>Mobile telephone</th>
+            <td>{{ customer.mobileTelephone }}</td>
+        </tr>
+        <tr>
+            <th>Managing Office</th>
+            <td>{{ customer.managingOffice }}</td>
+        </tr>
+
+        <tr>
+            <th>Is Active</th>
+            <td>{% if customer.isActive %}Yes{% else %}No{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Main Contact</th>
+            <td>{{ customer.mainContact }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('customer_index') }}" class="btn btn-success btn-sm" role="button">Back to the Customer
+                list</a>
+        </li>
+        <li>
+            <a href="{{ path('customer_edit', { 'id': customer.id }) }}" class="btn btn-success btn-sm" role="button">Edit
+                This Record</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete" class="btn btn-success btn-sm" role="button">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

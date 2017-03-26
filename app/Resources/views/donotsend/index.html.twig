@@ -1,0 +1,37 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Donotsends list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for doNotSend in doNotSends %}
+            <tr>
+                <td><a href="{{ path('donotsend_show', { 'id': doNotSend.id }) }}">{{ doNotSend.id }}</a></td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('donotsend_show', { 'id': doNotSend.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('donotsend_edit', { 'id': doNotSend.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('donotsend_new') }}">Create a new doNotSend</a>
+        </li>
+    </ul>
+{% endblock %}

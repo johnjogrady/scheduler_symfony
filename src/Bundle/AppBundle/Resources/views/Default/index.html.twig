@@ -1,0 +1,54 @@
+{% block pageTitle %}home page{% endblock %}
+
+{% block body %}
+
+    <h1> Welcome to the Scheduler App
+    </h1>
+    <ul>
+        <hr>
+        <li>
+            <a href="{{ path('roster_index') }}">
+
+                <img src="/images/time.png" alt="Clock" height="32" width="32"></a>
+            <a href="{{ path('roster_index') }}" class="btn btn-danger" role="button">Rosters</a>
+        </li>
+        <li>
+
+            <a href="{{ path('serviceuser_index') }}">
+
+                <img src="/images/serviceuser.png" alt="service user" height="32" width="32"></a>
+
+
+            <a href="{{ path('serviceuser_index') }}" class="btn btn-primary" role="button">Service Users</a>
+        </li>
+        <li>
+
+            <a href="{{ path('roster_index') }}">
+
+                <img src="/images/employee.png" alt="Employee" height="32" width="32"></a>
+
+
+            <a href="{{ path('employee_index') }}" class="btn btn-warning" role="button">Employees</a>
+        </li>
+        <li>
+
+            <a href="{{ path('office_index') }}">
+
+                <img src="/images/department.png" alt="Office" height="32" width="32"></a>
+            <a href="{{ path('office_index') }}" class="btn btn-success" role="button">Offices</a>
+        </li>
+        <li>
+
+            <a href="{{ path('customer_index') }}">
+
+                <img src="/images/customer.png" alt="customer" height="32" width="32"></a>
+
+            <a href="{{ path('customer_index') }}" class="btn btn-info" role="button">Customers</a>
+        </li>
+
+
+    </ul>
+
+
+{% endblock %}
+

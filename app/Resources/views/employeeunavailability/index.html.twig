@@ -1,0 +1,69 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Employee Unavailable Times list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>employeeid</th>
+            <th>Day Of Week</th>
+            <th>Start time</th>
+            <th>End time</th>
+            <th>Duration</th>
+            <th>Reason</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for employeeunavailability in employeeUnavailability %}
+            <tr>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('employeeunavailability_show', { 'id': employeeunavailability.id }) }}"
+                               class="btn btn-success btn-sm" role="button">View</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('employeeunavailability_edit', { 'id': employeeunavailability.id }) }}"
+                               class="btn btn-success btn-sm" role="button">Edit</a>
+                        </li>
+                    </ul>
+                </td>
+
+                <td>{{ employeeunavailability.employeeId }}</td>
+                <td>
+                    {% if  employeeunavailability.dayOfWeek==1 %}
+                        <p>Monday</p>
+                    {% elseif employeeunavailability.dayOfWeek==2 %}
+                        <p>Tuesday</p>
+                    {% elseif employeeunavailability.dayOfWeek==3 %}
+                        <p>Wednesday</p>
+                    {% elseif employeeunavailability.dayOfWeek==4 %}
+                        <p>Thursday</p>
+                    {% elseif employeeunavailability.dayOfWeek==5 %}
+                        <p>Friday</p>
+                    {% elseif employeeunavailability.dayOfWeek==6 %}
+                        <p>Saturday</p>
+                    {% elseif employeeunavailability.dayOfWeek==7 %}
+                        <p>Sunday</p>
+                    {% endif %}
+                </td>
+                <td>{% if employeeunavailability.startTime %}{{ employeeunavailability.StartTime|date('H:i:s') }}{% endif %}</td>
+                <td>{% if employeeunavailability.endTime %}{{ employeeunavailability.EndTime|date('H:i:s') }}{% endif %}</td>
+                <td>{{ employeeunavailability.EndTime.diff(employeeunavailability.StartTime )|date("%H hours ") }}</td>
+
+                <td>{{ employeeunavailability.unavailabilityReason }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('employeeunavailability_new') }}" class="btn btn-success btn-sm" role="button">Create a new
+                employee unavailability</a>
+        </li>
+    </ul>
+{% endblock %}

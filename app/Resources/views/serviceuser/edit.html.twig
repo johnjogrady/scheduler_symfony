@@ -1,0 +1,24 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Serviceuser edit</h1>
+
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+    <input type="submit" class="btn btn-success btn-sm" role="button" value="Submit Changes"/>
+    {{ form_end(edit_form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('serviceuser_index') }}" class="btn btn-success btn-sm" role="button">Back to the Service
+                Users list</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete" class="btn btn-success btn-sm" role="button"> Service User>
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
+
+

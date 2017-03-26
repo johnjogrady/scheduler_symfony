@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Unavailabilityreason</h1>
+
+    <table>
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ unavailabilityReason.id }}</td>
+        </tr>
+        <tr>
+            <th>Unavailabilityreason</th>
+            <td>{{ unavailabilityReason.unavailabilityReason }}</td>
+
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('unavailabilityreason_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('unavailabilityreason_edit', { 'id': unavailabilityReason.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

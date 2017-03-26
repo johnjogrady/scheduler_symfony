@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rosterstatuses list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Rosterstatus name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for rosterStatus in rosterStatuses %}
+            <tr>
+                <td><a href="{{ path('rosterstatus_show', { 'id': rosterStatus.id }) }}">{{ rosterStatus.id }}</a></td>
+                <td>{{ rosterStatus.rosterStatus }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('rosterstatus_show', { 'id': rosterStatus.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

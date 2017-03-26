@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Scheduler - {% block pageTitle %}{% endblock %}</title>
+    <style>
+        @import '/css/flash.css';
+        @import '/css/style.css';
+        @import '/css/aside.css';
+        @import "/css/nav.css";
+        @import "/css/root.css";
+        @import "/css/basic.css";
+        @import "/css/header_footer.css";
+        @import "/css/layout.css";
+
+        {% block stylesheets %}
+        label {
+            display: inline-block;
+            float: left;
+            width: 10rem;
+            padding-right: 0.5rem;
+            font-weight: bold;
+            color: blue;
+            text-align: right;
+        }
+
+        .form-field {
+            padding-bottom: 1rem;
+        }
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script>
+        $(document).ready(function () {
+            $('.js-datepicker').datepicker({
+                format: 'dd-mm-yyyy'
+            });
+        });
+
+        $(document).ready(function () {
+            $('input.timepicker').timepicker({});
+        });
+    </script>
+    {% endblock %}
+</head>
+<body>
+
+<div class="topnav">
+    <a href="{{ path('roster_index') }}">
+
+        <img src="/images/time.png" alt="Clock" height="32" width="32"></a>
+    <a href="{{ path('roster_index') }}" class="btn btn-danger" role="button">Rosters</a>
+
+    <a href="{{ path('serviceuser_index') }}">
+
+        <img src="/images/serviceuser.png" alt="service user" height="32" width="32"></a>
+
+
+    <a href="{{ path('serviceuser_index') }}" class="btn btn-primary" role="button">Service Users</a>
+
+    <a href="{{ path('employee_index') }}">
+
+        <img src="/images/employee.png" alt="Employee" height="32" width="32"></a>
+
+
+    <a href="{{ path('employee_index') }}" class="btn btn-warning" role="button">Employees</a>
+
+    <a href="{{ path('office_index') }}">
+
+        <img src="/images/department.png" alt="Office" height="32" width="32"></a>
+    <a href="{{ path('office_index') }}" class="btn btn-success" role="button">Offices</a>
+
+    <a href="{{ path('customer_index') }}">
+
+        <img src="/images/customer.png" alt="customer" height="32" width="32"></a>
+
+    <a href="{{ path('customer_index') }}" class="btn btn-info" role="button">Customers</a>
+</div>
+<hr>
+{% block body %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+{% endblock %}
+</body>
+</html>

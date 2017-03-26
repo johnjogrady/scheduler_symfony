@@ -1,0 +1,169 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    {#{{ dump() }}#}
+    <div class="column_container">
+        <section class="fixed">
+            <h4>Service User Details</h4>
+
+            <table>
+                <tbody>
+
+                <tr>
+                    <th>First name</th>
+                    <td>{{ serviceUser.firstName }}</td>
+                </tr>
+                <tr>
+                    <th>Last name</th>
+                    <td>{{ serviceUser.lastName }}</td>
+                </tr>
+                <tr>
+                    <th>Address line1</th>
+                    <td>{{ serviceUser.addressLine1 }}</td>
+                </tr>
+                <tr>
+                    <th>Address line2</th>
+                    <td>{{ serviceUser.addressLine2 }}</td>
+                </tr>
+                <tr>
+                    <th>Address line3</th>
+                    <td>{{ serviceUser.addressLine3 }}</td>
+                </tr>
+                <tr>
+                    <th>County</th>
+                    <td>{{ serviceUser.countyPostcode }}</td>
+                </tr>
+                <tr>
+                    <th>Eircode</th>
+                    <td>{{ serviceUser.eirCode }}</td>
+                </tr>
+                <tr>
+                    <th>Landline telephone</th>
+                    <td>{{ serviceUser.landlineTelephone }}</td>
+                </tr>
+                <tr>
+                    <th>Mobile telephone</th>
+                    <td>{{ serviceUser.mobileTelephone }}</td>
+                </tr>
+                <tr>
+                    <th>Is Active</th>
+                    <td>{% if serviceUser.isActive %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Start date</th>
+                    <td>{% if serviceUser.startDate %}{{ serviceUser.startDate|date('Y-m-d') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Finish date</th>
+                    <td>{% if serviceUser.finishDate %}{{ serviceUser.finishDate|date('Y-m-d') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="{{ path('serviceuser_index') }}" class="btn btn-success btn-sm" role="button">Back to
+                            the
+                            Service User list</a>
+                        <a href="{{ path('serviceuser_edit', { 'id': serviceUser.id }) }}"
+                           class="btn btn-success btn-sm"
+                           role="button">Edit Record</a>
+                        {{ form_start(delete_form) }}
+                        <input type="submit" class="btn btn-success btn-sm" role="button" value="Delete Service User">
+                        {{ form_end(delete_form) }}
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+
+            <table>
+                <th>Assigned Employees</th>
+                <th>
+                    <a href="{{ path('serviceuserassignedemployee_new', { 'serviceUser': serviceUser.id }) }}"
+                       class="btn btn-success btn-sm" role="button">Assign Employee</a>
+                </th>
+                {% for assignedEmployee in assignedEmployees %}
+
+                    <tr>
+                        <td>
+                            {{ assignedEmployee.employeeId }}
+                        </td>
+                        <td>
+                            <a href="{{ path('serviceuserassignedemployee_delete', { 'id': assignedEmployee.id }) }}"
+                               class="btn btn-info btn-sm" role="button">Remove Assignment</a>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+
+            </table>
+
+
+            <table>
+                <th>Do Not Send These Employees</th>
+                <th>
+                    <a href="{{ path('donotsend_new', { 'serviceUser': serviceUser.id }) }}"
+                       class="btn btn-success btn-sm"
+                       role="button">Mark an Employee As Do Not Send</a>
+
+                </th>
+                {% for doNotSend in doNotSends %}
+
+                    <tr>
+                        <td>
+                            {{ doNotSend.employeeId }}  </td>
+                        <td><a href="{{ path('donotsend_delete', { 'id': doNotSend.id }) }}" class="btn info btn-sm"
+                               role="button">Remove Do Not Send Flag</a>
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+        </section>
+        <section class="fixed_wide">
+            <section>
+                <h4>Rosters for this Service User</h4>
+
+                <table>
+                    <tr>
+
+
+                        <th></th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Duration</th>
+                        <th>Roster Status</th>
+                        <th>Customer</th>
+                    </tr>
+
+                    <tr>
+                        {% for roster in rosters %}
+
+                        <td>
+                            <a href="{{ path('roster_show', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
+                               role="button">View</a>
+
+                            <a href="{{ path('roster_edit', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
+                               role="button">Edit</a>
+
+                            <a href="{{ path('roster_delete', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
+                               role="button">Delete</a>
+                        </td>
+                        <td>{{ roster.rosterStartTime|date('D d-m-y H:i:s H:i') }}</td>
+                        <td>{{ roster.rosterEndTime|date('D d-m-y H:i:s H:i') }}</td>
+                        <td>
+                            {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:%i ") }}
+                        </td>
+                        <td>{{ roster.rosterStatus }}</td>
+                        <td>{{ roster.customerId }}</td>
+
+                    </tr>
+                    {% endfor %}
+                </table>
+                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id }) }}" class="btn btn-success btn-sm"
+                   role="button">Add New Roster</a>
+
+            </section>
+        </section>
+    </div>
+{% endblock %}

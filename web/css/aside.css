@@ -1,0 +1,18 @@
+/* ----------------------------------
+aside
+------------------------------------- */
+
+/* --- aside --- */
+aside {
+    width: 14rem;
+    background-color: lightblue;
+    font-size: 0.8em;
+    border: 1px solid #a2a9b1;
+    border-spacing: 3px;
+    color: black;
+    margin: 0.5em 0 0.5em 1em;
+    padding: 0.2em;
+    float: right;
+    clear: right;
+    line-height: 1.5em;
+}

@@ -1,0 +1,60 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Customers list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>Customer Name</th>
+            <th>Address Line1</th>
+            <th>Address Line2</th>
+            <th>Address Line3</th>
+            <th>County</th>
+            <th>Eircode</th>
+            <th>Landline Telephone</th>
+            <th>Mobile Telephone</th>
+            <th>Managed By</th>
+            <th>Is Active</th>
+            <th>Main Contact</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for customer in customers %}
+            <tr>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('customer_show', { 'id': customer.id }) }}" class="btn btn-success btn-sm"
+                               role="button">View</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('customer_edit', { 'id': customer.id }) }}" class="btn btn-success btn-sm"
+                               role="button">Edit</a>
+                        </li>
+                    </ul>
+                </td>
+
+                <td>{{ customer.customerName }}</td>
+                <td>{{ customer.addressLine1 }}</td>
+                <td>{{ customer.addressLine2 }}</td>
+                <td>{{ customer.addressLine3 }}</td>
+                <td>{{ customer.countyPostcode }}</td>
+                <td>{{ customer.eirCode }}</td>
+                <td>{{ customer.landlineTelephone }}</td>
+                <td>{{ customer.mobileTelephone }}</td>
+                <td>{{ customer.managingOffice }}</td>
+                <td>{% if customer.isActive %}Yes{% else %}No{% endif %}</td>
+                <td>{{ customer.mainContact }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('customer_new') }}" class="btn btn-success btn-sm" role="button">Create a new customer</a>
+        </li>
+    </ul>
+{% endblock %}

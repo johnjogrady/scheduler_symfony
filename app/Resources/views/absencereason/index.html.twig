@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Absencereasons list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Absencereason</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for absenceReason in absenceReasons %}
+            <tr>
+                <td><a href="{{ path('absencereason_show', { 'id': absenceReason.id }) }}">{{ absenceReason.id }}</a>
+                </td>
+                <td>{{ absenceReason.absenceReason }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('absencereason_show', { 'id': absenceReason.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('absencereason_edit', { 'id': absenceReason.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('absencereason_new') }}">Create a new absenceReason</a>
+        </li>
+    </ul>
+{% endblock %}

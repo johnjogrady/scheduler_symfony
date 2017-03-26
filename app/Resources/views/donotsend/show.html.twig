@@ -1,0 +1,38 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Donotsend</h1>
+
+    <table>
+        <tbody>
+
+        <tr>
+            <th>Employee</th>
+            <td>{{ doNotSend.employeeId }}</td>
+        </tr>
+        <tr>
+            <th>
+            <td>
+                is Marked as Not to Be Sent to
+            </td>
+            </th>
+        </tr>
+        <tr>
+            <th>Service User</th>
+            <td>{{ doNotSend.serviceUserId }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('serviceuser_index') }} " class="btn-success btn-sm" role="button">Back to Service User
+                list</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Remove Do Not Send Flag" class="btn-success btn-sm" role="button">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

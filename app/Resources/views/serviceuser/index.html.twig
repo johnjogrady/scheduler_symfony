@@ -1,0 +1,63 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Service Users </h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Address line1</th>
+            <th>Address line2</th>
+            <th>Address line3</th>
+            <th>County</th>
+            <th>Landline Telephone</th>
+            <th>Mobile Telephone</th>
+            <th>Managing Office</th>
+            <th>Active</th>
+            <th>Start Date</th>
+            <th>Finish Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for serviceUser in serviceUsers %}
+            <tr>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('serviceuser_show', { 'id': serviceUser.id }) }}"
+                               class="btn btn-info btn-xs" role="button">View</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ path('serviceuser_edit', { 'id': serviceUser.id }) }}"
+                               class="btn btn-info btn-xs" role="button">Edit</a>
+                        </li>
+                    </ul>
+                </td>
+                <td>{{ serviceUser.firstName }}</td>
+                <td>{{ serviceUser.lastName }}</td>
+                <td>{{ serviceUser.addressLine1 }}</td>
+                <td>{{ serviceUser.addressLine2 }}</td>
+                <td>{{ serviceUser.addressLine3 }}</td>
+                <td>{{ serviceUser.countyPostcode }}</td>
+                <td>{{ serviceUser.landlineTelephone }}</td>
+                <td>{{ serviceUser.mobileTelephone }}</td>
+                <td>{{ serviceUser.managingOffice }}</td>
+                <td>{% if serviceUser.isActive %}Yes{% else %}No{% endif %}</td>
+                <td>{% if serviceUser.startDate %}{{ serviceUser.startDate|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if serviceUser.finishDate %}{{ serviceUser.finishDate|date('Y-m-d') }}{% endif %}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('serviceuser_new') }}" class="btn btn-info" role="button">Add new Service User</a>
+        </li>
+    </ul>
+{% endblock %}

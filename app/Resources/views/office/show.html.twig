@@ -1,0 +1,64 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Office</h1>
+    {{ dump() }}
+    <table>
+        <tbody>
+
+        <tr>
+            <th>Office name</th>
+            <td>{{ office.officeName }}</td>
+        </tr>
+        <tr>
+            <th>Address line1</th>
+            <td>{{ office.addressLine1 }}</td>
+        </tr>
+        <tr>
+            <th>Address line2</th>
+            <td>{{ office.addressLine2 }}</td>
+        </tr>
+        <tr>
+            <th>Address line3</th>
+            <td>{{ office.addressLine3 }}</td>
+        </tr>
+        <tr>
+            <th>County</th>
+            <td>{{ countyName.countyName }}</td>
+        </tr>
+        <tr>
+            <th>Eircode</th>
+            <td>{{ office.eirCode }}</td>
+        </tr>
+        <tr>
+            <th>Landline telephone</th>
+            <td>{{ office.landlineTelephone }}</td>
+        </tr>
+        <tr>
+            <th>Mobile telephone</th>
+            <td>{{ office.mobileTelephone }}</td>
+        </tr>
+        <tr>
+            <th>Is Active</th>
+            <td>{% if office.isActive %}Yes{% else %}No{% endif %}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('office_index') }}" class="btn btn-success btn-sm" role="button">Back to the Offices
+                list</a>
+        </li>
+        <li>
+
+            <a href="{{ path('office_edit', { 'id': office.id }) }}" class="btn btn-success btn-sm" role="button">Edit
+                Record</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete" class="btn btn-success btn-sm" role="button">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends '::_base.html.twig' %}
+
+{% block body %}
+<h1>Serviceuserassignedemployee</h1>
+
+<table>
+    <tbody>
+
+    <tr>
+        <th>Employee</th>
+        <td>{{ serviceUserAssignedEmployee.employeeId }}</td>
+    </tr>
+    <tr>
+        <th>
+        <td>
+            is Assigned to
+        </td>
+
+    </tr>
+    <tr>
+        <th>Service User</th>
+        <td>{{ serviceUserAssignedEmployee.serviceUserId }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('serviceuser_index') }}" class="btn-success btn-sm" role="button">Back to the Service User
+            list</a>
+    </li>
+
+    <li>
+        {{ form_start(delete_form) }}
+        <input type="submit" value="Remove Association" class="btn-success btn-sm" role="button>
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

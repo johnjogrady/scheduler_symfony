@@ -1,0 +1,151 @@
+
+body {
+    margin: 0.5rem;
+}
+
+tr.cast_sheet {
+    display: block;
+    border-bottom: dotted 1px #999999;
+
+}
+
+th, th a {
+    height: 30px;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: lightseagreen;
+}
+
+tr {
+    height: 30px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+h1.banner {
+    font-size: 2rem;
+    border-style: solid;
+    border-width: 0.5px;
+    text-align: center;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    color: darkgrey;
+}
+
+div.column_container {
+    display: flex;
+}
+
+div.column_container section.flex {
+    color: darkgrey;
+    padding: 0.5rem;
+    display: inline-flex;
+    margin-left: 4px;
+    margin-top: 10px;
+    border-style: solid;
+    border-width: 1px;
+    flex: 3;
+    align-content: center;;
+
+}
+
+div.column_container section.flexnarrow {
+    color: darkgrey;
+    padding: 0.5rem;
+    display: inline-flex;
+    margin-left: 4px;
+    margin-top: 10px;
+    border-style: solid;
+    border-width: 1px;
+    flex: 1;
+    align-content: center;;
+
+}
+
+#column_container section.fixed_wide {
+    flex: 5;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-style: solid;
+    border-width: 1px;
+}
+
+#column_container section.fixed {
+    flex: 2;
+    color: yellow;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-style: solid;
+    border-width: 1px;
+}
+
+section p, aside p {
+    margin: auto;
+    font-size: 0.9rem;
+    padding: 0;
+    text-align: justify;
+}
+
+section h2 {
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+section.registration {
+    background-color: #f2f2f2;
+    margin-left: 4px;
+    margin-top: 10px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+div.column_container {
+    display: flex;
+
+}
+
+span.highlight_name {
+    font-size: 2rem;
+    font-family: Serif;
+    padding: 3px 3px 3px 5px;
+    color: #ffff00;
+}
+
+em.highlight_name {
+    font-size: 1.25rem;
+    color: #ffff00;
+}
+
+input {
+    padding: 3px;
+    width: 400px;
+
+}
+
+fieldset {
+    width: 600px;
+    border-style: none;
+
+}
+
+legend {
+    padding: 15px 15px 15px 15px;
+    font-size: 20px;
+    font-family: Arial
+}
+
+label.field {
+    text-align: right;
+    padding: 3px;
+    background-color: #1d6293;
+    color: #f2f2f2;
+    width: 110px;
+    float: left;
+}

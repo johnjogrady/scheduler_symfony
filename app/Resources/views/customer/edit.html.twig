@@ -1,0 +1,29 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Customer edit</h1>
+    {#
+        {{ form_errors(edit_form) }}
+
+        {{ form_row(edit_form.customerName) }}
+        {{ form_row(edit_form.addressLine1) }}
+        {{ form_row(edit_form.addressLine2) }}
+        {{ form_row(edit_form.countyPostcode) }}
+        #}
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+
+    <input type="submit" value="Submit Changes" class="btn btn-success btn-sm" role="button"/>
+    {{ form_end(edit_form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('customer_index') }}" class="btn btn-success btn-sm" role="button">Back to the list</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete" class="btn btn-success btn-sm" role="button">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

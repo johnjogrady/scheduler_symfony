@@ -1,0 +1,64 @@
+app_user:
+    resource: "@AppBundle/Controller/UserController.php"
+    type:     annotation
+
+app_unavailability_reason:
+    resource: "@AppBundle/Controller/UnavailabilityReasonController.php"
+    type:     annotation
+
+app_service_user_assigned_employee:
+    resource: "@AppBundle/Controller/ServiceUserAssignedEmployeeController.php"
+    type:     annotation
+
+app_do_not_send:
+    resource: "@AppBundle/Controller/DoNotSendController.php"
+    type:     annotation
+
+app_approval_status:
+    resource: "@AppBundle/Controller/ApprovalStatusController.php"
+    type:     annotation
+
+app_absence_reason:
+    resource: "@AppBundle/Controller/AbsenceReasonController.php"
+    type:     annotation
+
+app_employee_absence:
+    resource: "@AppBundle/Controller/EmployeeAbsenceController.php"
+    type:     annotation
+
+app_roster_assigned_employee:
+    resource: "@AppBundle/Controller/RosterAssignedEmployeeController.php"
+    type:     annotation
+
+app_roster_status:
+    resource: "@AppBundle/Controller/RosterStatusController.php"
+    type:     annotation
+
+app_customer:
+    resource: "@AppBundle/Controller/CustomerController.php"
+    type:     annotation
+
+app_roster:
+    resource: "@AppBundle/Controller/RosterController.php"
+    type:     annotation
+
+app_service_user:
+    resource: "@AppBundle/Controller/ServiceUserController.php"
+    type:     annotation
+
+app_employee:
+    resource: "@AppBundle/Controller/EmployeeController.php"
+    type:     annotation
+
+app_service_user:
+    resource: "@AppBundle/Controller/ServiceUserController_SilexStyle.php"
+    type:     annotation
+
+bundle_app:
+    resource: "@BundleAppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

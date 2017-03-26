@@ -1,0 +1,53 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Rosters list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>Serviceuserid</th>
+            <th>Start time</th>
+            <th>End time</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Resources needed</th>
+            <th>Customer</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for roster in rosters %}
+            <tr>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('roster_show', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
+                               role="button">View</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('roster_edit', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
+                               role="button">Edit</a>
+                        </li>
+                    </ul>
+                </td>
+
+                <td>{{ roster.serviceUserId }}</td>
+                <td>{% if roster.rosterStartTime %}{{ roster.rosterStartTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+                <td>{% if roster.rosterEndTime %}{{ roster.rosterEndTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+                <td>{{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:%i ") }}</td>
+
+                <td>{{ roster.rosterStatus }}</td>
+                <td>{{ roster.numberResourcesNeeded }}</td>
+                <td>{{ roster.customerId }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('roster_new') }}" class="btn btn-success btn-sm" role="button">Create a new roster</a>
+        </li>
+    </ul>
+{% endblock %}

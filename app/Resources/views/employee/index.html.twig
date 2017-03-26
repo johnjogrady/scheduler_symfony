@@ -1,0 +1,66 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Employees</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Staff #</th>
+            <th>Address Line1</th>
+            <th>Address Line2</th>
+            <th>Address Line3</th>
+            <th>County</th>
+            <th>Landline Telephone</th>
+            <th>Mobile Telephone</th>
+            <th>Aactive</th>
+            <th>Managing Office</th>
+            <th>Startdate</th>
+            <th>Finishdate</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for employee in employees %}
+            <tr>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('employee_show', { 'id': employee.id }) }}" class="btn btn-success btn-sm"
+                               role="button">Detail</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ path('employee_edit', { 'id': employee.id }) }}" class="btn btn-success btn-sm"
+                               role="button">Edit</a>
+                        </li>
+                    </ul>
+                </td>
+                <td>{{ employee.firstName }}</td>
+                <td>{{ employee.lastName }}</td>
+                <td>{{ employee.staffNumber }}</td>
+                <td>{{ employee.addressLine1 }}</td>
+                <td>{{ employee.addressLine2 }}</td>
+                <td>{{ employee.addressLine3 }}</td>
+                <td>{{ employee.countyPostcode }}</td>
+                <td>{{ employee.landlineTelephone }}</td>
+                <td>{{ employee.mobileTelephone }}</td>
+                <td>{% if employee.isActive %}Yes{% else %}No{% endif %}</td>
+                <td>{{ employee.managingOffice }}</td>
+                <td>{% if employee.startDate %}{{ employee.startDate|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if employee.finishDate %}{{ employee.finishDate|date('Y-m-d') }}{% endif %}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('employee_new') }}" class="btn btn-success btn-sm" role="button">Create a new Employee</a>
+        </li>
+    </ul>
+{% endblock %}

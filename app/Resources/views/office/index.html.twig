@@ -1,0 +1,55 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Offices View</h1>
+    {{ dump() }}
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>Officename</th>
+            <th>Address Line1</th>
+            <th>Address Line2</th>
+            <th>Address Line3</th>
+            <th>Countypostcode</th>
+            <th>Landline Telephone</th>
+            <th>Mobile Telephone</th>
+            <th>Active</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for office in offices %}
+            <tr>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('office_show', { 'id': office.id }) }}" class="btn btn-success btn-sm"
+                               role="button">View</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('office_edit', { 'id': office.id }) }}" class="btn btn-success btn-sm"
+                               role="button">Edit</a>
+                        </li>
+                    </ul>
+                </td>
+                <td>{{ office.officeName }}</td>
+                <td>{{ office.addressLine1 }}</td>
+                <td>{{ office.addressLine2 }}</td>
+                <td>{{ office.addressLine3 }}</td>
+                <td>{{ office.countyPostcode }}</td>
+                <td>{{ office.landlineTelephone }}</td>
+                <td>{{ office.mobileTelephone }}</td>
+                <td>{% if office.isActive %}Yes{% else %}No{% endif %}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('office_new') }}" class="btn btn-success btn-sm" role="button">Create a new Office</a>
+        </li>
+    </ul>
+{% endblock %}

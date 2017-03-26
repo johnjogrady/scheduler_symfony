@@ -1,0 +1,222 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+
+    <div class="column_container">
+        <section class="flex">
+            <h3>Employee Details</h3>
+        </section>
+        <section class="flex">
+
+
+            <ul>
+                <li>
+                    <a href="{{ path('employee_index') }}" class="btn btn-success btn-sm" role="button">Back to the
+                        Employee list</a>
+                </li>
+                <li>
+                    <a href="{{ path('employee_edit', { 'id': employee.id }) }}" class="btn btn-success btn-sm"
+                       role="button">Edit Record</a>
+                </li>
+                <li>
+                    {{ form_start(delete_form) }}
+                    <input type="submit" class="btn btn-success btn-sm" role="button" value="Delete">
+                    {{ form_end(delete_form) }}
+                </li>
+            </ul>
+        </section>
+    </div>
+    <div class="column_container">
+        <section class="flex">
+
+            <table>
+                <tbody>
+
+                <tr>
+                    <th>First name</th>
+                    <td>{{ employee.firstName }}</td>
+                </tr>
+                <tr>
+                    <th>Last name</th>
+                    <td>{{ employee.lastName }}</td>
+                </tr>
+                <tr>
+                    <th>Staff number</th>
+                    <td>{{ employee.staffNumber }}</td>
+                </tr>
+                <tr>
+                    <th>Address line1</th>
+                    <td>{{ employee.addressLine1 }}</td>
+                </tr>
+                <tr>
+                    <th>Address line2</th>
+                    <td>{{ employee.addressLine2 }}</td>
+                </tr>
+                <tr>
+                    <th>Address line3</th>
+                    <td>{{ employee.addressLine3 }}</td>
+                </tr>
+                <tr>
+                    <th>Eircode</th>
+                    <td>{{ employee.eirCode }}</td>
+                </tr>
+                <tr>
+                    <th>Landline Telephone</th>
+                    <td>{{ employee.landlineTelephone }}</td>
+                </tr>
+                <tr>
+                    <th>Mobile Telephone</th>
+                    <td>{{ employee.mobileTelephone }}</td>
+                </tr>
+                <tr>
+                    <th>Isactive</th>
+                    <td>{% if employee.isActive %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Managingoffice</th>
+                    <td>{{ employee.managingOffice }}</td>
+                </tr>
+                <tr>
+                    <th>Startdate</th>
+                    <td>{% if employee.startDate %}{{ employee.startDate|date('Y-m-d') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Finishdate</th>
+                    <td>{% if employee.finishDate %}{{ employee.finishDate|date('Y-m-d') }}{% endif %}</td>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </section>
+        <section class="flex">
+
+
+            <table>
+
+                <thead>
+                <tr>
+                    <th>
+                        <strong>Absences for this Employee</strong>
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>
+                        <a href="{{ path('employeeabsence_new', { 'employee': employee.id }) }}"
+                           class="btn btn-success btn-sm" role="button">Add New Absence</a>
+                    </th>
+                </tr>
+
+
+                <tr>
+                    <th>Reason</th>
+                    <th>Starttime</th>
+                    <th>Endtime</th>
+                    <th>Duration</th>
+
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for employeeAbsence in employeeAbsences %}
+                    <tr>
+                        <td>{{ employeeAbsence.absenceReason }}</td>
+                        <td>{% if employeeAbsence.startTime %}{{ employeeAbsence.startTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+                        <td>{% if employeeAbsence.endTime %}{{ employeeAbsence.endTime|date('D d-m-y H:i:s ') }}{% endif %}</td>
+
+
+                        <td>
+                            {% set difference = date(employeeAbsence.endTime ).diff(date(employeeAbsence.startTime  )) %}
+                            {% set leftDays = difference.days %}
+                            {% if leftDays == 1 %}
+                                1 day
+                            {% else %}
+                                {{ leftDays }} days
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('employeeabsence_edit', { 'id': employeeAbsence.id }) }}"
+                                       class="btn btn-info btn-sm" role="button">Update</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </section>
+        <section class="flex">
+
+            <table>
+
+                <thead>
+                <tr>
+                    <th>
+                    <span>
+                  <strong>Unavailability Times for this employee</strong>
+              </span>
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>
+                        <a href="{{ path('employeeunavailability_new', { 'employee': employee.id }) }}"
+                           class="btn btn-success btn-sm" role="button">Add New Unavailable Time</a>
+                    </th>
+                </tr>
+
+
+                <tr>
+                    <th>Day Of Week</th>
+                    <th>Starttime</th>
+                    <th>Endtime</th>
+                    <th>Duration</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for employeeunavailability in employeeUnavailability %}
+                    <tr>
+                        <td>
+                            {% if  employeeunavailability.dayOfWeek==1 %}
+                                Monday
+                            {% elseif employeeunavailability.dayOfWeek==2 %}
+                                Tuesday
+                            {% elseif employeeunavailability.dayOfWeek==3 %}
+                                Wednesday
+                            {% elseif employeeunavailability.dayOfWeek==4 %}
+                                Thursday
+                            {% elseif employeeunavailability.dayOfWeek==5 %}
+                                Friday
+                            {% elseif employeeunavailability.dayOfWeek==6 %}
+                                Saturday
+                            {% elseif employeeunavailability.dayOfWeek==7 %}
+                                Sunday
+                            {% endif %}
+                        </td>
+                        <td>{% if employeeunavailability.startTime %}{{ employeeunavailability.startTime|date('H:i:s') }}{% endif %}</td>
+                        <td>{% if employeeunavailability.endTime %}{{ employeeunavailability.endTime|date('H:i:s') }}{% endif %}</td>
+                        <td>{{ employeeunavailability.endTime.diff(employeeunavailability.startTime )|date("%H hrs ") }}</td>
+
+
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('employeeunavailability_edit', { 'id': employeeunavailability.id }) }}"
+                                       class="btn btn-info btn-sm" role="button">Update</a>
+                                    \
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+{% endblock %}

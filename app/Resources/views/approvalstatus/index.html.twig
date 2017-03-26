@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Approvalstatuses list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Approvalstatus</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for approvalStatus in approvalStatuses %}
+            <tr>
+                <td><a href="{{ path('approvalstatus_show', { 'id': approvalStatus.id }) }}">{{ approvalStatus.id }}</a>
+                </td>
+                <td>{{ approvalStatus.approvalStatus }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('approvalstatus_show', { 'id': approvalStatus.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('approvalstatus_edit', { 'id': approvalStatus.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('approvalstatus_new') }}">Create a new approvalStatus</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,26 @@
+html {
+    font-size: 10pt;
+}
+
+th,
+td {
+    width: 10rem;
+}
+
+table,
+th,
+td {
+
+    border: 1px solid black;
+    margin: 0.5rem;
+}
+
+label {
+    display: block;
+    width: 100px;
+}
+
+p.error {
+    padding: 1rem;
+    background-color: pink;
+}

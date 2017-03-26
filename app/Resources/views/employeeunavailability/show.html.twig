@@ -1,0 +1,51 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Employee Unavailability</h1>
+
+    <table>
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ employeeUnavailability.id }}</td>
+        </tr>
+        <tr>
+            <th>Employee</th>
+            <td>{{ employeeUnavailability.employeeId }}</td>
+        </tr>
+        <tr>
+            <th>Dayofweek</th>
+            <td>{{ employeeUnavailability.dayOfWeek }}</td>
+        </tr>
+        <tr>
+            <th>Unavailability Reason</th>
+            <td>{{ employeeUnavailability.unavailabilityReason }}</td>
+        </tr>
+
+        <tr>
+            <th>Starttime</th>
+            <td>{% if employeeUnavailability.startTime %}{{ employeeUnavailability.startTime|date('H:i:s') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Endtime</th>
+            <td>{% if employeeUnavailability.endTime %}{{ employeeUnavailability.endTime|date('H:i:s') }}{% endif %}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('employee_index') }}" class="btn btn-success btn-sm" role="button">Back to the Employee
+                list</a>
+        </li>
+        <li>
+            <a href="{{ path('employeeunavailability_edit', { 'id': employeeUnavailability.id }) }}"
+               class="btn btn-success btn-sm" role="button">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete Employee Unavailability" class="btn btn-success btn-sm" role="button">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

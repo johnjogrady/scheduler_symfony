@@ -1,0 +1,37 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Employee Absence</h1>
+
+    <table>
+        <tbody>
+        <tr>
+            <th>Reason</th>
+            <td>{{ employeeAbsence.absenceReason }}</td>
+        </tr>
+        <tr>
+            <th>Starttime</th>
+            <td>{% if employeeAbsence.startTime %}{{ employeeAbsence.startTime|date('Y-m-d H:i:s') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Endtime</th>
+            <td>{% if employeeAbsence.endTime %}{{ employeeAbsence.endTime|date('Y-m-d H:i:s') }}{% endif %}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('employeeabsence_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('employeeabsence_edit', { 'id': employeeAbsence.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

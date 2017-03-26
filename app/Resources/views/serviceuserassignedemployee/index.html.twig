@@ -1,0 +1,39 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Serviceuserassignedemployees list</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for serviceUserAssignedEmployee in serviceUserAssignedEmployees %}
+            <tr>
+                <td>
+                    <a href="{{ path('serviceuserassignedemployee_show', { 'id': serviceUserAssignedEmployee.id }) }}">{{ serviceUserAssignedEmployee.id }}</a>
+                </td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('serviceuserassignedemployee_show', { 'id': serviceUserAssignedEmployee.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('serviceuserassignedemployee_edit', { 'id': serviceUserAssignedEmployee.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('serviceuserassignedemployee_new') }}">Create a new serviceUserAssignedEmployee</a>
+        </li>
+    </ul>
+{% endblock %}

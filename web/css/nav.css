@@ -1,0 +1,119 @@
+
+h2 {
+    padding-left: 30px;
+    color: white;
+    background: steelblue;
+
+}
+
+#sidenav {
+    width: 240px;
+    float: left;
+    margin: 10px 0 0 7px;
+    padding-top: 0px;
+    display: inline;
+}
+
+#sidenav ul {
+    background-color: #dddddd;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    width: 220px;
+}
+
+#sidenav ul li a {
+    display: block;
+    text-decoration: none;
+    padding: 3px 3px 5px 5px;
+    border-bottom: dotted 1px #999999;
+    background-color: #dddddd;
+}
+
+img.block {
+    display: block;
+}
+
+#sidenav2 ul li {
+    display: block;
+    text-decoration: none;
+    background-color: whitesmoke;
+    padding: 3px 3px 5px 5px;
+    border-bottom: dotted 1px #999999;
+}
+
+#sidenav ul li a.current_page {
+    display: block;
+    color: #ffffff !important;
+    background-color: #e91802;
+}
+
+#sidenav ul li a.featured img.featured {
+    display: block;
+    align-items: center;
+    padding: 15px 15px 15px 15px;
+}
+
+#sidenav ul li a.featured {
+    display: block;
+    padding: 3px 5px 5px 5px;
+    border-bottom: dotted 1px #999999;
+}
+
+table td ul li, ul li {
+    text-decoration: none;
+    font-size: 12px;
+    display: inline-flex;
+    border: solid white;
+
+}
+
+table td ul li a, ul li a {
+    color: #ffffff;
+    flex: 1;
+    align-items: left;
+    background-color: lightslategray;
+
+}
+
+#topnav li {
+    flex: 1;
+}
+
+#topnav ul li a {
+    display: flex;
+    border: 0.5rem solid gainsboro;
+    padding: 0.2rem;
+    background: lightgrey;
+    text-align: center;
+    color: #a2a9b1;
+    text-decoration: none;
+}
+
+#topnav a img {
+    display: block;
+    padding: 1rem;
+    background-color: lightgreen;
+    text-align: center;
+    border: 0.1rem solid black;
+    text-decoration: none;
+    color: blue;
+}
+
+#topnav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+#topnav ul li {
+    padding-left: 1em;
+    border: black;
+}
+
+
+
+
+
+
