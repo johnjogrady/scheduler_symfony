@@ -2,6 +2,8 @@
 
 {% block body %}
     <h1>Roster</h1>
+    <section class="flex">
+        <section>
 
     <table>
         <tbody>
@@ -32,8 +34,31 @@
             </td>
         </tr>
         <tr>
-            <th>Numberresourcesneeded</th>
+            <th>Number of resources needed</th>
             <td>{{ roster.numberResourcesNeeded }}</td>
+        </tr>
+        <tr>
+            <th>Number of resources Assigned</th>
+            <td>{{ assignedEmployees|length }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>
+                {% if assignedEmployees|length < roster.numberResourcesNeeded %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Warning</strong> Not enough employees assigned
+                    </div>
+                {% elseif assignedEmployees|length == roster.numberResourcesNeeded %}
+                    <div class="alert alert-success" role="alert">
+                        <strong>Success</strong> Correct number of employees assigned
+                    </div>
+                {% elseif assignedEmployees|length > roster.numberResourcesNeeded %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Warning</strong> Too many employees assigned
+                    </div>
+                {% endif %}
+            </td>
+
         </tr>
         <tr>
             <th>Customerid</th>
@@ -41,6 +66,40 @@
         </tr>
         </tbody>
     </table>
+
+        </section>
+    </section>
+    <section class="flex">
+    <section>
+        <h4>Assigned Employees for this Roster</h4>
+
+        <table>
+            <tr>
+
+                <th></th>
+                <th>Employee</th>
+
+            </tr>
+
+            <tr>
+                {% for assignedEmployee in assignedEmployees %}
+
+                <td>
+
+                    <a href="{{ path('rosterassignedemployee_delete', { 'id': assignedEmployee.id }) }}"
+                       class="btn btn-success btn-sm"
+                       role="button">Remove</a>
+                </td>
+                <td>{{ assignedEmployee.employeeId }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="{{ path('rosterassignedemployee_new', { 'roster': roster.id }) }}"
+           class="btn btn-success btn-sm" role="button">Assign Employee</a>
+
+    </section>
 
     <ul>
         <li>

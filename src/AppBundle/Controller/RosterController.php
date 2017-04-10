@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Roster;
 use AppBundle\Entity\RosterStatus;
 use AppBundle\Entity\ServiceUser;
+use AppBundle\Entity\Employee;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -103,9 +104,22 @@ class RosterController extends Controller
     public function showAction(Roster $roster)
     {
         $deleteForm = $this->createDeleteForm($roster);
+        $em = $this->getDoctrine()->getManager();
+
+
+        $assignedEmployees = $em->getRepository('AppBundle:RosterAssignedEmployee')->findByRosterId($roster->getId());
+
+        $employees = $em->getRepository('AppBundle:Employee')->findAll();
+
+
+
+
+
 
         return $this->render('roster/show.html.twig', array(
             'roster' => $roster,
+            'assignedEmployees' => $assignedEmployees,
+            'employees' => $employees,
             'delete_form' => $deleteForm->createView(),
         ));
     }

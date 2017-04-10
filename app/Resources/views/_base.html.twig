@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
+
     <title>Scheduler - {% block pageTitle %}{% endblock %}</title>
     <style>
         @import '/css/flash.css';
@@ -43,9 +44,11 @@
             });
         });
 
+
         $(document).ready(function () {
             $('input.timepicker').timepicker({});
         });
+        $(".alert").alert('close')
     </script>
     {% endblock %}
 </head>

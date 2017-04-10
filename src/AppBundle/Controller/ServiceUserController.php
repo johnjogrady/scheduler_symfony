@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppBundle;
+use AppBundle\Mapping;
 use AppBundle\Entity\ServiceUser;
 use AppBundle\Entity\Roster;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,6 +36,7 @@ class ServiceUserController extends Controller
         ));
     }
 
+
     /**
      * Creates a new serviceUser entity.
      *
@@ -47,6 +50,10 @@ class ServiceUserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $geoCoder = new Mapping\geoCodeFunctions();
+            $coordinates = $geoCoder->geocode($serviceUser);
+            $serviceUser->setLatitude($coordinates[0]);
+            $serviceUser->setLongtitude($coordinates[1]);
             $em = $this->getDoctrine()->getManager();
             $em->persist($serviceUser);
             $em->flush($serviceUser);
@@ -74,7 +81,39 @@ class ServiceUserController extends Controller
         $rosters = $em->getRepository('AppBundle:Roster')->findByServiceUserId($id);
         $assignedEmployees = $em->getRepository('AppBundle:ServiceUserAssignedEmployee')->findByServiceUserId($id);
         $doNotSends = $em->getRepository('AppBundle:DoNotSend')->findByServiceUserId($id);
+        $geoCoder = new Mapping\geoCodeFunctions();
+        $coordinates = $geoCoder->geocode($serviceUser);
+        return $this->render('serviceuser/show.html.twig', array(
+            'serviceUser' => $serviceUser,
+            'rosters' => $rosters,
+            'doNotSends' => $doNotSends,
+            'assignedEmployees' => $assignedEmployees,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
 
+    /**
+     * Uses Mapping class to obtain coordinates from Google Maps.
+     *
+     * @Route("/{id}/getcoordinates", name="serviceuser_getcoordinates")
+     * @Method("GET")
+     */
+
+    public function getCoordinates(Request $request, ServiceUser $serviceUser)
+    {
+        $deleteForm = $this->createDeleteForm($serviceUser);
+        $geoCoder = new Mapping\geoCodeFunctions();
+        $coordinates = $geoCoder->geocode($serviceUser);
+        $id = $serviceUser->getId();
+        $em = $this->getDoctrine()->getManager();
+        $rosters = $em->getRepository('AppBundle:Roster')->findByServiceUserId($id);
+        $assignedEmployees = $em->getRepository('AppBundle:ServiceUserAssignedEmployee')->findByServiceUserId($id);
+        $doNotSends = $em->getRepository('AppBundle:DoNotSend')->findByServiceUserId($id);
+        $serviceUser->setLatitude($coordinates[0]);
+        $serviceUser->setLongtitude($coordinates[1]);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($serviceUser);
+        $em->flush($serviceUser);
         return $this->render('serviceuser/show.html.twig', array(
             'serviceUser' => $serviceUser,
             'rosters' => $rosters,
@@ -95,6 +134,10 @@ class ServiceUserController extends Controller
         $deleteForm = $this->createDeleteForm($serviceUser);
         $editForm = $this->createForm('AppBundle\Form\ServiceUserType', $serviceUser);
         $editForm->handleRequest($request);
+        $geoCoder = new Mapping\geoCodeFunctions();
+        $coordinates = $geoCoder->geocode($serviceUser);
+        $serviceUser->setLatitude($coordinates[0]);
+        $serviceUser->setLongtitude($coordinates[1]);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -143,4 +186,5 @@ class ServiceUserController extends Controller
             ->setMethod('DELETE')
             ->getForm();
     }
+
 }

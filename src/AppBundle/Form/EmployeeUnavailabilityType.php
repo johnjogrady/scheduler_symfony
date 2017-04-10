@@ -26,7 +26,7 @@ class EmployeeUnavailabilityType extends AbstractType
                     'Thursday' => 4,
                     'Friday' => 5,
                     'Saturday' => 6,
-                    'Sunday' => 7,
+                    'Sunday' => 0,
                 ),
                 'choice_attr' => function ($val, $key, $index) {
                     // adds a class like attending_yes, attending_no, etc

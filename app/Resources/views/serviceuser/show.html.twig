@@ -1,11 +1,10 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
-    {#{{ dump() }}#}
     <div class="column_container">
         <section class="fixed">
             <h4>Service User Details</h4>
-
+            {{ dump() }}
             <table>
                 <tbody>
 
@@ -71,6 +70,7 @@
                     </td>
 
                 </tr>
+
                 </tbody>
             </table>
 
@@ -120,6 +120,8 @@
 
             </table>
         </section>
+
+
         <section class="fixed_wide">
             <section>
                 <h4>Rosters for this Service User</h4>
@@ -147,12 +149,13 @@
                                role="button">Edit</a>
 
                             <a href="{{ path('roster_delete', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
-                               role="button">Delete</a>
+                               role="button">Del</a>
                         </td>
                         <td>{{ roster.rosterStartTime|date('D d-m-y H:i:s H:i') }}</td>
                         <td>{{ roster.rosterEndTime|date('D d-m-y H:i:s H:i') }}</td>
                         <td>
-                            {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:%i ") }}
+
+                            {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%Hh %Im ") }}
                         </td>
                         <td>{{ roster.rosterStatus }}</td>
                         <td>{{ roster.customerId }}</td>
@@ -163,6 +166,26 @@
                 <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id }) }}" class="btn btn-success btn-sm"
                    role="button">Add New Roster</a>
 
+            </section>
+        </section>
+        <section class="fixed">
+            <section>
+                <p>
+                    <iframe
+                            width="350"
+                            height="500"
+                            frameborder="0" style="border:1px"
+                            src="http://maps.google.com/maps?q={{ serviceUser.latitude }},{{ serviceUser.longtitude }}&zoom=15&output=embed"></iframe>
+                </p>
+                <table>
+                    <th>Latitude</th>
+                    <th>Longtitude</th>
+                    <tr>
+                        <td>{{ serviceUser.latitude }}</td>
+                        <td>{{ serviceUser.longtitude }}</td>
+
+                    </tr>
+                </table>
             </section>
         </section>
     </div>

@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Employee;
 use AppBundle\Entity\EmployeeAbsence;
+use AppBundle\Mapping;
 use AppBundle\Entity\EmployeeUnavailability;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -71,6 +72,10 @@ class EmployeeController extends Controller
         $deleteForm = $this->createDeleteForm($employee);
         $em = $this->getDoctrine()->getManager();
         $employeeAbsences = $em->getRepository('AppBundle:EmployeeAbsence')->findByEmployeeId($employee->getId());
+        $geoCoder = new Mapping\geoCodeFunctions();
+        $coordinates = $geoCoder->geocode($employee);
+
+
         $employeeUnavailability = $em->getRepository('AppBundle:EmployeeUnavailability')->findByEmployeeId($employee->getId());
         return $this->render('employee/show.html.twig', array(
             'employee' => $employee,

@@ -1,16 +1,94 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Rosterassignedemployee creation</h1>
+    <h1>Roster Assign Employees</h1>
+    <div class="column_container">
+        <section class="flex">
+            <section>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <input type="submit" value="Create"/>
-    {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('rosterassignedemployee_index') }}">Back to the list</a>
-        </li>
-    </ul>
+            </section>
+            <table>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ roster.id }}</td>
+                </tr>
+                <tr>
+                    <th>Serviceuserid</th>
+                    <td>{{ roster.serviceUserId }}</td>
+                </tr>
+                <tr>
+                    <th>Rosterstarttime</th>
+                    <td>{% if roster.rosterStartTime %}{{ roster.rosterStartTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Rosterendtime</th>
+                    <td>{% if roster.rosterEndTime %}{{ roster.rosterEndTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Rosterstatus</th>
+                    <td>{{ roster.rosterStatus }}</td>
+                </tr>
+                <tr>
+                    <th>Roster Duration</th>
+                    <td>
+                        {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:%i") }}
+                    </td>
+                <tr>
+                    <th>Number of resources needed</th>
+                    <td>{{ roster.numberResourcesNeeded }}</td>
+                </tr>
+
+
+                <tr>
+                    <th>Customerid</th>
+                    <td>{{ roster.customerId }}</td>
+                </tr>
+            </table>
+        </section>
+        <section class="flex">
+            <section>
+                <h4>Available Employees for this Roster:</h4>
+
+                {% if availableEmployees|length ==0 %}
+                <tr>There are no available employees</tr>
+                {% else %}
+                <table>
+                    <tr>
+
+                        <th></th>
+                        <th>Record Id</th>
+                        <th>Staff Number</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Action</th>
+                    </tr>
+
+                    {% for availableEmployee in availableEmployees %}
+                    <tr>
+                        <td>
+                            {{ availableEmployee.Id }}
+                        </td>
+                        <td>
+                            {{ availableEmployee.staffNumber }}
+                        </td>
+                        <td>{{ availableEmployee.firstName }}
+                        </td>
+                        <td>
+                            {{ availableEmployee.lastName }}
+                        </td>
+                        <td>
+                            <a href="{{ path('rosterassignedemployee_assign', { 'rosterid': roster.id,'employeeid': availableEmployee.id} ) }}"
+                               class="btn btn-success btn-sm" role="button">Assign Employee</a>
+
+                        </td>
+                        {% endfor %}
+                        {% endif %}
+                    </tr>
+                </table>
+            </section>
+        </section>
+
+
+    </div>
 {% endblock %}

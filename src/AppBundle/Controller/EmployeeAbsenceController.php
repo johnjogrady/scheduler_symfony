@@ -46,7 +46,6 @@ class EmployeeAbsenceController extends Controller
         $form = $this->createForm('AppBundle\Form\EmployeeAbsenceType', $employeeAbsence, array(
             'employee' => $employee
         ));
-        $form = $this->createForm('AppBundle\Form\EmployeeAbsenceType', $employeeAbsence);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

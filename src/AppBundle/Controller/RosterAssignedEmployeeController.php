@@ -2,11 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Employee;
 use AppBundle\Entity\RosterAssignedEmployee;
+use AppBundle\Entity\Roster;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Rosterassignedemployee controller.
@@ -35,27 +38,79 @@ class RosterAssignedEmployeeController extends Controller
     /**
      * Creates a new rosterAssignedEmployee entity.
      *
-     * @Route("/new", name="rosterassignedemployee_new")
+     * @Route("/new/roster={roster}", name="rosterassignedemployee_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Roster $roster)
     {
-        $rosterAssignedEmployee = new Rosterassignedemployee();
-        $form = $this->createForm('AppBundle\Form\RosterAssignedEmployeeType', $rosterAssignedEmployee);
+        $rosterAssignedEmployee = new RosterAssignedEmployee();
+
+        $em = $this->getDoctrine()->getManager();
+        $availableEmployees = $em->getRepository('AppBundle:Employee')->findAll();
+        $serviceUser = $roster->getServiceUserId();
+
+
+//call the check for Do Not Send function to remove employees for whom a Do Not Send relationship exists to this service user
+        foreach ($availableEmployees as $key => $id) {
+            if ($this->checkForDoNotSend($id->getId(), $serviceUser)) {
+                unset($availableEmployees[$key]);
+            }
+        }
+
+// call the check for Availability function (which calls other subsidiary validation
+// functions) and remove any unavailable employees from the displayed list
+        foreach ($availableEmployees as $key => $id) {
+            if ($this->checkForUnAvailability($id->getId(), $roster->getId())) {
+                unset($availableEmployees[$key]);
+            }
+        }
+
+        $form = $this->createForm('AppBundle\Form\RosterAssignedEmployeeType', $rosterAssignedEmployee, array(
+            'roster' => $roster));
         $form->handleRequest($request);
+
+        $rosterid = $roster->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($rosterAssignedEmployee);
             $em->flush($rosterAssignedEmployee);
 
-            return $this->redirectToRoute('rosterassignedemployee_show', array('id' => $rosterAssignedEmployee->getId()));
+            return $this->redirectToRoute('roster_show', array('id' => $rosterid));
         }
 
         return $this->render('rosterassignedemployee/new.html.twig', array(
             'rosterAssignedEmployee' => $rosterAssignedEmployee,
+            'roster' => $roster,
+            'availableEmployees' => $availableEmployees,
             'form' => $form->createView(),
         ));
+    }
+
+
+    /**
+     * Creates assigns an employee to rosterAssignedEmployee entity.
+     *
+     * @Route("/assign/{rosterid},{employeeid}", name="rosterassignedemployee_assign")
+     * @Method({"GET", "POST"})
+     */
+    public function assignAction(Request $request, $rosterid, $employeeid)
+    {
+        $rosterAssignedEmployee = new RosterAssignedEmployee();
+        $em = $this->getDoctrine()->getManager();
+
+
+        $rosterAssignedEmployees = $em->getRepository('AppBundle:RosterAssignedEmployee')->findByRosterId($rosterid);
+        $employee = $em->getRepository('AppBundle:Employee')->find($employeeid);
+        $roster = $em->getRepository('AppBundle:Roster')->find($rosterid);
+        $rosterAssignedEmployee->setEmployeeId($employee);
+        $rosterAssignedEmployee->setRosterId($roster);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($rosterAssignedEmployee);
+        $em->flush($rosterAssignedEmployee);
+
+        return $this->redirectToRoute('roster_show', array('id' => $rosterid));
+
     }
 
     /**
@@ -89,7 +144,8 @@ class RosterAssignedEmployeeController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('rosterassignedemployee_edit', array('id' => $rosterAssignedEmployee->getId()));
+            return $this->redirectToRoute('roster_show', array('id' => $rosterAssignedEmployee->getRosterId()));
+
         }
 
         return $this->render('rosterassignedemployee/edit.html.twig', array(
@@ -109,6 +165,7 @@ class RosterAssignedEmployeeController extends Controller
     {
         $form = $this->createDeleteForm($rosterAssignedEmployee);
         $form->handleRequest($request);
+        $rosterid = $rosterAssignedEmployee->getRosterId()->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -116,7 +173,7 @@ class RosterAssignedEmployeeController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('rosterassignedemployee_index');
+        return $this->redirectToRoute('roster_show', array('id' => $rosterid));
     }
 
     /**
@@ -131,6 +188,132 @@ class RosterAssignedEmployeeController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('rosterassignedemployee_delete', array('id' => $rosterAssignedEmployee->getId())))
             ->setMethod('DELETE')
+            ->setAttribute('Label', 'Remove from Roster')
             ->getForm();
+    }
+
+    private function checkForDoNotSend($employee, $serviceUser)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //find all all Do not send relationships for that service user
+        $doNotSend = $em->getRepository('AppBundle:DoNotSend')->findByServiceUserId($serviceUser->getId());
+        //  var_dump($serviceUser->getId());
+        //iterate through them and check below to see if array contains employee being checked
+        foreach ($doNotSend as $item) {
+            $item_ee = $item->getEmployeeId()->getId();
+            // check to see if the employee being checked is this item in the Do Not Send list for that employee.
+            if ($item_ee == $employee)
+                return true;
+        }
+
+        return false;
+
+    }
+
+    private function checkForUnAvailability($employee, $rosterid)
+    {
+        // this function runs the employee through various validation checks before returning true if
+        // there any of the following reasons prevent showing the employee as available for the roster in question to the user
+
+        // this one checks to see if the employee has an unavailability recorded permanently for that time of the week
+        $unavailable = $this->checkForUnavailableTime($employee, $rosterid);
+        // if an unavailability is found, return true and break from the method
+        if ($unavailable == true)
+            return true;
+        // this one checks to see if the employee has an planned absence recorded which overlaps with the time of the roster
+
+        $onAbsence = $this->checkForAbsence($employee, $rosterid);
+        // if an absence is found which overlaps, return true and break from the method
+        if ($onAbsence == true)
+            return true;
+
+        // this one checks to see if the is already rostered at the time of the unfilled roster
+
+        $onAbsence = $this->checkForAlreadyAssigned($employee, $rosterid);
+        // if another roster for the same employee is found which overlaps, return true and break from the method
+        if ($onAbsence == true)
+            return true;
+
+        return false;
+
+    }
+
+    private function checkForUnavailableTime($employee, $rosterid)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $employeeUnavailability = $em->getRepository('AppBundle:EmployeeUnavailability')->findByEmployeeId($employee);
+        $roster = $em->getRepository('AppBundle:Roster')->find($rosterid);
+        // retrieves roster object for which check is required
+
+        $requiredStart = $roster->getRosterStartTime();
+        // cast to timestamp object (represented as int)
+        $dateAsInt = $requiredStart->getTimestamp();
+        // retrieves as number from 0 to 6 representing day of week- Sunday is 0, Monday is 1 etc.
+        $day = date('w', $dateAsInt);
+        // iterate through unavailable times and search for matches
+        foreach ($employeeUnavailability as $item) {
+            // var_dump($item->getId());
+            $itemday = strval($item->getDayOfWeek());
+            if ($day == $itemday) {
+                // to do handles unavailability after roster ok, but not before
+                $unavailableStartTime = date("H:i:s", ($item->getStartTime()->getTimestamp()));
+                $checkedStartTime = date("H:i:s", strval($roster->getRosterStartTime()->getTimestamp()));
+                $unavailableEndTime = date("H:i:s", ($item->getEndTime()->getTimestamp()));
+                $checkedEndTime = date("H:i:s", strval($roster->getRosterEndTime()->getTimestamp()));
+
+//                $checkedEndTime=$roster->getRosterEndTime();
+                //              $unavailableEndTime=$item->getEndTime();
+                // to do extract time from both DateTime objects
+                //  var_dump($employee->getId());
+                //var_dump($unavailableStartTime,$unavailableEndTime);
+                //var_dump($checkedStartTime,$checkedEndTime);
+                if ($unavailableEndTime > $checkedStartTime && $unavailableStartTime < $checkedEndTime)
+
+                    // implementation of this algorithm
+                    //http://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
+                    return true;
+            }
+            return false;
+        }
+
+        return false;
+
+    }
+
+    private function checkForAbsence($employee, $rosterid)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $absenceforEmployee = $em->getRepository('AppBundle:EmployeeAbsence')->findByEmployeeId($employee);
+
+        $roster = $em->getRepository('AppBundle:Roster')->find($rosterid);
+        $rosterStartTime = $roster->getRosterStartTime();
+        $rosterEndTime = $roster->getRosterEndTime();
+        foreach ($absenceforEmployee as $item) {
+            $absencestart = $item->getStartTime();
+            $absenceend = $item->getEndTime();
+            if ($absenceend > $rosterStartTime && $absencestart < $rosterEndTime)
+                return true;
+        }
+        return false;
+
+    }
+
+    private function checkForAlreadyAssigned($employee, $rosterid)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $assignedRosters = $em->getRepository('AppBundle:RosterAssignedEmployee')->findByEmployeeId($employee);
+
+        $roster = $em->getRepository('AppBundle:Roster')->find($rosterid);
+        $rosterStartTime = $roster->getRosterStartTime();
+        $rosterEndTime = $roster->getRosterEndTime();
+        foreach ($assignedRosters as $item) {
+            $assignedstart = $item->getRosterId()->getRosterStartTime();
+            $assignedend = $item->getRosterId()->getRosterEndTime();
+            if ($assignedend > $rosterStartTime && $assignedstart < $rosterEndTime)
+                return true;
+        }
+        return false;
+
     }
 }

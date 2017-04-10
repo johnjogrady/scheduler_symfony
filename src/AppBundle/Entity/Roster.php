@@ -217,7 +217,7 @@ class Roster
 
     public function __toString()
     {
-        return strval($this->serviceUserId) . ' ' . date_format($this->rosterEndTime, 'Y-m-d H:i') . ' to ' . date_format($this->rosterEndTime, 'Y-m-d H:i');
+        return strval($this->serviceUserId) . ' ' . date_format($this->rosterStartTime, 'Y-m-d H:i') . ' to ' . date_format($this->rosterEndTime, 'Y-m-d H:i');
     }
 
 }

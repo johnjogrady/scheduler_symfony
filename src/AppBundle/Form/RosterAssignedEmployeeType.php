@@ -13,7 +13,8 @@ class RosterAssignedEmployeeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('employeeId')->add('rosterId');
+        $builder->add('employeeId')->add('rosterId', null, array(
+            'data' => $options['roster']));
     }
 
     /**
@@ -22,7 +23,8 @@ class RosterAssignedEmployeeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\RosterAssignedEmployee'
+            'data_class' => 'AppBundle\Entity\RosterAssignedEmployee',
+            'roster' => NULL
         ));
     }
 

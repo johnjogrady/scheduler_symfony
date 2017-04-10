@@ -1,0 +1,59 @@
+{% extends '_base.html.twig' %}
+
+{% block body %}
+    <h1>Roster</h1>
+
+    <table>
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ roster.id }}</td>
+        </tr>
+        <tr>
+            <th>Serviceuserid</th>
+            <td>{{ roster.serviceUserId }}</td>
+        </tr>
+        <tr>
+            <th>Rosterstarttime</th>
+            <td>{% if roster.rosterStartTime %}{{ roster.rosterStartTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Rosterendtime</th>
+            <td>{% if roster.rosterEndTime %}{{ roster.rosterEndTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Rosterstatus</th>
+            <td>{{ roster.rosterStatus }}</td>
+        </tr>
+        <tr>
+            <th>Roster Duration</th>
+            <td>
+                {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:%i") }}
+            </td>
+        </tr>
+        <tr>
+            <th>Numberresourcesneeded</th>
+            <td>{{ roster.numberResourcesNeeded }}</td>
+        </tr>
+        <tr>
+            <th>Customerid</th>
+            <td>{{ roster.customerId }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('roster_index') }}" class="btn btn-success btn-sm" role="button">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('roster_edit', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
+               role="button">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete Roster" class="btn btn-success btn-sm" role="button">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

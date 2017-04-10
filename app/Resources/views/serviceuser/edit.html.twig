@@ -1,13 +1,16 @@
 {% extends '_base.html.twig' %}
 
-{% block body %}
-    <h1>Serviceuser edit</h1>
 
-    {{ form_start(edit_form) }}
+{% block body %}
+    <div class="column_container">
+        <section class="fixed_wide">
+
+            <h3>Serviceuser edit</h3>
+
+            {{ form_start(edit_form) }}
     {{ form_widget(edit_form) }}
     <input type="submit" class="btn btn-success btn-sm" role="button" value="Submit Changes"/>
     {{ form_end(edit_form) }}
-
     <ul>
         <li>
             <a href="{{ path('serviceuser_index') }}" class="btn btn-success btn-sm" role="button">Back to the Service
@@ -15,10 +18,39 @@
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete" class="btn btn-success btn-sm" role="button"> Service User>
+            <input type="submit" value="Delete" class="btn btn-success btn-sm" role="button">
             {{ form_end(delete_form) }}
         </li>
     </ul>
+        </section>
+        <section class="flex">
+            <section>
+                <p>`
+                    <iframe
+                            width=750"
+                            height="600"
+                            frameborder="1" style="border:1px"
+                            src="http://maps.google.com/maps?q={{ serviceUser.latitude }},{{ serviceUser.longtitude }}&zoom=15&output=embed"></iframe>
+                </p>
+            </section>
+            <section>
+                <table>
+                    <th>Latitude</th>
+                    <th>Longtitude</th>
+                    <th></th>
+                    <tr>
+                        <td>{{ serviceUser.latitude }}</td>
+                        <td>{{ serviceUser.longtitude }}</td>
+                        <td>
+                            <a href="{{ path('serviceuser_getcoordinates', { 'id': serviceUser.id }) }}"
+                               class="btn btn-success btn-sm"
+                               role="button">Geocode</a>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+        </section>
+    </div>
 {% endblock %}
 
 

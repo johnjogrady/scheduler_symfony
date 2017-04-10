@@ -97,6 +97,49 @@ class ServiceUser
 
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $latitude;
+
+    /**
+     * @return mixed
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param mixed $latitude
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLongtitude()
+    {
+        return $this->longtitude;
+    }
+
+    /**
+     * @param mixed $longtitude
+     */
+    public function setLongtitude($longtitude)
+    {
+        $this->longtitude = $longtitude;
+    }
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $longtitude;
+
+
+    /**
      * Get id
      *
      * @return integer
