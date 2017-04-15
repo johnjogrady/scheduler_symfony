@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Roster controller.
@@ -89,6 +90,39 @@ class RosterController extends Controller
         }
 
         return $this->render('roster/newfromsu.html.twig', array(
+            'roster' => $roster,
+            'serviceUser' => $serviceUser
+        , 'form' => $form->createView(),
+        ));
+    }
+
+
+    /**
+     * Creates a new roster entity.
+     *
+     * @Route("/newfromsu/serviceUser={serviceUser},rosterDate={rosterDate}", name="roster_new_su_date")
+     * @Method({"GET", "POST"})
+     */
+    public function newActionfromServiceUserDate(Request $request, ServiceUser $serviceUser, DateTime $rosterDate)
+    {
+        $roster = new Roster();
+
+        $form = $this->createForm('AppBundle\Form\RosterType', $roster, array(
+            'serviceUser' => $serviceUser, 'rosterDate' => $rosterDate
+        ));
+        var_dump($form);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($roster);
+            $em->flush($roster);
+
+            return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
+        }
+
+        return $this->render('serviceuser/index.html.twig', array(
             'roster' => $roster,
             'serviceUser' => $serviceUser
         , 'form' => $form->createView(),

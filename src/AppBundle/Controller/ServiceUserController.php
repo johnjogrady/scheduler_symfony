@@ -78,15 +78,65 @@ class ServiceUserController extends Controller
         $deleteForm = $this->createDeleteForm($serviceUser);
         $em = $this->getDoctrine()->getManager();
         $id = $serviceUser->getId();
-        $rosters = $em->getRepository('AppBundle:Roster')->findByServiceUserId($id);
         $assignedEmployees = $em->getRepository('AppBundle:ServiceUserAssignedEmployee')->findByServiceUserId($id);
         $doNotSends = $em->getRepository('AppBundle:DoNotSend')->findByServiceUserId($id);
         $geoCoder = new Mapping\geoCodeFunctions();
-        $coordinates = $geoCoder->geocode($serviceUser);
+        $rosters = $em->getRepository('AppBundle:Roster')->findByServiceUserId($id);
+
+        $daysThisMonth = [];
+        $begin = new \DateTime('first day of this month');
+        $begin = new \DateTime($begin->format("Y-m-d") . " 00:00:00");
+
+        $end = new \DateTime('last day of this month');
+
+        for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
+            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDate($i, $serviceUser);
+            if (!empty($rosterforday)) {
+                $daysThisMonth[$i->format('d')] = $rosterforday;
+            }
+
+        }
+
+        $daysNextMonth = [];
+        $beginNextMonth = new \DateTime('first day of next month');
+        $beginNextMonth = new \DateTime($beginNextMonth->format("Y-m-d") . " 00:00:00");
+
+        $end = new \DateTime('last day of next month');
+
+
+        for ($i = $beginNextMonth; $i <= $end; $i->modify('+1 day')) {
+            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDate($i, $serviceUser);
+            if (!empty($rosterforday)) {
+                $daysNextMonth[$i->format('d')] = $rosterforday;
+            }
+        }
+        $daysLastMonth = [];
+        $beginLastMonth = new \DateTime('first day of last month');
+        $beginLastMonth = new \DateTime($beginLastMonth->format("Y-m-d") . " 00:00:00");
+
+        $end = new \DateTime('last day of last month');
+
+
+        for ($i = $beginLastMonth; $i <= $end; $i->modify('+1 day')) {
+            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDate($i, $serviceUser);
+            if (!empty($rosterforday)) {
+                $daysLastMonth[$i->format('d')] = $rosterforday;
+            }
+
+        }
+
+
+
+
         return $this->render('serviceuser/show.html.twig', array(
             'serviceUser' => $serviceUser,
             'rosters' => $rosters,
             'doNotSends' => $doNotSends,
+            'daysThisMonth' => $daysThisMonth,
+            'beginNextMonth' => $beginNextMonth,
+            'daysNextMonth' => $daysNextMonth,
+            'beginLastMonth' => $beginLastMonth,
+            'daysLastMonth' => $daysLastMonth,
             'assignedEmployees' => $assignedEmployees,
             'delete_form' => $deleteForm->createView(),
         ));

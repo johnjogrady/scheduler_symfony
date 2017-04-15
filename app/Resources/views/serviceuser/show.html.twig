@@ -1,10 +1,9 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
-    <div class="column_container">
+    <div class="column_container" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
         <section class="fixed">
             <h4>Service User Details</h4>
-            {{ dump() }}
             <table>
                 <tbody>
 
@@ -122,57 +121,300 @@
         </section>
 
 
-        <section class="fixed_wide">
+        <section class="flex">
             <section>
                 <h4>Rosters for this Service User</h4>
-
-                <table>
-                    <tr>
-
-
-                        <th></th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Duration</th>
-                        <th>Roster Status</th>
-                        <th>Customer</th>
-                    </tr>
-
-                    <tr>
-                        {% for roster in rosters %}
-
-                        <td>
-                            <a href="{{ path('roster_show', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
-                               role="button">View</a>
-
-                            <a href="{{ path('roster_edit', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
-                               role="button">Edit</a>
-
-                            <a href="{{ path('roster_delete', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
-                               role="button">Del</a>
-                        </td>
-                        <td>{{ roster.rosterStartTime|date('D d-m-y H:i:s H:i') }}</td>
-                        <td>{{ roster.rosterEndTime|date('D d-m-y H:i:s H:i') }}</td>
-                        <td>
-
-                            {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%Hh %Im ") }}
-                        </td>
-                        <td>{{ roster.rosterStatus }}</td>
-                        <td>{{ roster.customerId }}</td>
-
-                    </tr>
-                    {% endfor %}
-                </table>
-                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id }) }}" class="btn btn-success btn-sm"
+                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id }) }}" class="btn btn-success btn"
                    role="button">Add New Roster</a>
 
+
+                {% set time = "now"|date("U") %}
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th colspan="7" class="center">
+                            <h4>{{ time|date('F') }} {{ time|date('Y') }} [Current Month]</h4>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th width="12%">Sunday</th>
+                        <th width="15%">Monday</th>
+                        <th width="15%">Tuesday</th>
+                        <th width="16%">Wednesday</th>
+                        <th width="15%">Thursday</th>
+                        <th width="15%">Friday</th>
+                        <th width="12%">Saturday</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% set daysInMonth = time|date('t') %}
+                        {% set startDow = time|date('F 1\\s\\t Y')|date('w') %}
+                        {% set dow = startDow %}
+                        {% for day in range(1,daysInMonth) %}
+
+                        {% if loop.first and startDow != 0 %}
+                            <td colspan="{{ startDow }}"></td>
+                        {% endif %}
+                        <td>
+                            <div>
+                                <div><strong>{{ day }}</strong>
+
+                                    {# as days in months have been extracted from dates, the first ten days have index keys of 01,02 then 10,11 #}
+                                    {% if (attribute(daysThisMonth,day)is defined) or (attribute(daysThisMonth,0~day)is defined) %}
+
+                                    {% if day<10 %}
+                                        </br>
+                                        {% for item in range(0,daysThisMonth[0~day]|length-1 ) %}
+
+
+                                            <a href="{{ path('roster_edit', { 'id': daysThisMonth[0~day][item].id}) }}"
+                                               class="btn btn-success btn-sm">
+
+                                                {{ daysThisMonth[0~day][item].rosterStartTime|date(' H:i') }} to
+                                                {{ daysThisMonth[0~day][item].rosterEndTime|date(' H:i') }}
+                                            </a>
+
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for item in range(0,daysThisMonth[day]|length-1 ) %}
+
+                                            <a href="{{ path('roster_edit', { 'id': daysThisMonth[day][item].id}) }}"
+                                               class="btn btn-success btn-sm">
+
+                                                {{ daysThisMonth[day][item].rosterStartTime|date(' H:i') }} to
+                                                {{ daysThisMonth[day][item].rosterEndTime|date(' H:i') }}
+                                            </a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {% endif %}
+                            {% set month= time|date('m') %}
+                            {% set year= time|date('Y') %}
+                            {% if day<10 %}
+                                {% set currentDate = [0~day,month,year]|join('-')|date("m/d/Y") %}
+
+
+
+                                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
+                                   class="btn btn-block btn-xs bottom-left" role="button">Add</a>
+                            {% else %}
+                                {% set currentDate = [day,month, year]|join('-')|date("m/d/Y") %}
+
+                                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
+                                   class="btn btn-block btn-xs bottom-left" role="button">Add</a>
+
+                            {% endif %}
+
+                        </td>
+                        {% if loop.last and dow != 6 %}
+                            <td colspan="{{ 6 - dow }}">&nbsp;</td>
+                        {% endif %}
+                        {% if dow == 6 %}
+                        {% set dow = 0 %}
+                    </tr>
+                    <tr>
+                        {% else %}
+                            {% set dow = dow + 1 %}
+                        {% endif %}
+                        {% endfor %}
+
+
+                    </tr>
+                    </tbody>
+                </table>
+                {% set time = beginNextMonth |date_modify("-1 day")|date("U") %}
+                <table>
+                    <thead>
+                    <tr>
+                        <th colspan="7" class="center">
+                            <h4>{{ time|date('F') }} {{ time|date('Y') }} [Next Month]</h4>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th width="12%">Sunday</th>
+                        <th width="15%">Monday</th>
+                        <th width="15%">Tuesday</th>
+                        <th width="16%">Wednesday</th>
+                        <th width="15%">Thursday</th>
+                        <th width="15%">Friday</th>
+                        <th width="12%">Saturday</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% set daysInMonth = time|date('t') %}
+                        {% set startDow = time|date('F 1\\s\\t Y')|date('w') %}
+                        {% set dow = startDow %}
+                        {% for day in range(1,daysInMonth) %}
+
+                        {% if loop.first and startDow != 0 %}
+                            <td colspan="{{ startDow }}"></td>
+                        {% endif %}
+                        <td>
+                            <div>
+                                <div><strong>{{ day }}</strong>
+                                    {# as days in months have been extracted from dates, the first ten days have index keys of 01,02 then 10,11 #}
+
+                                    {% if (attribute(daysNextMonth,day)is defined) or (attribute(daysNextMonth,0~day)is defined) %}
+
+                                    {% if day<10 %}
+                                        </br>
+                                        {% for item in range(0,daysNextMonth[0~day]|length-1 ) %}
+
+
+                                            <a href="{{ path('roster_edit', { 'id': daysNextMonth[0~day][item].id}) }}"
+                                               class="btn btn-success btn-sm">
+
+                                                {{ daysNextMonth[0~day][item].rosterStartTime|date(' H:i') }} to
+                                                {{ daysNextMonth[0~day][item].rosterEndTime|date(' H:i') }}
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for item in range(0,daysNextMonth[day]|length-1 ) %}
+
+                                            <a href="{{ path('roster_edit', { 'id': daysNextMonth[day][item].id}) }}"
+                                               class="btn btn-success btn-sm">
+
+                                                {{ daysNextMonth[day][item].rosterStartTime|date(' H:i') }} to
+                                                {{ daysNextMonth[day][item].rosterEndTime|date(' H:i') }}
+                                            </a>
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                </div>
+                            </div>
+
+                            {% endif %}
+                            {% set month= time|date('m') %}
+                            {% set year= time|date('Y') %}
+                            {% if day<10 %}
+                                {% set currentDate = [0~day,month,year]|join('-')|date("m/d/Y") %}
+
+
+
+                                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
+                                   class="btn btn-block btn-xs bottom-left" role="button">Add</a>
+                            {% else %}
+                                {% set currentDate = [day,month, year]|join('-')|date("m/d/Y") %}
+
+                                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
+                                   class="btn btn-block btn-xs bottom-left" role="button">Add</a>
+
+                            {% endif %}
+
+                        </td>
+                        {% if loop.last and dow != 6 %}
+                            <td colspan="{{ 6 - dow }}">&nbsp;</td>
+                        {% endif %}
+                        {% if dow == 6 %}
+                        {% set dow = 0 %}
+                    </tr>
+                    <tr>
+                        {% else %}
+                            {% set dow = dow + 1 %}
+                        {% endif %}
+                        {% endfor %}
+
+
+                    </tr>
+                    </tbody>
+                </table>
+                {% set time = beginLastMonth |date_modify("-1 day")|date("U") %}
+                <table>
+                    <thead>
+                    <tr>
+                        <th colspan="7" class="center">
+                            <h4>{{ time|date('F') }} {{ time|date('Y') }} [Previous Month]</h4>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th width="12%">Sunday</th>
+                        <th width="15%">Monday</th>
+                        <th width="15%">Tuesday</th>
+                        <th width="16%">Wednesday</th>
+                        <th width="15%">Thursday</th>
+                        <th width="15%">Friday</th>
+                        <th width="12%">Saturday</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% set daysInMonth = time|date('t') %}
+                        {% set startDow = time|date('F 1\\s\\t Y')|date('w') %}
+                        {% set dow = startDow %}
+                        {% for day in range(1,daysInMonth) %}
+
+                        {% if loop.first and startDow != 0 %}
+                            <td colspan="{{ startDow }}"></td>
+                        {% endif %}
+                        <td>
+                            <div>
+                                <div><strong>{{ day }}</strong>
+                                    {# as days in months have been extracted from dates, the first ten days have index keys of 01,02 then 10,11 #}
+
+                                    {% if (attribute(daysLastMonth,day)is defined) or (attribute(daysLastMonth,0~day)is defined) %}
+
+                                    {% if day<10 %}
+                                        </br>
+                                        {% for item in range(0,daysLastMonth[0~day]|length-1 ) %}
+
+
+                                            <a href="{{ path('roster_edit', { 'id': daysLastMonth[0~day][item].id}) }}"
+                                               class="btn btn-success btn-sm">
+
+                                                {{ daysLastMonth[0~day][item].rosterStartTime|date(' H:i') }} to
+                                                {{ daysLastMonth[0~day][item].rosterEndTime|date(' H:i') }}
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for item in range(0,daysLastMonth[day]|length-1 ) %}
+
+                                            <a href="{{ path('roster_edit', { 'id': daysLastMonth[day][item].id}) }}"
+                                               class="btn btn-success btn-sm">
+
+                                                {{ daysLastMonth[day][item].rosterStartTime|date(' H:i') }} to
+                                                {{ daysLastMonth[day][item].rosterEndTime|date(' H:i') }}
+                                            </a>
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                </div>
+                            </div>
+
+                            {% endif %}
+                        </td>
+                        {% if loop.last and dow != 6 %}
+                            <td colspan="{{ 6 - dow }}">&nbsp;</td>
+                        {% endif %}
+                        {% if dow == 6 %}
+                        {% set dow = 0 %}
+                    </tr>
+                    <tr>
+                        {% else %}
+                            {% set dow = dow + 1 %}
+                        {% endif %}
+                        {% endfor %}
+
+
+                    </tr>
+                    </tbody>
+                </table>
+
             </section>
+
+
         </section>
-        <section class="fixed">
+        <section class="flex">
             <section>
                 <p>
                     <iframe
-                            width="350"
+                            width="250"
                             height="500"
                             frameborder="0" style="border:1px"
                             src="http://maps.google.com/maps?q={{ serviceUser.latitude }},{{ serviceUser.longtitude }}&zoom=15&output=embed"></iframe>
@@ -186,7 +428,8 @@
 
                     </tr>
                 </table>
+
+
             </section>
-        </section>
     </div>
 {% endblock %}
