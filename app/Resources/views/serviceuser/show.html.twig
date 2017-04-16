@@ -169,7 +169,7 @@
                                         {% for item in range(0,daysThisMonth[0~day]|length-1 ) %}
 
 
-                                            <a href="{{ path('roster_edit', { 'id': daysThisMonth[0~day][item].id}) }}"
+                                            <a href="{{ path('roster_show', { 'id': daysThisMonth[0~day][item].id}) }}"
                                                class="btn btn-success btn-sm">
 
                                                 {{ daysThisMonth[0~day][item].rosterStartTime|date(' H:i') }} to
@@ -180,7 +180,7 @@
                                     {% else %}
                                         {% for item in range(0,daysThisMonth[day]|length-1 ) %}
 
-                                            <a href="{{ path('roster_edit', { 'id': daysThisMonth[day][item].id}) }}"
+                                            <a href="{{ path('roster_show', { 'id': daysThisMonth[day][item].id}) }}"
                                                class="btn btn-success btn-sm">
 
                                                 {{ daysThisMonth[day][item].rosterStartTime|date(' H:i') }} to
@@ -431,5 +431,7 @@
 
 
             </section>
+        </section>
+    </div>
     </div>
 {% endblock %}

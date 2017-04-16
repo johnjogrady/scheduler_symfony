@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '_base.html.twig' %}
 
 {% block body %}
     <h1>Roster Assign Employees</h1>
@@ -48,7 +48,7 @@
         </section>
         <section class="flex">
             <section>
-                <h4>Available Employees for this Roster:</h4>
+                <h4>The following employees are currently available for this Roster:</h4>
 
                 {% if availableEmployees|length ==0 %}
                 <tr>There are no available employees</tr>
@@ -56,7 +56,7 @@
                 <table>
                     <tr>
 
-                        <th></th>
+
                         <th>Record Id</th>
                         <th>Staff Number</th>
                         <th>First Name</th>

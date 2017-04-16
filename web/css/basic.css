@@ -7,6 +7,7 @@ colors / fonts etc. here
 body {
     margin: 0;
     padding: 0;
+    background-color: #778899;
     font-family: Arial, Helvetica, freesans;
 }
 

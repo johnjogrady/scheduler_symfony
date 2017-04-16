@@ -142,7 +142,6 @@ class RosterController extends Controller
 
 
         $assignedEmployees = $em->getRepository('AppBundle:RosterAssignedEmployee')->findByRosterId($roster->getId());
-
         $employees = $em->getRepository('AppBundle:Employee')->findAll();
 
 
