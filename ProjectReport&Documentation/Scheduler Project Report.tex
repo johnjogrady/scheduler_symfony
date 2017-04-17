@@ -2,6 +2,7 @@
 
 \usepackage{graphicx}	
 \usepackage{csquotes}
+\usepackage{hyperref}
 \begin{document}
 \begin{titlepage}
 
@@ -19,8 +20,7 @@
 \begin{center}
 \HRule \\[0.4cm]
 \textsc{\large Submitted in part fulfilment
- \\for the degree of
-Higher Diploma in Computing
+ \\for the Higher Diploma in Computing
 \\School of Informatics and Engineering,
 \\Institute of Technology Blanchardstown,
 \\Dublin, Ireland
@@ -58,50 +58,102 @@ Higher Diploma in Computing
 %----------------------------------------------------------------------------------------
 \section*{Abstract}
 
-This project is concerned with requirements gathering, planning and delivery of a prototype rostering and scheduling software project for Irish Wheelchair Association (IWA), a large non profit service provider which needs a new organisation wide application to manage the planning of personal care delivery for people with disabilities. This project begins by examining the body of current academic research in software delivery to provide a brief synthesis of best practice in the planning, implementation and deployment of modern software applications.
+This project is concerned with requirements gathering, planning and delivery of a prototype rostering and scheduling software application for the Irish Wheelchair Association (IWA), a large non profit service provider which needs a new organisation wide software process to manage the planning of care appointments for people with disabilities. This project begins by setting the organisational context for the planned new software initiative. Next, it progresses to examine the body of current academic research in software delivery to provide a brief synthesis of best practice in the planning, implementation and deployment of modern software applications.
 
 Based on this research, this author selects the Systems Development Life Cycle (SDLC) methodology as an appropriate toolset to determine the requirements of IWA for a new rostering and scheduling solution which the organisation plans to deploy to its 1,500 Personal Assistants. Having gathered the requirements, the project progresses to define the organisational context for the software deployment.
 
 Using the SDLC methodology the author, who is responsible for leading the Information Technology function at IWA, works collaboratively with key project stakeholders across the organisation to define a broad functional requirement specification and produces various key design artefacts.
 
-As the development work on the project progresses, a suite of SDLC mandated project management documents are iteratively defined and a high level test plan is developed and implemented to ensure code quality and alignment with user expectations and requirements.
+As the development work on the project progresses, a suite of SDLC mandated project management documents are iteratively refined and finalised. A high level test plan is developed and implemented to ensure code quality and alignment with user expectations and requirements.
 
-Finally, in conclusion, the author offers some insights from his experience of the development process together with consideration of some areas for further investigation and ongoing improvement of the prototype which are outside the scope of the initial project build.
+Finally, in conclusion, the author offers some insights from his experience of the software planning and development process together with consideration of some areas for further investigation and ongoing improvement of the prototype which are outside the scope of the initial project build.
 
 \pagebreak
 \tableofcontents
 \pagebreak------------------------------------------------
+\begin{samepage}
 \section{Introduction}
 
-This project examines the requirements for a prototype Rostering and Scheduling solution for which the ultimate client, the Irish Wheelchar Association (IWA) has a real world business requirement. It is envisaged that the finished software deliverable at the conclusion of this project will not be a fully enterprise ready software solution but rather the project deliverable will be employed as a prototype for user acceptance testing by representative end users  and this process will be used to examine and further refine IWA's existing assumptions in relation to the imminent deployment of a ciritical real life deployment whose successful implementation is considered to be fundamental to the competitive position of the IWA. 
+This project examines the requirements for a prototype Rostering and Scheduling solution for which the ultimate client, the Irish Wheelchair Association (IWA) has a real world business requirement. It is envisaged that the finished software deliverable at the conclusion of this project will not be a fully enterprise ready software solution but rather the project deliverable will be employed as a prototype for user acceptance testing by representative end users.  This software development process will be used to examine and further refine IWA's existing assumptions in relation to the imminent deployment of a critical real life deployment whose successful implementation is considered to be fundamental to the competitive position of the IWA. 
 
-The scope of this project is to establish the detailed software functionality requirements and to utilise this information to deliver a prototype software solution for evaluation purposes which will cover the primary use cases and functional requirements identified. This will enable end users to test, assess and give feedback on the prototype and it is envisaged that this process will be constructive in mitigating the risk of significant functionality components being omitted from the final production system or the usability of the ultimate solution not meeting user requirements in full. Through this iterative process, it is planned to document a more comprehensive set of final functional requirements for the production deliverable will fundamentally underpin a competitive tender exercise and vendor engagement through which IWA will select, configure and implement a live rostering and scheduling solution for its 1,500 Personal Assistants across Ireland.
+The scope of this project is to establish the detailed software functionality requirements for the new application and to utilise this information to deliver a prototype software solution for evaluation purposes which will cover the primary use cases and functional requirements identified. This will enable end users to test, assess and give feedback on the prototype and it is envisaged that this process will be constructive in mitigating the risk of any significant functionality components being omitted from the final production system or the usability of the ultimate solution not meeting user requirements in full. 
 
+Following this iterative process, it is planned to document a more comprehensive set of final functional requirements for the production deliverable will fundamentally underpin a competitive tender exercise and vendor engagement through which IWA will select, configure and implement a live rostering and scheduling solution for its 1,500 Personal Assistants across Ireland.
 
+\pagebreak
 \section{Organisational Context}
 \subsection {History of Irish Wheelchair Association}
-The IWA is an independent organisation which was founded in 1960 by a group of people with disabilities and which is governed by a Board of Directors elected from its 20,000 membership base. It is the largest provider of Assisted Living Services in the Ireland, employing 2,500 employees and delivering over 2 million hours of service annually. It is substantially funded by the Irish Government, primarily through the Health Service Executive, from whom it receives funding as a Section 39 agency under the Health Act 2004, although it also receives funding from various other statutory and non statutory sources and raises funds directly from the general public. A challenge which is directly pertinent to the planned software project is that IWA's funding streams are primarily remitted in respect of delivery of front line services and it receives no direct funding for Information Technology or other Shared Services activities.
+The Irish Wheelchair Association (IWA) is a vibrant  independent organisation which was founded in 1960 by a group of people with disabilities. IWA is governed by a Board of Directors elected from its 20,000 membership base. It is the largest provider of Assisted Living Services in the Ireland, employing over 2,600 employees and delivering over 2 million hours of service annually. It is substantially funded by the Irish Government, primarily through the Health Service Executive, from whom it receives funding as a Section 39 agency under the Health Act 2004, although it also receives funding from various other statutory and non statutory sources and raises funds directly from the general public. A challenge which is directly pertinent to the planned software project is that IWA's funding revenue streams are primarily remitted in respect of service level agreements for the delivery of front line services and it receives no direct funding for Information Technology or indeed other Shared Services activities.
 
-During the recent economic downturn and its impact on government funding, like many non service providers, IWA has had substantial cuts in its funding but it has nevertheless managed to maintain and in some cases grow its level of service activity. These funding challenges have impacted on IWA's Information Technology infrastructure which have suffered from historic underinvestment but IWA's strategic plan for the years 2017 to 2010 now positions Information Technology initiatives as a core enabler of driving efficiency in its service delivery, on the strict understanding that all investment decisions must linked to a clear business case which will deliver an identifiable and measurable return on investment to the organisation.
+During the recent economic downturn and its impact on the public finances, IWA, like many non service providers, has had seen the government apply substantial cumulative funding cuts between 2008 and 2014. Against this backdrop IWA has managed to maintain and in some cases expand its level of service activity through pursuing internal efficiencies and implementing a series of pay reductions which have been agreed with its workforce but maintaining service delivery in the face of significant funding reductions has progressively diminished the financial reserves that the Association holds. 
 
-IWA has been at the forefront of developing person centred  service provision in Ireland, based on international best practice and it is unique among large charities in Ireland in that IWA remains wholly owned by and accountable to its 20,000 members who are people with disabilities and volunteers and other supporters. It advocates for independence and quality of life for all people with disabilities in Ireland. In this regard, the mission of the Irish Wheelchair has recently been updated in its new Strategic Plan for 2017-2020 as follows:
+These funding reductions have also significantly impacted on the state of IWA's Information Technology infrastructure which is now in need of attention following a sustained pattern of historic under investment. However, the organisation's strategic plan for the years 2017 to 2010 now views Information Technology initiatives as a core enabler of driving overall efficiency and value for money in its model of service delivery, on the strict understanding that approval of all capital investment decisions must be clearly linked to a defined and fully costed business case which will deliver an identifiable and measurable return on investment in net financial terms to the organisation. 
+
+IWA has been at the forefront of developing person centred  service provision in Ireland, based on international best practice, and IWA is now somewhat unique among large charities in Ireland in that it remains wholly owned by, and accountable to its 20,000 members who made up of people with disabilities, active volunteers and other IWA supporters. In all areas of its activities, IWA advocates for independence and quality of life for all people with disabilities in Ireland. In this regard, the stated mission of IWA has recently been updated in its new Strategic Plan for 2017-2020 as follows:
 \begin{displayquote}
 Irish Wheelchair Association  has a vision of an Ireland where people with disabilities enjoy equal rights, choices and opportunities in how they live their lives, and where our country is a model worldwide for a truly inclusive society.
 \end{displayquote}
 
-In addition to Assisted Living Service,
-
-
+In addition to Assisted Living Service, which is IWA's largest service employing 1,700 of IWA's 2,600 strong workforce, IWA provides a range of other services including a network of 57 community based Resource and Outreach Centres, respite services, driving tuition and a variety of member led youth and local branch projects. IWA Sport is a subsidiary division of IWA which is a recognised National Governing Body of Sport by the Irish Sports Council and IWA operates a network of volunteer led Sports clubs throughout Ireland which are an vibrant component of Ireland's Paralympic  movement, particularly with regard to the development of young disabled athletes.
+IWA also has developed specialist teams in the specialist areas of Accessibility, Housing and Transport where it is widely acknowledged as an expert in providing expertise and advocacy in ensuring public and private developments are configured to meet the needs of people with disabilities.
 \subsection {Overview of Assisted Living Service}
-\subsection {Current Position}
-\subsection {Overview of Application Impacts}
+IWA's Assisted Living Service (ALS)  provides significant individual supports to people with disabilities which are tailored to the needs and wishes of the each person to enable them to live independently. IWA, with funding support from the Health Service Executive, provides a Personal Assistant (PA) to assist with tasks that the person with a disability might find difficult or impossible to do in their daily lives. Originating in the international Independent Living movement, which postulates that people with disabilities are best placed to make determinations on their own needs, IWA's ALS provides support to individuals in their homes and communities facilitating community participation, access to education, employment and improved quality of life. 
+
+The ALS model of service delivery comes in two main strands
+\begin{itemize}
+\item  \textbf {Self-directed or leader-managed package. }In a self-directed or leader-managed package, the person with the disability acts as the leader or service manager for IWA. This involves recruiting their own personal assistants, organising their weekly rosters, returning their timesheets, arranging holiday cover, etc. The leader can consult the service coordinator when necessary.
+\item \textbf {Supported package.} In the supported package, the service coordinator takes responsibility for some or all of the management, delivery and operation of the service.
+\end{itemize} 
+
+\subsection {Current Scheduling Process}
+IWA does not currently have a unified scheduling, rostering and time attendance system in place across all of its ALS locations. A custom static (non calendarised) solution for roster and timetable planning functionality has been developed on its Microsoft Dynamics CRM environment and is currently in use across all IWA offices and a calendar based extension of this is currently in a pilot phase in a small number of IWA locations.  It is likely that IWA will migrate management of schedules and rosters to the new Rostering and Scheduling  platform however it should be noted that IWA does envisage continuing to use Dynamics CRM for other a variety of other key service management functions such as on-boarding service users, employee recruitment, risk assessments, evaluations and logging contact and activity information with employees and service users. 
+
+While Microsocft Dynamics CRM has provided some basic functionality in relation to static rosters to date, in the absence of a fully calendarised roster solution across all IWA offices, local teams in IWA have developed a variety of long-standing and ad-hoc local solutions to managing planning rosters, all of which IWA wishes to discontinue in favour of the proposed new solution. 
+
+The current IWA process for capturing  time and attendance information for payroll and billing purposes involves each PAs completing paper timesheets which are progressively signed off by the service user or a family member throughout the month at each service visit. 
+
+At the end of the payroll month, the timesheets are delivered to the local coordinator at the local IWA office and are then data entered into the Focal-Point system. These timesheets are initially entered as ‘pending approval’ by an ALS Administrator within the system and routed to the ALS Coordinator for the service for approval. The coordinator reviews the timesheet against the expected visits and service budget and approves or amends the timesheet.
+
+Once the Focal-point process is complete, an export of the approved timesheet data is taken from Focal Point and used to feed the Mega pay payroll system. The Mega pay application in turn feeds the Access Accounts system for invoicing/billing purposes. 
+In the context of implementing a new rostering and time attendance system, IWA wishes to cease using Focal-point for the capture of Time and Attendance information and approval of same in favour of the new rostering and scheduling system directly managing the capturing and approval of time and attendance data which can then be exported directly to Access Accounts for billing purposes and Megapay for payroll processing.
+
+\subsection {Overview of Organisational  Impacts}
 %----------------------------------------------------------------------------------------
 %	Background to work of IWA and context in which app will be used
 %       Reference and link to live tender and explanation of tender approach
 %       Description of service and roles who will use the live applciation
 %	Definition and scope of prototype application
 %----------------------------------------------------------------------------------------
+The casual reader of the preceding section will quickly appreciate the inherent inefficiencies of the current paper centric process in an organisation of the size of IWA. Indeed, IWA employs a service management cohort of 26 Service Coordinators, 8 Service Support Officers and 20 Administrators across 15 ALS offices around Ireland and it has been estimated that across these employee groups, approximately 25\% of their working time is spent managing rostering and scheduling functions in relation to the ALS service to ensure all service visits are covered and a further 25\% of their time is currently consumed in manual data entry and approval tasks in relation to timesheet and payroll information. 
 
+This inefficient process has a direct impact on IWA's cost base but also has an opportunity cost impact by limiting the available time of Service Coordinators to spend on other essential functions such as planning, evaluation, training and supervision activities. In this context, it should be noted that each IWA Service Coordinator is responsible for managing a large number (between 50-100 per Coordinator) of service packages for individual service users and each also supervise a similar number of Personal Assistants for whom the Service Coordinator acts as line manager. This also has an impact on the ratio of required back office personnel to service delivery hours and due to the somewhat manual rostering and scheduling process currently being operated,  IWA's service coordination and administration costs per service delivery hour are somewhat higher than some of its competitors, placing it at a competitive disadvantage, particularly in comparison to some of the private sector commercial operators who have recently entered the Irish homecare market and who in many cases currently have more sophisticated techological solutions in place to handle this key 
+internal process.
+
+\subsection {Scope of Final Rostering and Scheduling Solution}
+In order to address this deficiency, the IWA's Senior Management Team have mandated the IWA ICT team to work with internal stakeholders to define functional requirements and implement a competitive tender process to select and deploy a new software solution to enable IWA to manage rostering and the capture of time and attendance information in a more efficient manner.
+The proposed solution will deliver the following functionality components to IWA:
+\begin{itemize}
+\item \textbf{A Rostering and Scheduling solution} for use by ALS Administrators, Coordinators and Support Officers. The proposed solution should also interface with the IWA Megapay payroll system. Finally, it should manage the customer billing process in relation to the care services provided to statutory and individual customers.
+\item \textbf {A Mobile Application} to be used by PAs employed by IWA which should be capable of running on the iOS, Android and Windows Phone and thereby be suitable to run on the personal mobile devices of employees to avoid IWA having to supply company owned and funded devices on the corporate account. 
+\item \textbf {Attendance Verification Mechanism via Mobile App}. A key requirement for the mobile application is that it provides a reliable and independent real-time verification of an employee’s attendance at a service visit location, together with timestamped confirmation of the length of time that was spent at the location.  This is required to satisfy IWA service level agreement obligations with its funders and to minimise the possibility of fraud.
+\pagebreak
+\item\textbf {Quotation/Proposals Generation.} The proposed enterprise solution should be capable of generating detailed and personalised Service proposals/ quotations where the coordinator can plan the service schedule for the service user, referencing each visit to the appropriate price card item to generate a completed quotation for the customer which shows the provisional service schedule and the projected weekly invoiced cost.
+\item \textbf {Employee, Service User and Customer Portals.} IWA would also like to implement Service user and Employee portals which includes an authentication layer so that a service user or their family member can view upcoming service visits. Similarly, employees can view their upcoming roster visits to various service users including information such contact information, tasks to be completed etc. and a Customer portal where a funder can view invoices, schedules for upcoming service and validate completed visits by viewing validation timestamps of attendance.
+\end{itemize}
+\end{samepage}
+\begin{samepage}
+\subsection {Scope of Prototype Solution}
+As the prototype application is being fast tracked for user acceptance testing, this application has more limited scope and is primarily focussed on the backend Rostering and Scheduling solution and in particularly on examining in detail the user experience and optimal process and validation checks required by Coordinators and Administrators in handling various common service delivery scenarios.
+The prototype will also attempt to model in a simplistic fashion the experience of portal layer users who will interact using various security limited roles such as employees, service users and customers although it will not attempt to fully implement the data privacy restrictions to be granted to each type of role- for example employees being unable to access the planned roster records for other employees to the fully robust extent that would be required in an enterprise level application.
+The aspects of creation of a mobile app, integration of the mobile app with the backend rostering and scheduling and the verification of attendance via the mobile app are all considered as out of scope for the prototype application.
+\end{samepage}
+\pagebreak
+
+\subsection {Procurement and Tendering Approach}
+IWA has recently launched the first phase of the competitive tender process for its new rostering and scheduling solution through the Office of Government Procurement's E-Tender's website which is available at \href{https://irl.eu-supply.com/app/rfq/publicpurchase_frameset.asp?PID=110399&B=ETENDERS_SIMPLE&PS=1&PP=ctm/Supplier/publictenders}{this link}
+The first stage of the procurement process requires prospective vendors to complete a short pre-qualification questionnaire which provides an opportunity for vendors to demonstrate the capabilities of their software platform against the high level requirements summarised in the preceding section, as well as providing an overview of their organisational capability and customer references where they have already deployed their solution in a similar usage context.  
+Following assessment of the pre-qualification questionnaires, IWA will shortlist a small number of interested vendors for the second phase of the tender process which will require vendors to submit a more comprehensive response against a detailed Request for Tenders (RFT) document provided to the vendors by IWA. Once a successful platform/vendor meeting all of IWA's mandatory requirements as set out in the RFT document has been appointed through the procurement process, IWA will work with that vendor to configure and test the system to align the chosen platform which IWA's requirements. It is envisaged that IWA will initially implement the solution for a small group of 50-100 Personal Assistants who will take part in a pilot exercise to confirm, test and sign off on the chosen solution as fit for purpose for rollout to the wider group of 1,500 Personal Assistants and 25 Service Coordinators.
+\begin{samepage}
 \section {Literature Review}
 \subsection {Software Development Paradigms}
 \subsection {Review of the Systems Development Life Cycle Methodology}
@@ -120,7 +172,6 @@ In addition to Assisted Living Service,
 \subsubsection {Critical Comparatives}
 \subsection {Unified Modelling Language}
 \subsection {Advantages of Unified Modelling Language}
-\subsection {Advantages of Unified Modelling Language}
 
 
 %----------------------------------------------------------------------------------------
@@ -131,24 +182,28 @@ In addition to Assisted Living Service,
 %       MVC and alternative frameworks- why I chose MVC
 % 	The Symfony Framework [and alternatives]
 %----------------------------------------
-
+\end{samepage}
+\begin{samepage}
 \section {Initiation}
-
 % High level concept description
-
+\end{samepage}
+\begin{samepage}
 \section {Concept Development}
-
 
 \subsection {Overview of Project Scope}
 \subsection {Feasibility Review}
-Review of open source and commercial applications in similar functionality sphereRequirements specification
-
+Review of open source and commercial applications in similar functionality sphere
+\subsection{Requirements specification}
+\end{samepage}
+\begin{samepage}
 \section {Planning Phase}
 
 \subsection {Project Management}
 \subsection {Risk Management}
 \subsection {Communication Management}
 \subsection {Stakeholder Management}
+\end{samepage}
+\begin{samepage}
 \section {Requirements Analysis}
 
 \subsection {Functional Requirements Specification}
@@ -162,45 +217,36 @@ actions they can take in that system.
 
 \subsection {Detailed Use Case Analysis}
 The detailed use case document takes all identified use cases and establish when what triggers the
-beginning of the us case, what the interaction is during the use case, and what action ends the use case.  This simply takes what
-was developed by the high-level use cases and establishes more detail
-
-\section {Design Specification}
+beginning of the use case, what the interaction is during the use case, and what action ends the use case.  This simply takes what
+was developed by the high-level use cases and establishes more detail.The high-level design takes into consideration all the information provided by the preceding document and attempts to lay out an initial design.  This design identifies any design constraints, establishes a basic architecture as well as the solution design which consists of any data models, data flow diagrams, application flow and initial screen mock-ups. Design artefacts- diagram of project structure UML, Database tables, Use cases Development includes how the project was developed from coding to database tables etc. Implementation project plan, GANNT chart, dependencies, project diary as appendix readme on Github commits
+\end{samepage}
+\begin{samepage}
+\section{Design Specification}
 \subsection {System Design Document}
-
-The high-level design takes into consideration all the information provided by the preceding documents
-and attempts to lay out an initial design.  This design identifies any design constraints, establishes a basic architecture as well as
-the solution design which consists of any data models, data flow diagrams, application flow and initial screen mock-ups.
-
-% Design artefacts- diagram of project structure UML, Database tables, Use cases
-% Development includes how the project was developed from coding to database tables etc
-% Implementation project plan, GANNT chart, dependencies, project diary as appendix [readme on Github commits?]
-
-
-
-\section {Design Specification}
 \subsection {Software Development Document}
-
-The high-level design takes into consideration all the information provided by the preceding documents
-and attempts to lay out an initial design.  This design identifies any design constraints, establishes a basic architecture as well as
-the solution design which consists of any data models, data flow diagrams, application flow and initial screen mock-ups.
 \subsection {Test Analysis Report}
-
+\end{samepage}
+\begin{samepage}
 \section {Testing Specification}
 \subsection {Testing Approaches Used}
 \subsection {Test Problem report}
-
+\end{samepage}
+\begin{samepage}
 \section {Implementation}
 \subsection {Implementation Plan}
-
+\end{samepage}
+\begin{samepage}
 \section {Evaluation}
 \subsection {User Feedback}
 \subsection {Further Enhancements}
-
+\end{samepage}
+\begin{samepage}
 \section {Conclusions}
 \subsection {Review of material covered }
 \subsection {Further Development Opportunities}
 \subsection {Outstanding Issues/Continuous Improvement Plan}
+\end{samepage}
+\begin{samepage}
 
 \section {Appendices}
 \subsection {Code Listing}
@@ -213,4 +259,6 @@ the solution design which consists of any data models, data flow diagrams, appli
 \subsubsection {Controller Classes}
 \subsubsection {Twig Templates}
 \subsubsection {List of Vendor tools used}
+\end{samepage}
+
 \end{document}
