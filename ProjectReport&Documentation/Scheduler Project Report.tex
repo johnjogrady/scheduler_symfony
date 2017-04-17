@@ -3,7 +3,11 @@
 \usepackage{graphicx}	
 \usepackage{csquotes}
 \usepackage{hyperref}
+\usepackage[style=authoryear-ibid,backend=biber]{biblatex}
+\addbibresource{mybib.bib}
+
 \begin{document}
+
 \begin{titlepage}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
@@ -152,11 +156,47 @@ The aspects of creation of a mobile app, integration of the mobile app with the 
 \subsection {Procurement and Tendering Approach}
 IWA has recently launched the first phase of the competitive tender process for its new rostering and scheduling solution through the Office of Government Procurement's E-Tender's website which is available at \href{https://irl.eu-supply.com/app/rfq/publicpurchase_frameset.asp?PID=110399&B=ETENDERS_SIMPLE&PS=1&PP=ctm/Supplier/publictenders}{this link}
 The first stage of the procurement process requires prospective vendors to complete a short pre-qualification questionnaire which provides an opportunity for vendors to demonstrate the capabilities of their software platform against the high level requirements summarised in the preceding section, as well as providing an overview of their organisational capability and customer references where they have already deployed their solution in a similar usage context.  
-Following assessment of the pre-qualification questionnaires, IWA will shortlist a small number of interested vendors for the second phase of the tender process which will require vendors to submit a more comprehensive response against a detailed Request for Tenders (RFT) document provided to the vendors by IWA. Once a successful platform/vendor meeting all of IWA's mandatory requirements as set out in the RFT document has been appointed through the procurement process, IWA will work with that vendor to configure and test the system to align the chosen platform which IWA's requirements. It is envisaged that IWA will initially implement the solution for a small group of 50-100 Personal Assistants who will take part in a pilot exercise to confirm, test and sign off on the chosen solution as fit for purpose for rollout to the wider group of 1,500 Personal Assistants and 25 Service Coordinators.
+Following assessment of the pre-qualification questionnaires, IWA will shortlist a small number of interested vendors for the second phase of the tender process which will require vendors to submit a more comprehensive response against a detailed Request for Tenders (RFT) document provided to the vendors by IWA. Once a successful platform/vendor meeting all of IWA's mandatory requirements as set out in the RFT document has been appointed through the procurement process, IWA will work with that vendor to configure and test the system to align the chosen platform which IWA's requirements. It is envisaged that IWA will initially implement the solution for a small group of 50-100 Personal Assistants who will take part in a pilot exercise to confirm, test and sign off on the chosen solution as fit for purpose prior to its rollout to the wider group of 1,500 Personal Assistants and 25 Service Coordinators.
+\newpage
 \begin{samepage}
 \section {Literature Review}
+\subsection{Introduction}
+In this section, we complete a rapid tour through the body of academic literature to review different software development paradigms and select an appropriate methodology for the prototype project. We begin by looking at the Waterfall Approach to software development before examining some alternatives. 
+Random citation \parencite{einstein}  embedded in text.
+
 \subsection {Software Development Paradigms}
+
+Many computer scientists regard the Waterfall methodology as the classical approach to software development while the Agile methodology and related approaches have been gaining increasing traction in recent times and can be reasonably positioned as the more modernist or fashionable approach, especially for projects which are likely to need the capacity for rapid adaptation.
+
+In the 1960s and early 1970s, the largest customer worldwide for software development was the U.S. government's Department of Defence which managed a sophisticated portfolio of software systems and projects which was probably without rival worldwide at the time. In order to increase the speed of delivery and in response to increasing complexity and project risk, the Department of Defence looked to computer scientists in academia in order to assist it in developing more reliable and predictable software development methodologies. \parencite{royce} is often credited as being the first to use the Waterfall development as a term to describe a planned top down approach to software development which moves incrementally through a series of rigid steps which cannot be revisited once completed. However, others have disputed that Royce was the first to use the term and  also suggested that Royce did not envisage a rigid approach to development , was in favour of some capacity for an iterative approach involving the capacity for rework based on the experience in subsequent steps, though only within successive steps, and in his approach saw considerable risk in the fact that his model only envisaged testing of the output of the project as a penultimate activity when the project was close to completion.
+
+Royce's model of Software Development suggests the following incremental steps in developing new software systems
+\begin{itemize}
+\item Systems requirements
+\item Software requirements
+\item Analysis
+\item Program design
+\item Coding
+\item Testing
+\item Operation
+\end{itemize}
 \subsection {Review of the Systems Development Life Cycle Methodology}
+More recent commentators have adapted the foregoing model to add some additional steps and the following framework is frequently used in establishing a structure for project teams engaged in software development, though there are various alternate models also in use which use  similar overall concepts:
+
+\begin{itemize}
+\item  \textbf{Initiation.} In this stage, the project's life begins when a project sponsor recognises the need or opportunity
+\item  \textbf {System Concept Development} At this juncture, the team defines the scope for the project and engages in risk analysis, defining boundaries and feasability studies
+\item  \textbf{Planning} Here, the team develops a project management plan and sets about acquiring the resources needed for the project
+\item  \textbf{Requirements Analysis} Now the project is underway, and the project team work to establish what the user requirements are, using this knowledge to define a detailed functional requirements document
+\item  \textbf{Design} This stage sees the requirements transformed into a detailed Systems Design Document which begins to example the technical approach to be taken to deliver the required functionality.
+\item  \textbf{Development} This begins the actual technical delivery, where the team convert the design documents into realisable code and system resources including database creation, preparing test cases and beginning the installation, coding and assembly/ compliation of a life software deliverable
+\item  \textbf{Integration and Test} The focus in this stage is to ensyure that the system under construction aligns with and delivers the identified functional requirements together with user acceptance and quality assurance testing by users, both of which activities should be formally documented. 
+\newpage
+\item  \textbf{Implementation}. Now that we have a system in place, it needs to be deployed to a production environment and tested and integrate with other connected resources.
+\item  \textbf{Operation \& Maintenance}. This stage defines a series of operational tasks and procedures to operate, maintain and fine tune the information system in a production scenario.
+\item  \textbf{Disposition} This stage at the end of the project focusses on the end of system activities, with a particular emphasis of data aspects
+\end{itemize}
+
 \subsection {Complementary Methodologies of Development}
 
 \subsubsection {Joint applications development (JAD)}
@@ -260,5 +300,5 @@ was developed by the high-level use cases and establishes more detail.The high-l
 \subsubsection {Twig Templates}
 \subsubsection {List of Vendor tools used}
 \end{samepage}
-
+\newpage\printbibliography[title={Bibliography}]
 \end{document}
