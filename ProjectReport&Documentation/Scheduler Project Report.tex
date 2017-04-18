@@ -35,7 +35,7 @@
 
 \maketitle
 
-\thispagestyle{empty}{justify}
+\thispagestyle{empty}
 
 \begin{center}
 \HRule \\[0.4cm]
@@ -237,10 +237,9 @@ This invariant recommends that project managers and stakeholders take a long ter
 \end{itemize}
 \newpage
 \subsection {Agile}
-The Agile manifesto emerged as a strong counterpoint and echoed many of the concerns and ideas of earlier iterative and incremental software development approaches.
+The Agile manifesto emerged as a strong counterpoint to the various process driven approaches such as the Waterfall methodology and echoed many of the concerns and ideas of earlier iterative and incremental software development approaches.
 
-The manifesto was written by 17 experienced software developers who convened in 2001 and drawing on their own experience of efficient software development principles, sought to define the guiding principles for the Agile Alliance. Central to their thinking was the notion that while they valued the items on the right hand column of the table below, they placed an even higher value on the items in the left hand column. For example, while they did see a value in developing documentation, they did not take this to the level of generating copious manuals for form's sake which would gather dust, not be kept up to date, and ultimately deliver little in terms of value to end users.
-
+The manifesto was written by 17 experienced software developers who convened in 2001 and drawing on their own experience of efficient software development principles, sought to define the guiding principles for the Agile Alliance. Central to their thinking was the notion that while they valued the items on the right hand column of the table above, they placed an even higher value on the items in the left hand column. For example, while they did see a value in developing documentation, they did not take this to the level of generating copious manuals for form's sake which would gather dust, not be kept up to date, and ultimately deliver little in terms of value to end users.
 
 \begin{table}[]
 \centering
@@ -286,13 +285,8 @@ The \textbf{Manifesto for Agile Software Development} is based on twelve princip
 %----------------------------------------
 \end{samepage}
 \begin{samepage}
-\section {Initiation}
-% High level concept description
-\end{samepage}
-\begin{samepage}
-\section {Concept Development}
-
-
+\newpage
+\section {Initiation and Concept Development}
 
 \subsection {Scope of Final Rostering and Scheduling Solution}
 In order to address this deficiency, the IWA's Senior Management Team have mandated the IWA ICT team to work with internal stakeholders to define functional requirements and implement a competitive tender process to select and deploy a new software solution to enable IWA to manage rostering and the capture of time and attendance information in a more efficient manner.
@@ -346,16 +340,18 @@ Mitigation: Dedicated project manager for rollout phase working with local teams
 Mitigation: Focus on confirmation of required functionality over specific user interface features. Research commercial offerings and build some aspects of their user interface into prototype so that users get a realistic sense of what the finished product might look like
 
 \subsection{Requirements specification}
-\end{samepage}
-\begin{samepage}
+
 \section {Planning Phase}
 
 \subsection {Project Management}
+pending
 \subsection {Risk Management}
+pending
 \subsection {Communication Management}
+pending
 \subsection {Stakeholder Management}
-\end{samepage}
-\begin{samepage}
+pending
+\newpage
 \section {Requirements Analysis}
 
 \subsection {Functional Requirements Specification}
@@ -365,65 +361,203 @@ The requirements specification lays out the detailed functional requirements for
 \subsection {Use case specification}
 The high-level use case specification aims to identify all the actors who will use a system and what actions they can take in that system.
 
-
+\newpage
 \subsection {Detailed Use Case Analysis}
  \begin{figure}[h!]
   \includegraphics[scale=0.8]{rosterusecase.jpg}
   \caption{Roster Use Case}
   \label{fig:roster use case}
 \end{figure}
-
-Use cases contain the following elements:
-
-Name – A clear verb/noun or actor/verb/noun descriptor that communicates the scope of the use case.
-Brief Description – A brief paragraph of text describing the scope of the use case.
-Actors – A list of the types of users who can engage in the activities described in the use case. Actor names should not correspond to job titles.
-Preconditions – Anything the solution can assume to be true when the use case begins.
-Basic Flow – The set of steps the actors take to accomplish the goal of the use case. A clear description of what the system does in response to each user action.
-Alternate Flows – Capture the less common user/system interactions, such as being on a new computer and answering a security question.
-Exception Flows – The things that can happen that prevent the user from achieving their goal, such as providing an incorrect username and password.
-Post Conditions – Anything that must be true when the use case is complete.
-The detailed use case document takes all identified use cases and establish when what triggers the
-beginning of the use case, what the interaction is during the use case, and what action ends the use case.  This simply takes what
-was developed by the high-level use cases and establishes more detail.The high-level design takes into consideration all the information provided by the preceding document and attempts to lay out an initial design.  This design identifies any design constraints, establishes a basic architecture as well as the solution design which consists of any data models, data flow diagrams, application flow and initial screen mock-ups. Design artefacts- diagram of project structure UML, Database tables, Use cases Development includes how the project was developed from coding to database tables etc. Implementation project plan, GANNT chart, dependencies, project diary as appendix readme on Github commits
-\newpage
+The following detailed use cases have been identified for the prototype application. As many of the use cases relate to standard CRUD (Create, Read, Update, Delete) functionality for each entity for which it is envisaged that using the Symfony templating approach to initially scaffold the generic controller and related views and form type classes,a generic use case for each of these four standard functions has been created to avoid duplication and repetition. As noted, this generic use case- for example new() entity record- is therefore applicable to all of the individual entities noted, and any particular variations (for example passing parameters to identify a related entity context) are noted in the use case where appropriate
 \begin{usecase}
-  \addheading{Description}{Schedule Officer can view index list of Customer(s), Employee, Roster Assignment, Service User, Service User Assignment, Employee Absence Times, Employee Unavailability, Do Not Send, Office records}
-  \addheading{Actor}{Schedule Officer} 
-  \addrow{Precondition}{User must be logged in and hold SchedulerOfficer security role}
-  \addrow{Postcondition}{A disconnected number indicating the type of `other constructed object'.}
+    \addheading{Title}{User login}
+  \addheading{Description}{User supplies credentials to login}
+  
+  \addheading{Actor}{User} 
+  \addrow{Precondition}{User must not be logged in ie is currently authenticated as anonymous user}
+  \addrow{Postcondition}{User is authenticated having supplied correct password and holds one or more security role}
+  \addmulrow{Basic Flows (M)}{\item User navigates to login area via base template button which is visible on all pages\ldots
+                                  \item User enters username and password and clicks login\ldots
+                                  \item Controller method checks username and password against user repository. If credentials are matched to repository logs user in and set the user as authenticate, allocating any roles held by that user
+                                  \item If credentials are not matched to repositoryare display login failed message and redisplay the login screen\\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User who is not logged in attempts to access a secured resource and is automatically rerouted to the login screen\ldots}
+                                  
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{User registration}
+  \addheading{Description}{User a username and password and creates a new user account}
+  
+  \addheading{Actor}{User} 
+  \addrow{Precondition}{User must not be logged in ie is currently authenticated as anonymous user}
+  \addrow{Postcondition}{User is authenticated having supplied correct password and holds one or more security role. User credentials are updated in the database for future visits}
+  \addmulrow{Basic Flows (M)}{\item User navigates to register area via base template button which is shown on all pages when the user is not currently logged in \ldots
+                                  \item User enters username and password and clicks login\ldots
+                                  \item Controller method checks username and password against user repository. If credentials supplied are valid, and do not duplicate an existing user account the user is set to a logged in stage and the database is updated
+                                  \item If credentials are matched to an existing user record in the repository display the registration failed message and redisplay the registration form screen\\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item None\ldots}
+                                  
+\end{usecase}
+
+\begin{usecase}
+
+    \addheading{Title}{User accesses index view of entity records }
+  \addheading{Description}{User can view index list of one of type Customer, Employee, Roster Assignment, Service User, Service User Assignment, Employee Absence Times, Employee Unavailability, Do Not Send, Office records. This is a reusable use case mapped to multiple Entities,all created using the Symfony templating approach}
+  \addheading{Actor}{User} 
+  \addrow{Precondition}{User must be logged in and hold an appropriately authorised security role}
+  \addrow{Postcondition}{N/A.}
   \addmulrow{Basic Flows (M)}{\item User navigates to index view and can see all customer records\ldots
                                   \item User clicks on Edit link and can view a single page view screen of the selected record\ldots}
-  \addmulrow{Alternate Exception Flows (M)}{\item On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the Schedule Officer role\ldots
-                                   \item User attempts to route to a record that doesn't exist and is shown error 404 not found\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User is not logged in. On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the appropriate  role\ldots
+                                   \item User attempts to route to a record that doesn't exist and is shown error 404 not found\ldots
+                                   \item Attempt to retrieve entity records failed at database level. redisplay previous screen and advise user that an error was encountered and suggest that they retry the effort\ldots
+                                   \item User authenticates but does not hold an appropriate role to access the index view. Display 403 forbidden exception message\ldots}
+
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{User views individual entity item}
+
+  \addheading{Description}{User can select view an individual item of type Customer, Employee, Roster Assignment, Service User, Service User Assignment, Employee Absence Times, Employee Unavailability, Do Not Send, Office records}
+  \addheading{Actor}{User} 
+  \addrow{Precondition}{User must be logged in and hold an appropriately authorised security role}
+  \addrow{Postcondition}{N/A.}
+  \addmulrow{Basic Flows (M)}{\item User navigates to that record and can see all attributes of that entity record on a single page\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User is not logged in. On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the appropriate role\ldots
+                                   \item User attempts to route to a record that doesn't exist and is shown error 404 not found\ldots
+                                   \item Attempt to retrieve selected record failed at database level. redisplay index and advise user that an error was encountered and suggest that they retry the effort\ldots
+                                    \item User authenticates but does not hold an appropriate role to view the entity item. Display 403 forbidden exception message\ldots}
+
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{User can create a new entity record }
+  \addheading{Description}{User can create a new record of type Customer(s), Employee, Roster Assignment, Service User, Service User Assignment, Employee Absence Times, Employee Unavailability, Do Not Send, Office records. This is a reusable use case mapped to multiple Entities,all created using the Symfony templating approach}
+  \addheading{Actor}{User} 
+  \addrow{Precondition}{User must be logged in and hold an appropriately authorised security role}
+  \addrow{Postcondition}{The newly created record is now saved to the database}
+  \addmulrow{Basic Flows (M)}{\item User navigates to index view and clicks the new button or navigates from a related entity (see Alternate Flow below)\ldots
+                                  \item User clicks on New link and can view a single page form screen with empty attribute controls for the selected record type\ldots}
+  \addmulrow{Alternate  Flows (M)}{\item from service user record, user clicks on a button for new roster or assign employee or mark as do not send. Or from employee, user clicks on add unavailability time or employee absence period. User is routed to special version of the New() action for that entity which accepts either an employee or service user object as a parameter and method binds new entity record to have service user or employee context as an associated foreign key when saving newly created record)\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User is not logged in. On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the appropriate role\ldots
+                                                                      \item User authenticates but does not hold an appropriate role to access the index view. Display 403 forbidden exception message\ldots
+                                                                      \item Attempt to save new record failed at database level. redisplay new record form with previously entered form data and advise user that an error was encountered and suggest that they retry the effort\ldots}
+
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{User can edit an entity record }
+  \addheading{Description}{User can retrieve and edit an existing record of type Customer(s), Employee, Roster Assignment, Service User, Service User Assignment, Employee Absence Times, Employee Unavailability, Do Not Send, Office records. This is a reusable use case mapped to multiple Entities,all created using the Symfony templating approach}
+  \addheading{Actor}{User} 
+  \addrow{Precondition}{User must be logged in and hold an appropriately authorised security role}
+  \addrow{Postcondition}{The updated record is now saved with changes made to that single entity record updated to the database}
+  \addmulrow{Basic Flows (M)}{\item User navigates to index view and clicks the edit button \ldots
+                                  \item User is routed to a single page form screen with attribute controls for the selected record type prepopulated with the previously saved values retrieved from the database\ldots
+                                  \item User makes changes to the field values and clicks update or save. The changes are validated and then saved to the database\ldots}
+  \addmulrow{Alternate  Flows (M)}{\item The user cancels the attempt to edit the record and turns to the (non editable) form version of the entity\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User is not logged in. On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the appropriate role\ldots
+                                                                      \item User authenticates but does not hold an appropriate role to access the index view. Display 403 forbidden exception message\ldots
+                                                                      \item Attempt to save new record failed at database level. redisplay new record form with previously entered form data and advise user that an error was encountered and suggest that they retry the effort\ldots}
+
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{User can delete a new entity record }
+  \addheading{Description}{User can delete a single entity record of type Customer(s), Employee, Roster Assignment, Service User, Service User Assignment, Employee Absence Times, Employee Unavailability, Do Not Send, Office records. This is a reusable use case mapped to multiple Entities,all created using the Symfony templating approach}
+  \addheading{Actor}{User} 
+  \addrow{Precondition}{User must be logged in and hold an appropriately authorised security role}
+  \addrow{Postcondition}{The deleted record is removed from the database.}
+  \addmulrow{Basic Flows (M)}{\item User navigates to index view and clicks the delete button \ldots
+  \item the selected record is removed from the database\ldots}
+  \addmulrow{Alternate  Flows (M)}{\item The user clicks the delete button when in the view/show mode and having previously selected an individual record to view/show\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User is not logged in. On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the appropriate role\ldots
+                                                                      \item User authenticates but does not hold an appropriate role to access the index view. Display 403 forbidden exception message\ldots
+                                                                      \item Attempt to save new record failed at database level. Redisplay current record and advise user that an error was encountered and suggest that they retry the effort\ldots}
+
 \end{usecase}
 
 
-Use cases
----------
+\begin{usecase}
+    \addheading{Title}{Check for a Do Not Send relationship between an employee and a service user}
+  \addheading{Description}{When saving an assignment of an employee to a roster, check first that a do not send relationship has not already been defined for that employee.}
+  \addheading{Actor}{User} 
+  \addrow{Precondition}{User must be logged in and hold an appropriately authorised security role. This method is called when assigning an employee to a roster record}
+  \addrow{Postcondition}{The roster assignment record is updated with the relevant employee entity from the database.}
+  \addmulrow{Basic Flows (M)}{\item User assigns an employee to a record. \ldots
+  \item If no do not send relationship exists between the service user and the employee, save the selected roster assignment record to the database\ldots}
+  \addmulrow{Alternate  Flows (M)}{\item If a do not send relationship does exists between, do not save the roster assignment and advise the user that the change has not been saved because of the do not send relationship\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User is not logged in. On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the appropriate role\ldots
+                                                                      \item User authenticates but does not hold an appropriate role to access the index view. Display 403 forbidden exception message\ldots
+                                                                      \item Attempt to save new record failed at database level. Redisplay current record and advise user that an error was encountered and suggest that they retry the effort\ldots}
 
-Use cases: lecturer logs in:
-- can see list of students who are not employed, and list of students who are employed
-- create new job description (with student application deadline, and employer ID)
-- [after application deadline has expired] update which student (if any) was employed
-- can view a student’s CV
-- can post a comment (to all students or just one student) about CVs in general.
-- can post a comment (to all students or just one student) about a particular section of a CVs.
-- can also CRUD student records
+\end{usecase}
 
-Student
-- update CV details (they start with default John Doe content)
-- can upload a photo of themselves to go on their CV
-- view any CV comments from the lecturer (unread comments are highlighted in some way)
-- see a list of jobs currently open for application (and the deadline applications must be submitted by)
-- [after application deadline has expired] apply for job
+\begin{usecase}
+    \addheading{Title}{Display available employees for a roster}
+  \addheading{Description}{When a roster does not have enough employees assigned, show available employees to the user and allow them to select one.}
+  \addheading{Actor}{User} 
+  \addrow{Precondition}{User must be logged in and hold an appropriately authorised security role. The roster must not have sufficient employee resources attached}
+  \addrow{Postcondition}{None.}
+  \addmulrow{Basic Flows (M)}{\item User clicks on the Find An Employee To Assign button on a roster record \ldots
+  \newpage
+  \item The controller method retrieves all employees and then filters out employee who have a do not send relationship to that service user\ldots
+  \item From the residual array of employee objects, the controller method filters out employee who are not available at that time due to being assigned elsewhere\ldots
+    \item From the residual array of employee objects, the controller method filters out employee who have recorded that they are unavailable at that time\ldots
+        \item From the residual array of employee objects, the controller method filters out employee who have an absence recorded which overlaps with the roster time\ldots
+            \item Finally, the residual array of available employee objects are displayed to the user and the user can select an individual employee record from the displayed list and click the assign button\ldots}
+  \addmulrow{Alternate  Flows (M)}{\item There are no available employees and the user navigates away from the page\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User is not logged in. On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the appropriate role\ldots
+                                                                      \item User authenticates but does not hold an appropriate role to access the  view. Display 403 forbidden exception message\ldots
+                                                                      \item Attempt to assign the selected employee to the roster record failed at database level. Redisplay current record and advise user that an error was encountered and suggest that they retry the effort\ldots}
+\end{usecase}
 
+\begin{usecase}
+    \addheading{Title}{Get Mapping coordinates for address}
+  \addheading{Description}{Use call to Google Maps API to retrieve geocoordinates for an address. Reusable factory method which accepts either an employee, service user or office object and geocodes the address for that object}
+  \addheading{Actor}{User} 
+  \addrow{Precondition}{User must be logged in and hold an appropriately authorised security role. The object to be geocoded must have an address}
+  \addrow{Postcondition}{The latitude and longtitude of the object's address are saved to the database.}
+  \addmulrow{Basic Flows (M)}{\item User clicks on the Geocode button from the show screen of an employee, service user or office entity record\ldots
+  \newpage
+  \item The controller method sends an appropriate API call to the Google Maps location service which returns a valid set of the coordinates for the address\ldots}
+  \addmulrow{Alternate  Flows (M)}{\item If Google Maps cannot locate the coordinates return and save an empty of coordinate values as latitude and longtitude\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User is not logged in. On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the appropriate role\ldots
+                                                                      \item User authenticates but does not hold an appropriate role to access the geocoding  view. Display 403 forbidden exception message\ldots
+                                                                      \item Attempt to assign the newly obtained coordinates failed at database level. Redisplay current record and advise user that an error was encountered and suggest that they retry the effort\ldots}
+\end{usecase}
 
-Employer
-- after deadline expires can DOWNLOAD all CVs of all students who applied
+\begin{usecase}
+    \addheading{Title}{Assign user role(s) }
+  \addheading{Description}{Assign role(s) to a user}
+  \addheading{Actor}{Administrator} 
+  \addrow{Precondition}{User must be logged in and hold an appropriately authorised security role.}
+  \addrow{Postcondition}{User role is updated against the appropriate user record.}
+  \addmulrow{Basic Flows (M)}{\item Administrator clicks on Assign User Role button from the Admin button shown only to Administrator role\ldots
+  \newpage
+  \item Administrator selects the requried role and clicks update\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User is not logged in. On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the appropriate role\ldots
+                                                                      \item User authenticates but does not hold an appropriate role to access the Administrator  view. Display 403 forbidden exception message\ldots
+                                                                      \item Attempt to assign the newly obtained coordinates failed at database level. Redisplay current record and advise user that an error was encountered and suggest that they retry the effort\ldots}
+\end{usecase}
+
+\begin{usecase}
+   \addheading{Title}{Password reset}
+  \addheading{Description}{Reset the password of a user}
+  \addheading{Actor}{Administrator} 
+  \addrow{Precondition}{User must be logged in and hold an appropriately authorised security role.}
+  \addrow{Postcondition}{New password value is updated against the appropriate user record.}
+  \addmulrow{Basic Flows (M)}{\item Administrator clicks on Reset Password button from the Admin button shown only to Administrator role\ldots
+  \newpage
+  \item Administrator selects the user whose password needs to be reset and then enters in a new password\ldots
+  \item New password is saved to the database\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item User is not logged in. On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the appropriate role\ldots
+                                                                      \item User authenticates but does not hold an appropriate role to access the Administrator  view. Display 403 forbidden exception message\ldots
+                                                                      \item Attempt to save the new password failed at database level. Redisplay current record and advise user that an error was encountered and suggest that they retry the effort\ldots}
+\end{usecase}
 
 \end{samepage}
 \begin{samepage}
+\newpage
 \section{Design Specification}
 \subsection {System Design Document}
 \subsection {Software Development Document}
