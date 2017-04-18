@@ -1,6 +1,7 @@
 \documentclass[a4paper,12pt]{article}
 
 \usepackage{graphicx}	
+\usepackage{booktabs}	
 \usepackage{csquotes}
 \usepackage{hyperref}
 \usepackage[style=authoryear-ibid,backend=biber]{biblatex}
@@ -144,8 +145,6 @@ The proposed solution will deliver the following functionality components to IWA
 \item\textbf {Quotation/Proposals Generation.} The proposed enterprise solution should be capable of generating detailed and personalised Service proposals/ quotations where the coordinator can plan the service schedule for the service user, referencing each visit to the appropriate price card item to generate a completed quotation for the customer which shows the provisional service schedule and the projected weekly invoiced cost.
 \item \textbf {Employee, Service User and Customer Portals.} IWA would also like to implement Service user and Employee portals which includes an authentication layer so that a service user or their family member can view upcoming service visits. Similarly, employees can view their upcoming roster visits to various service users including information such contact information, tasks to be completed etc. and a Customer portal where a funder can view invoices, schedules for upcoming service and validate completed visits by viewing validation timestamps of attendance.
 \end{itemize}
-\end{samepage}
-\begin{samepage}
 \subsection {Scope of Prototype Solution}
 As the prototype application is being fast tracked for user acceptance testing, this application has more limited scope and is primarily focussed on the backend Rostering and Scheduling solution and in particularly on examining in detail the user experience and optimal process and validation checks required by Coordinators and Administrators in handling various common service delivery scenarios.
 The prototype will also attempt to model in a simplistic fashion the experience of portal layer users who will interact using various security limited roles such as employees, service users and customers although it will not attempt to fully implement the data privacy restrictions to be granted to each type of role- for example employees being unable to access the planned roster records for other employees to the fully robust extent that would be required in an enterprise level application.
@@ -160,15 +159,15 @@ Following assessment of the pre-qualification questionnaires, IWA will shortlist
 \newpage
 \begin{samepage}
 \section {Literature Review}
-\subsection{Introduction}
-In this section, we complete a rapid tour through the body of academic literature to review different software development paradigms and select an appropriate methodology for the prototype project. We begin by looking at the Waterfall Approach to software development before examining some alternatives. 
-Random citation \parencite{einstein}  embedded in text.
+\subsection{Software Development Paradigms}
 
-\subsection {Software Development Paradigms}
+In this section, we complete a rapid tour through the body of academic literature to review different software development paradigms and select an appropriate methodology for the prototype project. We begin by looking at the Waterfall Approach to software development before examining some alternatives. 
 
 Many computer scientists regard the Waterfall methodology as the classical approach to software development while the Agile methodology and related approaches have been gaining increasing traction in recent times and can be reasonably positioned as the more modernist or fashionable approach, especially for projects which are likely to need the capacity for rapid adaptation.
 
-In the 1960s and early 1970s, the largest customer worldwide for software development was the U.S. government's Department of Defence which managed a sophisticated portfolio of software systems and projects which was probably without rival worldwide at the time. In order to increase the speed of delivery and in response to increasing complexity and project risk, the Department of Defence looked to computer scientists in academia in order to assist it in developing more reliable and predictable software development methodologies. \parencite{royce} is often credited as being the first to use the Waterfall development as a term to describe a planned top down approach to software development which moves incrementally through a series of rigid steps which cannot be revisited once completed. However, others have disputed that Royce was the first to use the term and  also suggested that Royce did not envisage a rigid approach to development , was in favour of some capacity for an iterative approach involving the capacity for rework based on the experience in subsequent steps, though only within successive steps, and in his approach saw considerable risk in the fact that his model only envisaged testing of the output of the project as a penultimate activity when the project was close to completion.
+\subsection {The Waterfall Methodology}
+
+In the 1960s and early 1970s, the largest customer worldwide for software development was the U.S. government's Department of Defense which managed a sophisticated and critical portfolio of software systems and projects which was probably without unrivalled in terms of scale at the time.  \parencite{royce} is often credited as being the first to use the Waterfall development as a term to describe a planned top down approach to software development which moves incrementally through a series of rigid steps which cannot be revisited once completed. However, others have disputed that Royce was the first to use the term and  also suggested that Royce did not envisage a rigid approach to development , noting that Royce was in favour of an iterative approach involving the capacity for rework of outputs based on the experience of using outputted artefacts in subsequent development steps, though only within successive steps. Royce also felt that there was considerable risk in the fact that the Waterfall model only envisaged testing of the outputs of the project as a penultimate activity when the project was close to completion.
 
 Royce's model of Software Development suggests the following incremental steps in developing new software systems
 \begin{itemize}
@@ -184,36 +183,97 @@ Royce's model of Software Development suggests the following incremental steps i
 More recent commentators have adapted the foregoing model to add some additional steps and the following framework is frequently used in establishing a structure for project teams engaged in software development, though there are various alternate models also in use which use  similar overall concepts:
 
 \begin{itemize}
-\item  \textbf{Initiation.} In this stage, the project's life begins when a project sponsor recognises the need or opportunity
-\item  \textbf {System Concept Development} At this juncture, the team defines the scope for the project and engages in risk analysis, defining boundaries and feasability studies
-\item  \textbf{Planning} Here, the team develops a project management plan and sets about acquiring the resources needed for the project
-\item  \textbf{Requirements Analysis} Now the project is underway, and the project team work to establish what the user requirements are, using this knowledge to define a detailed functional requirements document
-\item  \textbf{Design} This stage sees the requirements transformed into a detailed Systems Design Document which begins to example the technical approach to be taken to deliver the required functionality.
-\item  \textbf{Development} This begins the actual technical delivery, where the team convert the design documents into realisable code and system resources including database creation, preparing test cases and beginning the installation, coding and assembly/ compliation of a life software deliverable
-\item  \textbf{Integration and Test} The focus in this stage is to ensyure that the system under construction aligns with and delivers the identified functional requirements together with user acceptance and quality assurance testing by users, both of which activities should be formally documented. 
+\item  \textbf{Initiation.} In this stage, the project's life begins when a project sponsor recognises the need or opportunity for a software project to take place.
+\item  \textbf {System Concept Development.} At this juncture, the team defines the scope for the project and engages in risk analysis activtities, defining boundaries for the project and undertaking feasability studies.
+\item  \textbf{Planning.} Here, the team develops a project management plan and sets about acquiring the resources needed for the project.
+\item  \textbf{Requirements Analysis.} Now the project is underway, and the project team work to establish what the user requirements are, using this knowledge to define a detailed functional requirements document.
+\item  \textbf{Design.} This stage sees the requirements transformed into a detailed Systems Design Document which begins to examine and plan the technical approach which will employed to deliver the required functionality.
+\item  \textbf{Development.} This begins the actual technical delivery, where the team convert the design documents into realisable code and system resources including database creation, preparing test cases and beginning the installation, coding and assembly/ compilation of a live software deliverable
+\item  \textbf{Integration and Test.} The focus in this stage is to ensure that the system under construction aligns with and meets user expectations in relation to the system's functional requirements. These assumptions can be tested through user acceptance testing and users undertaking quality assurance activtities. It is best practice here that thes test activities should be formally documented. 
 \newpage
-\item  \textbf{Implementation}. Now that we have a system in place, it needs to be deployed to a production environment and tested and integrate with other connected resources.
-\item  \textbf{Operation \& Maintenance}. This stage defines a series of operational tasks and procedures to operate, maintain and fine tune the information system in a production scenario.
-\item  \textbf{Disposition} This stage at the end of the project focusses on the end of system activities, with a particular emphasis of data aspects
+\item  \textbf{Implementation.} Now that we have a system in place, it needs to be deployed to a production environment and where necessary integrate with other relevant software and hardware resources.
+\item  \textbf{Operation \& Maintenance.}. This stage defines a series of operational tasks and procedures to operate, maintain and fine-tune the information system in a production scenario.
+\item  \textbf{Disposition.} This stage at the end of the project focusses on the end of system activities, with a particular emphasis on the data aspects of projects.
 \end{itemize}
 
-\subsection {Complementary Methodologies of Development}
 
-\subsubsection {Joint applications development (JAD)}
-\subsubsection {Rapid application development (RAD)}
-\subsubsection {Extreme programming (XP)}
-\subsubsection {Open-source development}
-\subsubsection {End-user development}
-\subsubsection {Object-oriented programming}
+The Waterfall model gained wide acceptance as a framework for software development, though controversy raged continually about its effectiveness and appropriateness to large scale projects. In order to increase the speed of delivery and in response to increasing complexity and project risk, the Department of Defense looked to computer scientists in academia in order to assist it in developing more reliable and predictable software development methodologies. 
 
-\subsection {Agile vs. Waterfall}
-\subsubsection {Evolution of Agile}
-\subsubsection {Evolution of Waterfall}
-\subsubsection {Critical Comparatives}
-\subsection {Unified Modelling Language}
-\subsection {Advantages of Unified Modelling Language}
+In an influential publcation, \parencite{defensesscienceboard}, reporting to the U.S. Military as the Defense Science Board Task Force on Military Software, highighted increasing risks associated with more traditional software development approaches including the Waterfall approach. This report noted that the cost of military software contracts had been steadily increasing, while the time to delivery was also becoming longer. It highlighted a variety of mitigation strategies which it recommended to the Department of Defense including standardising programming languages (using the DoD mandated Ada language) as well as a renewed focus on requirements gathering and an more iterative approach to managing software projects.
+
+A more recent study \parencite{peterson} found that the major issues with the Waterfall model arise in relation to the requirements gathering activities, and also present in relation to the verification of same. Based on this, it concluded that even though it was still commonly in use, the Waterfall model was fundamentally unsuitable for large scale or complex development projects
+
+\subsection {Spiral Model}
+Noting that the Waterfall approach had become the de facto standard for military (and general) software development, and echoing the shortcomings noted by the Defence Science Board report, \parencite{boehm} proposed an alternate framework which he termed the Spiral model. 
+
+Because the Waterfall approach placed a strong emphasis on the finalisation and sign off of detailed specfication criteria prior to moving on to the development and implement stages, Boehm noted that this highly structured approach frequently served to act as a barrier to early prototyping. Boehm contrasted this with the Evolutionary Development approach ( where a user might declare `I can’t tell you what I want, but I’ll know it when I see it.')', which had become popular as an antidote to the rigid strictures of the Waterfall approach. He also observed that using  Evolutionary Development also presented some significant challenges in that it could frequently be difficult to distinguish this approach from the older and less structured `Code and Fix' or `Spaghetti code' implementations which have been repeatedly found to have performed very poorly as they scaled to larger implementations.
+
+Figure 1. below shows an overview of the Spiral model of development
+
+ \begin{figure}[h!]
+  \includegraphics{spiralmodel.png}
+  \caption{The Spiral model of development}
+  \label{fig:spiral_model}
+\end{figure}
+
+To address the shortcomings of both methodologies, Boehm proposed the Spiral model which he noted as evolving based on the insights he had gained from applying the Waterfall model in large government projects.
+It suggests a flexible approach based on the risk profile of each project which adopts suitable tools from one or more process based methodologies such as incremental development, the waterfall model, or evolutionary prototyping. A challenge with the Spiral model is that its core concepts have often been oversimplified leading to misconceptions and what Boehm terms `hazardous spiral look-alikes. This term refers to implemenations of the Spiral approach appear to have the all the required core components but in fact diverge and inviolate the one or more of the key principles of the model. To counteract this approach, Boehm stresses that projects using the spiral model should always display six invariants (items which are always required in every project) and he usefully provides examples where each invariant could be subject to an incorrect interpretation which would invalidate its meaning.
+
+\begin{itemize}
+
+\item \textbf{Define artifacts concurrently.} This invariant notes that concurrency is a better approach here as defining project artefacts sequentially increases the risk that the project does not meet stakeholder expectations.
+\newpage
+\item \textbf{Perform four basic activities in every cycle.}
+At its core, the Spiral model emphasises four basic activities in each cycle of developmentm as follows:
+\begin{itemize}
+\item 1. Determine the objectives
+\item 2. Identify and resolve risks 
+\item 3. Development and test
+\item 4. Plan the next iteration
+\end{itemize}
+\item \textbf {Risk determines level of effort.} It is the responsibility of the project team to determine how much effort should be spent on each project area, based on the perceived level of risk for the area. This decision should always be made based on a strategy of reducing the overall level of risk to the project.
+\item \textbf {Risk determines degree of details} Based on a risk based approach, the team must make a determination as to how much detail needs to be gathered for each project artefact. For example, they should ensure they gather sufficient detail in relation to requirements areas where a detailed specification helps to reduce unpredictability and contribute to lowering the overall level of risk, for example in precisely defining the integration approach to be taken between hardware and software components. Conversely, project teams should feel entirely comfortable producing much less detail in relation to front requirements specifications in other areas which have a lower overall level of project risk, for example in relation to the design of the graphical user interface.
+\item \textbf {Use anchor point milestones.} In the original specification of the spiral model, it did not initially include any project milestone assessments but from practical experience- again with a risk focussed approach- these were introduced to anchor project delivery to communicate progress updates to stakeholders.
+
+\item \textbf {Focus on the system and its life cycle}
+This invariant recommends that project managers and stakeholders take a long term view of the project life cycle and avoid an excessive focus in the initial stages of the project on the development of software code.
+\end{itemize}
+\newpage
+\subsection {Agile}
+The Agile manifesto emerged as a strong counterpoint and echoed many of the concerns and ideas of earlier iterative and incremental software development approaches.
+
+The manifesto was written by 17 experienced software developers who convened in 2001 and drawing on their own experience of efficient software development principles, sought to define the guiding principles for the Agile Alliance. Central to their thinking was the notion that while they valued the items on the right hand column of the table below, they placed an even higher value on the items in the left hand column. For example, while they did see a value in developing documentation, they did not take this to the level of generating copious manuals for form's sake which would gather dust, not be kept up to date, and ultimately deliver little in terms of value to end users.
 
 
+\begin{table}[]
+\centering
+\caption{The Agile Manifesto}
+\label{my-label}
+\begin{tabular}{|l|l|l|ll}
+\cline{1-3}
+Individuals and interactions & over & Processes and tools          \\ \cline{1-3}
+Working software             & over & Comprehensive documentation \\ \cline{1-3}
+Customer collaboration       & over & Contract negotiation        \\ \cline{1-3}
+Responding to change         & over & Following a plan              \\ \cline{1-3}
+\end{tabular}
+\end{table}
+
+
+The \textbf{Manifesto for Agile Software Development} is based on twelve principles:
+\begin{itemize}
+\item Customer satisfaction by early and continuous delivery of valuable software
+\item Welcome changing requirements, even in late development
+\item Working software is delivered frequently (weeks rather than months)
+\item Close, daily cooperation between business people and developers
+\item Projects are built around motivated individuals, who should be trusted
+\item Face-to-face conversation is the best form of communication (co-location)
+\item Working software is the principal measure of progress
+\item Sustainable development, able to maintain a constant pace
+\item Continuous attention to technical excellence and good design
+\item Simplicity—the art of maximizing the amount of work not done—is essential
+\item Best architectures, requirements, and designs emerge from self-organizing teams
+\item Regularly, the team reflects on how to become more effective, and adjusts accordingly
+\end{itemize}
 %----------------------------------------------------------------------------------------
 %	Overview of fields reviewed and sources consulted
 %       Review of SDLC, Agile vs Waterfall
