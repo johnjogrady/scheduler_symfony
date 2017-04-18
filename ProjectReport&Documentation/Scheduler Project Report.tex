@@ -4,9 +4,24 @@
 \usepackage{booktabs}	
 \usepackage{csquotes}
 \usepackage{hyperref}
+\usepackage{multirow}
 \usepackage[style=authoryear-ibid,backend=biber]{biblatex}
 \addbibresource{mybib.bib}
 
+\newcommand\addrow[2]{#1 &#2\\ }
+
+\newcommand\addheading[2]{#1 &#2\\ \hline}
+\newcommand\tabularhead{\begin{tabular}{lp{8cm}}
+\hline
+}
+
+\newcommand\addmulrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}% 
+   &\begin{minipage}[t][][t]{8cm}
+    \begin{enumerate} #2   \end{enumerate}
+    \end{minipage}\\ }
+
+\newenvironment{usecase}{\tabularhead}
+{\hline\end{tabular}}
 \begin{document}
 
 \begin{titlepage}
@@ -20,7 +35,7 @@
 
 \maketitle
 
-\thispagestyle{empty}
+\thispagestyle{empty}{justify}
 
 \begin{center}
 \HRule \\[0.4cm]
@@ -58,6 +73,7 @@
 
 \end{titlepage}
 \pagenumbering{arabic}
+
 %----------------------------------------------------------------------------------------
 %	Brief overview of project, aims, methodology and approach taken
 %----------------------------------------------------------------------------------------
@@ -131,26 +147,7 @@ In the context of implementing a new rostering and time attendance system, IWA w
 %----------------------------------------------------------------------------------------
 The casual reader of the preceding section will quickly appreciate the inherent inefficiencies of the current paper centric process in an organisation of the size of IWA. Indeed, IWA employs a service management cohort of 26 Service Coordinators, 8 Service Support Officers and 20 Administrators across 15 ALS offices around Ireland and it has been estimated that across these employee groups, approximately 25\% of their working time is spent managing rostering and scheduling functions in relation to the ALS service to ensure all service visits are covered and a further 25\% of their time is currently consumed in manual data entry and approval tasks in relation to timesheet and payroll information. 
 
-This inefficient process has a direct impact on IWA's cost base but also has an opportunity cost impact by limiting the available time of Service Coordinators to spend on other essential functions such as planning, evaluation, training and supervision activities. In this context, it should be noted that each IWA Service Coordinator is responsible for managing a large number (between 50-100 per Coordinator) of service packages for individual service users and each also supervise a similar number of Personal Assistants for whom the Service Coordinator acts as line manager. This also has an impact on the ratio of required back office personnel to service delivery hours and due to the somewhat manual rostering and scheduling process currently being operated,  IWA's service coordination and administration costs per service delivery hour are somewhat higher than some of its competitors, placing it at a competitive disadvantage, particularly in comparison to some of the private sector commercial operators who have recently entered the Irish homecare market and who in many cases currently have more sophisticated techological solutions in place to handle this key 
-internal process.
-
-\subsection {Scope of Final Rostering and Scheduling Solution}
-In order to address this deficiency, the IWA's Senior Management Team have mandated the IWA ICT team to work with internal stakeholders to define functional requirements and implement a competitive tender process to select and deploy a new software solution to enable IWA to manage rostering and the capture of time and attendance information in a more efficient manner.
-The proposed solution will deliver the following functionality components to IWA:
-\begin{itemize}
-\item \textbf{A Rostering and Scheduling solution} for use by ALS Administrators, Coordinators and Support Officers. The proposed solution should also interface with the IWA Megapay payroll system. Finally, it should manage the customer billing process in relation to the care services provided to statutory and individual customers.
-\item \textbf {A Mobile Application} to be used by PAs employed by IWA which should be capable of running on the iOS, Android and Windows Phone and thereby be suitable to run on the personal mobile devices of employees to avoid IWA having to supply company owned and funded devices on the corporate account. 
-\item \textbf {Attendance Verification Mechanism via Mobile App}. A key requirement for the mobile application is that it provides a reliable and independent real-time verification of an employee’s attendance at a service visit location, together with timestamped confirmation of the length of time that was spent at the location.  This is required to satisfy IWA service level agreement obligations with its funders and to minimise the possibility of fraud.
-\pagebreak
-\item\textbf {Quotation/Proposals Generation.} The proposed enterprise solution should be capable of generating detailed and personalised Service proposals/ quotations where the coordinator can plan the service schedule for the service user, referencing each visit to the appropriate price card item to generate a completed quotation for the customer which shows the provisional service schedule and the projected weekly invoiced cost.
-\item \textbf {Employee, Service User and Customer Portals.} IWA would also like to implement Service user and Employee portals which includes an authentication layer so that a service user or their family member can view upcoming service visits. Similarly, employees can view their upcoming roster visits to various service users including information such contact information, tasks to be completed etc. and a Customer portal where a funder can view invoices, schedules for upcoming service and validate completed visits by viewing validation timestamps of attendance.
-\end{itemize}
-\subsection {Scope of Prototype Solution}
-As the prototype application is being fast tracked for user acceptance testing, this application has more limited scope and is primarily focussed on the backend Rostering and Scheduling solution and in particularly on examining in detail the user experience and optimal process and validation checks required by Coordinators and Administrators in handling various common service delivery scenarios.
-The prototype will also attempt to model in a simplistic fashion the experience of portal layer users who will interact using various security limited roles such as employees, service users and customers although it will not attempt to fully implement the data privacy restrictions to be granted to each type of role- for example employees being unable to access the planned roster records for other employees to the fully robust extent that would be required in an enterprise level application.
-The aspects of creation of a mobile app, integration of the mobile app with the backend rostering and scheduling and the verification of attendance via the mobile app are all considered as out of scope for the prototype application.
-\end{samepage}
-\pagebreak
+This inefficient process has a direct impact on IWA's cost base but also has an opportunity cost impact by limiting the available time of Service Coordinators to spend on other essential functions such as planning, evaluation, training and supervision activities. In this context, it should be noted that each IWA Service Coordinator is responsible for managing a large number (between 50-100 per Coordinator) of service packages for individual service users and each also supervise a similar number of Personal Assistants for whom the Service Coordinator acts as line manager. This also has an impact on the ratio of required back office personnel to service delivery hours and due to the somewhat manual rostering and scheduling process currently being operated,  IWA's service coordination and administration costs per service delivery hour are somewhat higher than some of its competitors, placing it at a competitive disadvantage, particularly in comparison to some of the private sector commercial operators who have recently entered the Irish homecare market and who in many cases currently have more sophisticated techological solutions in place to handle this key internal process. Note the scope of the project is defined in more detail in 
 
 \subsection {Procurement and Tendering Approach}
 IWA has recently launched the first phase of the competitive tender process for its new rostering and scheduling solution through the Office of Government Procurement's E-Tender's website which is available at \href{https://irl.eu-supply.com/app/rfq/publicpurchase_frameset.asp?PID=110399&B=ETENDERS_SIMPLE&PS=1&PP=ctm/Supplier/publictenders}{this link}
@@ -179,7 +176,7 @@ Royce's model of Software Development suggests the following incremental steps i
 \item Testing
 \item Operation
 \end{itemize}
-\subsection {Review of the Systems Development Life Cycle Methodology}
+\subsection {Systems Development Life Cycle Methodology}
 More recent commentators have adapted the foregoing model to add some additional steps and the following framework is frequently used in establishing a structure for project teams engaged in software development, though there are various alternate models also in use which use  similar overall concepts:
 
 \begin{itemize}
@@ -258,6 +255,11 @@ Responding to change         & over & Following a plan              \\ \cline{1-
 \end{tabular}
 \end{table}
 
+The twelve principles of the Manifesto for Agile Software Development, which are reproduced verbatim below, have found wide acceptance among software developers, particularly in recent years as the time to market between releases in new areas of software development including mobile apps and online web applications needs to be much shorter than in traditional application development. Where traditional software houses could plan for new versions of their software to be released perhaps on an annual basis, which allowed sufficient time for testing, feedback and rework of code from testing to eliminate bugs, modern application development needs to focus on regularly adding new functionality. The `bite-sized' approach of Agile is a good fit for these rapid development requirements, allowing software development houses to iteratively plan and develop and test new releases of working software while allowing for frequent application updates to be responsive to customer needs, competitor actions or market conditions, often completing a development cycle within a short period of a few weeks.
+
+These Agile principles have inspired many further iterative innovations in the field of software development giving rise to other approaches such as Extreme Programming, Lean Software Development (which has many parallels with Toyota's Lean Manufacturing System for vehicle manufacturer) and also resources and tools such as Kanban Boards, Scrum and DevOps tools. Some of the core project management methodologies such as PMBOK (The Project Management Book of Knowledge) and PMI (Project Management Institute )have also adapted to the emergence of Agile principles by defining specific Agile oriented project management methodologies. There are also mainstream training and certification options available for those who wish to pursue careers as Agile practioners or Scrum masters.
+
+
 
 The \textbf{Manifesto for Agile Software Development} is based on twelve principles:
 \begin{itemize}
@@ -290,9 +292,59 @@ The \textbf{Manifesto for Agile Software Development} is based on twelve princip
 \begin{samepage}
 \section {Concept Development}
 
-\subsection {Overview of Project Scope}
+
+
+\subsection {Scope of Final Rostering and Scheduling Solution}
+In order to address this deficiency, the IWA's Senior Management Team have mandated the IWA ICT team to work with internal stakeholders to define functional requirements and implement a competitive tender process to select and deploy a new software solution to enable IWA to manage rostering and the capture of time and attendance information in a more efficient manner.
+The proposed solution will deliver the following functionality components to IWA:
+\begin{itemize}
+\item \textbf{A Rostering and Scheduling solution} for use by ALS Administrators, Coordinators and Support Officers. The proposed solution should also interface with the IWA Megapay payroll system. Finally, it should manage the customer billing process in relation to the care services provided to statutory and individual customers.
+\item \textbf {A Mobile Application} to be used by PAs employed by IWA which should be capable of running on the iOS, Android and Windows Phone and thereby be suitable to run on the personal mobile devices of employees to avoid IWA having to supply company owned and funded devices on the corporate account. 
+\item \textbf {Attendance Verification Mechanism via Mobile App}. A key requirement for the mobile application is that it provides a reliable and independent real-time verification of an employee’s attendance at a service visit location, together with timestamped confirmation of the length of time that was spent at the location.  This is required to satisfy IWA service level agreement obligations with its funders and to minimise the possibility of fraud.
+\pagebreak
+\item\textbf {Quotation/Proposals Generation.} The proposed enterprise solution should be capable of generating detailed and personalised Service proposals/ quotations where the coordinator can plan the service schedule for the service user, referencing each visit to the appropriate price card item to generate a completed quotation for the customer which shows the provisional service schedule and the projected weekly invoiced cost.
+\item \textbf {Employee, Service User and Customer Portals.} IWA would also like to implement Service user and Employee portals which includes an authentication layer so that a service user or their family member can view upcoming service visits. Similarly, employees can view their upcoming roster visits to various service users including information such contact information, tasks to be completed etc. and a Customer portal where a funder can view invoices, schedules for upcoming service and validate completed visits by viewing validation timestamps of attendance.
+\end{itemize}
+\subsection {Scope of Prototype Solution}
+As the prototype application is being fast tracked for user acceptance testing, this application has more limited scope and is primarily focussed on the backend Rostering and Scheduling solution and in particularly on examining in detail the user experience and optimal process and validation checks required by Coordinators and Administrators in handling various common service delivery scenarios.
+The prototype will also attempt to model in a simplistic fashion the experience of portal layer users who will interact using various security limited roles such as employees, service users and customers although it will not attempt to fully implement the data privacy restrictions to be granted to each type of role- for example employees being unable to access the planned roster records for other employees to the fully robust extent that would be required in an enterprise level application.
+The aspects of creation of a mobile app, integration of the mobile app with the backend rostering and scheduling and the verification of attendance via the mobile app are all considered as out of scope for the prototype application.
+\end{samepage}
+\pagebreak
 \subsection {Feasibility Review}
-Review of open source and commercial applications in similar functionality sphere
+
+\textbf{Risk Register for Project and Mitigation Actions}
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\textbf{Risk: It may be challenging to find a solution which meets all of IWA’s requirements.}
+
+Mitigation: In this regard, it will be necessary to prioritise those essential aspects of the new system’s functionality over ‘nice to have’ aspects
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\textbf{Risk: Required project resources are not available or their input delays key project phases}
+
+Mitigation: Agreement of IWA management to release key resources when required and provide backfill for the other work normally assigned to those resources
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\textbf{Risk: The project takes longer to deliver or software/customisation costs are higher than anticipated.}
+
+Mitigation: Detailed project planning and agreement of deliverables, costs and timelines with vendor. Prioritisation of scope and deliverables to ensure key functionality is delivered on time. 
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\textbf{Risk: Solution does not fully meet IWA's requirements or becomes outdated as IWA's requirements change.}
+
+Mitigation: Detailed agreement on deliverables/scope/cost for initial build and sign off of same with vendor. Comprehensive user acceptance testing and user sign off on agreed and tested functionality at key milestones. Design solution so that it is flexible to adapt to the key areas where IWA requirements may change e.g. payroll payment rate structure, billing rate structure, customer invoicing/reporting formats, additional functionality/ logic in the mobile app.
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\textbf{Risk: Less than 100\% adoption by ALS teams, current manual processes persist at local level.}
+
+Mitigation: Dedicated project manager for rollout phase working with local teams. Tight project planning and monitoring/direction from local ALS management teams to ensure project phases and adoption take place to plan. Structured training plan for staff using system and identification of staff who are struggling to adapt to the new process and provision of support by local ALS team leads to ensure they are brought up to speed.
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\textbf{Risk: The prototype has limited value as it has marked differences in functionality or user interface from available production platforms which might be considered by IWA}
+
+Mitigation: Focus on confirmation of required functionality over specific user interface features. Research commercial offerings and build some aspects of their user interface into prototype so that users get a realistic sense of what the finished product might look like
+
 \subsection{Requirements specification}
 \end{samepage}
 \begin{samepage}
@@ -308,17 +360,68 @@ Review of open source and commercial applications in similar functionality spher
 
 \subsection {Functional Requirements Specification}
 
-The requirements specification lays out the detailed functional requirements for an application so that an
-accurate depiction of the system is made in a way that holds both the IT project lead and the customer accountable for the functionality that must be delivered.  This document is also used to start building a test plan and, possibly, test scripts.
+The requirements specification lays out the detailed functional requirements for an application so that an accurate depiction of the system is made in a way that holds both the IT project lead and the customer accountable for the functionality that must be delivered.  This document is also used to start building a test plan and, possibly, test scripts.
 
 \subsection {Use case specification}
-The high-level use case specification aims to identify all the actors who will use a system and what
-actions they can take in that system.
+The high-level use case specification aims to identify all the actors who will use a system and what actions they can take in that system.
+
 
 \subsection {Detailed Use Case Analysis}
+ \begin{figure}[h!]
+  \includegraphics[scale=0.8]{rosterusecase.jpg}
+  \caption{Roster Use Case}
+  \label{fig:roster use case}
+\end{figure}
+
+Use cases contain the following elements:
+
+Name – A clear verb/noun or actor/verb/noun descriptor that communicates the scope of the use case.
+Brief Description – A brief paragraph of text describing the scope of the use case.
+Actors – A list of the types of users who can engage in the activities described in the use case. Actor names should not correspond to job titles.
+Preconditions – Anything the solution can assume to be true when the use case begins.
+Basic Flow – The set of steps the actors take to accomplish the goal of the use case. A clear description of what the system does in response to each user action.
+Alternate Flows – Capture the less common user/system interactions, such as being on a new computer and answering a security question.
+Exception Flows – The things that can happen that prevent the user from achieving their goal, such as providing an incorrect username and password.
+Post Conditions – Anything that must be true when the use case is complete.
 The detailed use case document takes all identified use cases and establish when what triggers the
 beginning of the use case, what the interaction is during the use case, and what action ends the use case.  This simply takes what
 was developed by the high-level use cases and establishes more detail.The high-level design takes into consideration all the information provided by the preceding document and attempts to lay out an initial design.  This design identifies any design constraints, establishes a basic architecture as well as the solution design which consists of any data models, data flow diagrams, application flow and initial screen mock-ups. Design artefacts- diagram of project structure UML, Database tables, Use cases Development includes how the project was developed from coding to database tables etc. Implementation project plan, GANNT chart, dependencies, project diary as appendix readme on Github commits
+\newpage
+\begin{usecase}
+  \addheading{Description}{Schedule Officer can view index list of Customer(s), Employee, Roster Assignment, Service User, Service User Assignment, Employee Absence Times, Employee Unavailability, Do Not Send, Office records}
+  \addheading{Actor}{Schedule Officer} 
+  \addrow{Precondition}{User must be logged in and hold SchedulerOfficer security role}
+  \addrow{Postcondition}{A disconnected number indicating the type of `other constructed object'.}
+  \addmulrow{Basic Flows (M)}{\item User navigates to index view and can see all customer records\ldots
+                                  \item User clicks on Edit link and can view a single page view screen of the selected record\ldots}
+  \addmulrow{Alternate Exception Flows (M)}{\item On routing to area, system routes User to user login screen and denies permission to resource until they have successfully authenticated using an account holding the Schedule Officer role\ldots
+                                   \item User attempts to route to a record that doesn't exist and is shown error 404 not found\ldots}
+\end{usecase}
+
+
+Use cases
+---------
+
+Use cases: lecturer logs in:
+- can see list of students who are not employed, and list of students who are employed
+- create new job description (with student application deadline, and employer ID)
+- [after application deadline has expired] update which student (if any) was employed
+- can view a student’s CV
+- can post a comment (to all students or just one student) about CVs in general.
+- can post a comment (to all students or just one student) about a particular section of a CVs.
+- can also CRUD student records
+
+Student
+- update CV details (they start with default John Doe content)
+- can upload a photo of themselves to go on their CV
+- view any CV comments from the lecturer (unread comments are highlighted in some way)
+- see a list of jobs currently open for application (and the deadline applications must be submitted by)
+- [after application deadline has expired] apply for job
+
+
+Employer
+- after deadline expires can DOWNLOAD all CVs of all students who applied
+
 \end{samepage}
 \begin{samepage}
 \section{Design Specification}
