@@ -1,75 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: john.ogrady
- * Date: 20/03/2017
- * Time: 08:26
- */
 
 namespace AppBundle\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\Role\Role;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * User
- *
+ * @ORM\Entity
  * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"}, message="There is already an account registered with that email")
  */
-class User
+class User implements UserInterface
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="userName", type="string", length=255)
-     */
-    private $username;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255)
-     */
-    private $password;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255)
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $isActive;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastLoginTime", type="time", nullable=true)
-     */
-    private $lastLoginTime;
-
-    /**
-     * @var integer
-     * @ORM\Column(name="role", type="integer", nullable=true)
-     */
-    private $role;
-
-
-    /**
-     * Get id
-     *
-     * @return integer
+     * @return mixed
      */
     public function getId()
     {
@@ -77,151 +31,117 @@ class User
     }
 
     /**
-     * Set username
-     *
-     * @param string $username
-     *
-     * @return User
+     * @param mixed $id
      */
-    public function setUsername($username)
+    public function setId($id)
     {
-        $this->username = $username;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get username
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * Set password
-     *
-     * @param string $password
-     *
-     * @return User
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return User
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * Set lastLoginTime
-     *
-     * @param \DateTime $lastLoginTime
-     *
-     * @return User
-     */
-    public function setLastLoginTime($lastLoginTime)
-    {
-        $this->lastLoginTime = $lastLoginTime;
-
-        return $this;
-    }
-
-    /**
-     * Get lastLoginTime
-     *
-     * @return \DateTime
-     */
-    public function getLastLoginTime()
-    {
-        return $this->lastLoginTime;
-    }
-
-    /**
-     * Set role
-     *
-     * @param integer $role
-     *
-     * @return User
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * Get role
-     *
-     * @return integer
+     * @return mixed
      */
     public function getRole()
     {
         return $this->role;
     }
 
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $email;
+
+    /**
+     * The encoded password
+     *
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * @Assert\NotBlank(groups={"Registration"})
+     *
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $role;
+
+    // You have to keep this method due to the UserInterface
+    public function getRoles()
+    {
+        return [$this->role];
+    }
+
+    public function setRoles(array $roles)
+    {
+        throw new \Exception('You probably never need to call it, but UserInterface enforce you to have this method');
+    }
+
+    // needed by the security system
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getSalt()
+    {
+        // leaving blank - I don't need/have a password!
+    }
+
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+        // forces the object to look "dirty" to Doctrine. Avoids saving only if plain password changes
+        $this->password = null;
+    }
+
+
     public function __toString()
     {
-        return $this->$this->firstName . ' ' . $this->lastName . ' ID:' . $this->id;
+        return strval($this->email);
     }
 }

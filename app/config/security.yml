@@ -1,11 +1,17 @@
 # To get started with security, check out the documentation:
-# http://symfony.com/doc/current/security.html
+# http://symfony.com/doc/current/book/security.html
 security:
 
-    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory: ~
+        our_users:
+            entity: { class: AppBundle\Entity\User, property: email }
+    encoders:
+        AppBundle\Entity\User: bcrypt
+
+    #access_control:
+    #    - {path: ^/admin, roles: ROLE_ADMIN}
+
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -15,15 +21,18 @@ security:
 
         main:
             anonymous: ~
-            http_basic: ~
+            guard:
+                authenticators:
+                  - app.security.login_form_authenticator
+            logout:
+                path: /logout
+
+
             # activate different ways to authenticate
 
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 
+            form_login:
+                target_path_parameter: redirect_url
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-            #form_login: ~
-
-    access_control:
-        # require ROLE_ADMIN for /admin*
-        - { path: ^/admin, roles: ROLE_ADMIN }

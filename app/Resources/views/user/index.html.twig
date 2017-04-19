@@ -6,12 +6,7 @@
     <table>
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Password</th>
             <th>Email</th>
-            <th>Isactive</th>
-            <th>Lastlogintime</th>
             <th>Role</th>
             <th>Actions</th>
         </tr>
@@ -19,12 +14,7 @@
         <tbody>
         {% for user in users %}
             <tr>
-                <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.password }}</td>
                 <td>{{ user.email }}</td>
-                <td>{% if user.isActive %}Yes{% else %}No{% endif %}</td>
-                <td>{% if user.lastLoginTime %}{{ user.lastLoginTime|date('H:i:s') }}{% endif %}</td>
                 <td>{{ user.role }}</td>
                 <td>
                     <ul>
@@ -43,7 +33,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('user_new') }}">Create a new user</a>
+            <a href="{{ path('user_register') }}">Create a new user</a>
         </li>
     </ul>
 {% endblock %}

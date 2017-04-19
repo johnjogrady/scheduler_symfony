@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Form\UserRegistrationForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -33,29 +34,85 @@ class UserController extends Controller
     }
 
     /**
-     * Creates a new user entity.
-     *
-     * @Route("/new", name="user_new")
-     * @Method({"GET", "POST"})
+     * @Route("/register", name="user_register")
      */
-    public function newAction(Request $request)
+    public function registerAction(Request $request)
     {
-        $user = new User();
-        $form = $this->createForm('AppBundle\Form\UserType', $user);
-        $form->handleRequest($request);
+        $form = $this->createForm(UserRegistrationForm::class);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            /** @var User $user */
+            $user = $form->getData();
+            $encoder = $this->container->get('security.password_encoder');
+            $encodedpw = $encoder->encodePassword($user, $form["plainPassword"]->getData());
+            $user->setPassword($encodedpw);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
-            $em->flush($user);
+            $em->flush();
+
+            $this->addFlash('success', 'Welcome ' . $user->getEmail());
+
+            return $this->get('security.authentication.guard_handler')
+                ->authenticateUserAndHandleSuccess(
+                    $user,
+                    $request,
+                    $this->get('app.security.login_form_authenticator'),
+                    'main'
+                );
+        }
+
+        return $this->render('user/register.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route("/create", name="user_register")
+     */
+    public function createuserAction(Request $request)
+    {
+        $form = $this->createForm(UserRegistrationForm::class);
+
+        $form->handleRequest($request);
+        $user = $form->getData();
+        if ($form->isValid()) {
+
+            $encoder = $this->container->get('security.password_encoder');
+            $encodedpw = $encoder->encodePassword($user, $form["plainPassword"]->getData());
+
+            $user->setPassword($encodedpw);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
 
             return $this->redirectToRoute('user_show', array('id' => $user->getId()));
         }
 
-        return $this->render('user/new.html.twig', array(
+        return $this->render('user/createuser.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
         ));
+
+
+        return $this->render('user/createuser.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * helper method to verify that the two password fields contained the same data
+     * Update: actually not needed because form type for thie entity uses \RepeatedType
+     * if two plain password values don't match, validation will fail
+     */
+    public function passwordMatchCheck($password1, $password2)
+    {
+        if ($password1 == $password2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -83,13 +140,18 @@ class UserController extends Controller
     public function editAction(Request $request, User $user)
     {
         $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm('AppBundle\Form\UserType', $user);
+        $editForm = $this->createForm('AppBundle\Form\UserRegistrationForm', $user);
         $editForm->handleRequest($request);
+        $encoder = $this->container->get('security.password_encoder');
+        $encodedpw = $encoder->encodePassword($user, $editForm["plainPassword"]->getData());
+
+        $user->setPassword($encodedpw);
+
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
+            return $this->redirectToRoute('user_show', array('id' => $user->getId()));
         }
 
         return $this->render('user/edit.html.twig', array(
