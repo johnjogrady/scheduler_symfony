@@ -13,6 +13,7 @@ use AppBundle\Form\LoginForm;
 use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Security;
@@ -96,14 +97,42 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     }
 
+    /**
+     * Set defaultTargetPath
+     *
+     * @param string $defaultTargetPath
+     * @return self
+     */
+    public function setDefaultTargetPath($defaultTargetPath)
+    {
+        $this->defaultTargetPath = $defaultTargetPath;
+        return $this;
+    }
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        // on success, let the request continue
-        $targetPath = '\employee';
+        $targetPath = null;
+
+        if ($request->getSession() instanceof SessionInterface) {
+            if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+                $this->removeTargetPath($request->getSession(), $providerKey);
+            }
+        }
+
+        if (!$targetPath) {
+            if (!$this->defaultTargetPath) {
+                throw new \LogicException('No previous target path found in session and no default target path set');
+            }
+
+            $targetPath = $this->defaultTargetPath;
+
+            if (strpos($targetPath, 'http' !== 0 && $targetPath[0] !== '/')) {
+                $targetPath = $this->router->generate($targetPath);
+            }
+        }
+
         return new RedirectResponse($targetPath);
 
     }
-
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = array(

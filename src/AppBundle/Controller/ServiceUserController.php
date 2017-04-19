@@ -11,9 +11,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
+
+
 /**
  * Serviceuser controller.
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("serviceuser")
  */
 class ServiceUserController extends Controller

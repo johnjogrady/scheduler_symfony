@@ -11,10 +11,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
+
 
 /**
  * Roster controller.
  *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("roster")
  */
 class RosterController extends Controller
