@@ -1,6 +1,7 @@
 \documentclass[a4paper,12pt]{article}
 
 \usepackage{graphicx}	
+\usepackage{pdfpages}
 \usepackage{booktabs}	
 \usepackage{csquotes}
 \usepackage{hyperref}
@@ -338,30 +339,48 @@ Mitigation: Dedicated project manager for rollout phase working with local teams
 \textbf{Risk: The prototype has limited value as it has marked differences in functionality or user interface from available production platforms which might be considered by IWA}
 
 Mitigation: Focus on confirmation of required functionality over specific user interface features. Research commercial offerings and build some aspects of their user interface into prototype so that users get a realistic sense of what the finished product might look like
-
-\subsection{Requirements specification}
-
-\section {Planning Phase}
-
-\subsection {Project Management}
-pending
-\subsection {Risk Management}
-pending
-\subsection {Communication Management}
-pending
-\subsection {Stakeholder Management}
-pending
 \newpage
+
 \section {Requirements Analysis}
+\subsection {Functional Requirements }
 
-\subsection {Functional Requirements Specification}
+In this functional requirements section, we set out in simple terms what the prototype application will do. 
 
-The requirements specification lays out the detailed functional requirements for an application so that an accurate depiction of the system is made in a way that holds both the IT project lead and the customer accountable for the functionality that must be delivered.  This document is also used to start building a test plan and, possibly, test scripts.
+\begin{itemize}
+
+\item \textbf {Managing Service Appointments.} For this application, the core objective of the system is to manage a series of appointments for care visits and to make sure that each one is covered, taking account of the relationships between service users and personal assistants.
+\item \textbf {Documenting service user, customer, employee and office location and contact information.} The application should record (and show in the index and show views for each entity) the address and contact information for each employee, service user or office.
+\item \textbf {Displaying service user roster as calendar plan.} The application should display the roster plan for each service user in a calendar plan (similar to an Outlook diary) format and allow the user to interact with and update each visit from that calendar view.
+\item \textbf {Assigning service user, employee and customers to office locations.} The allow a user to indicate which IWA office is responsible for managing the relationship with a given service user, employee or customer.
+\item \textbf {Geocoding addresses and Displaying Google Maps.} For each service user, employee and office. the system should integrate with Google Maps to obtain valid geocoordinates for the address and display this as a map on the view screen for each record.
+\item \textbf{Assigning a Personal Assistant to a Service User.} A Personal Assistant (employee) will frequently be assigned as the `preference' (or regular) resouce to be sent to a given service user, based on a positive experience of working together. 
+\item \textbf{Assigning a Personal Assistant as `Do Not Send' to a Service User.} Conversely, a negative experience from a previous visit may give rise to the need to designate that a given resource should not be sent to fulfil care visits for a particular service user. In this case, we would indicate this relationship by creating a `Do Not Send' association between the service user and the employee.
+\item \textbf{Employee Unavailable TImes.} The system needs to document times when a  Personal Assistant (employee) is not available due to other commitments e.g. second job, family, college attendance and not show this employee as available when finding an employee to fill an unfilled slot 
+\newpage
+\item \textbf{Employee Absence.} The system needs to document times when a  Personal Assistant (employee) is on leave and unavailable to work and not show this employee as available when finding an employee to fill an unfilled slot 
+\item \textbf{Employee Working.} The system needs to document times when a  Personal Assistant (employee) is assigned to a roster and therefore unavailable to work on other rosters. It should not show this employee as available when finding an employee to fill an unfilled 
+\item \textbf{Roster required employees .} The system should store for each visit how many employees are required.
+\item \textbf{Roster status.} When the number of assigned employees is less than the required quotient, the system should show a warning to this effect. When enough employees are assigned, the message should be updated to reflect this.
+\item \textbf{Find an employee for an unassigned roster.} When the number of assigned employees is less than the required quotient, the system should allow a user to find a suitable employee to fulfil the visit, bearing in mind `do not send' relationships and filtering out employees who are working elsewhere, designated as unavailable at that time or recorded as being on an approved absence (holidays, sick leave etc.) at the time of the roster.
+slot 
+\end{itemize}
+\subsection {Availability Requirements }
+
+The system should be available over a web browser once the user has internet access. It should not rely on a client install of software on the user's machine nor should it require the user to use a VPN connection. 
+
+\subsection {Security Requirements }
+\begin{itemize}
+\item \textbf{Encryption} The system should use an encrypted (https, SSL) connection to the server to ensure privacy of the data in transmission.
+\item \textbf{Role Based Security} The system tag each uses to the IWA office that they are assigned to, and restrict that user to only be able to see service users, employees and customers associated with the office that the user is associated with (Note: out of scope for prototype deliverable)
+\newpage
+\item \textbf{Service User Portal User- Security} The system should allow user who are attached to the ServiceUser security role to login in and to only be able to see rosters for that service user (Note: out of scope for prototype deliverable)
+\item \textbf{Employee Portal User- Security} The system should allow user who are attached to the Employee security role to login in and to only be able to see rosters to which that employee is assigned (Note: out of scope for prototype deliverable)
+\item \textbf{Customer Portal User- Security} The system should allow user who are attached to the Customer security role to login in and to only be able to see rosters for which that customer is designated as the customer of the Roster visit (Note: out of scope for prototype deliverable)
+\end{itemize}
 
 \subsection {Use case specification}
 The high-level use case specification aims to identify all the actors who will use a system and what actions they can take in that system.
 
-\newpage
 \subsection {Detailed Use Case Analysis}
  \begin{figure}[h!]
   \includegraphics[scale=0.8]{rosterusecase.jpg}
@@ -556,34 +575,258 @@ The following detailed use cases have been identified for the prototype applicat
 \end{usecase}
 
 \end{samepage}
-\begin{samepage}
 \newpage
 \section{Design Specification}
 \subsection {System Design Document}
+\subsubsection{Hardware Architecture- Prototype Application}
+
+Considerations for the Prototype Application: It is envisaged that the prototype system will be hosted initially on the author's own personal web hosting for prototyping purposes and with a limited intiial user base. This will incorporate a web front end, with a successful user login required to access most parts of the application. The system will utiilise a MySQL backend database and the web application will interact with this database layer through Symfony/Doctrine repository classes (see below for more information)
+\subsubsection{Hardware Architecture- Production Appplication}
+
+Considerations for the Production Application: It is envisaged that the production system will incorporate a load balanced web application server with a backend database though a private cloud hosted system is considered to be ideal for the usage scenario. Further consideration of the hardware/ infrastructure environment will depend on the specific solution chosen as a result of the procurement process and is deferred here until this has been completed.
+
 \subsection {Software Development Document}
+\subsubsection{Design considerations}
+Given the requirement to rapidly complete and deliver a prototype application for user acceptance testing, the ability to deliver a basic working application in a short timeframe becomes a paramount consideration. A second consideration is to ensure an appropriate separation of concerns between the front end application (the view that is presented to the user through the user interface), controller methods where the application business logic is applied (for example determining which employees are actually available to cover an unfilled roster) and lower level data level operations such as retrieving, adding or updating a record from/to the back end database.
+\subsubsection{Model View Controller}
+
+The \textbf{Model View Controller} approach as shown in Figure 3 below is a widely used application development approach which meets the above requirements and also helps to enforce a degree of rigour and structured design to the code base for the application.
+
+ \begin{figure}[h!]
+
+\includegraphics{mvc.jpg}
+  \caption{The Model View Controller}
+  \label{fig:model view controller}
+\end{figure}
+In this approach there are three main components in the architectural pattern each of which serves a different purpose but works in conjunction with the other two components, while achieving the requirement for separation of concerns.
+
+\begin{itemize}
+\item \textbf{Model} represents an object with each entity's attendant data attributes 
+\item \textbf{View} represents the presentation layer to the user of the data which is stored in the model
+\item \textbf{Controller} represents the connecting layer between the model and the view. It allows the data flow into the model object and keeps the presentation of the data in the viewup to date when the actual data in the object changes. It can act on both the model and the view and keeps the view and the model separate from one another.
+\end{itemize}
+
+\subsubsection{Comparison of a Web Development Framework}
+The following different web development frameworks- each of which are suitable to produce dynamic, data driven web pages- were evaluated in the search to find a suitable platform on which to build the prototype application. All three platforms examined offer the ability for server side logic within an application.
+\begin{itemize}
+\item \textbf{ASP.NET MVC} is the Microsoft led development stack based on the .Net framework which is a widely used set of web development tools . It offers a strong integrated development environment (IDE) in Visual Studio which is freely available in the Community edition for non commercial use cases. It uses a combination of HTML, Razor, a proprietary Microsoft syntax used for developing views and C\# for controller and repository and other non view related classes. It supports an MVC led approach with  scaffolding of views and controllers based on having first creating a model with the relevant entity classes. It also integrates well with Azure web services, Microsoft's cloud stack where Visual Studio allows you to easily deploy web applications from a development environment. Asp.Net also includes the Entity Framework which essentially allows a code free, scaffolded approach to working with the database, driven entirely from the data model in your application. It also supports a test driven approach and integrates with a wide variety of third party components through a vibrant Nuget package marketplace.
+\item \textbf{Symfony} is a widely used web development framework developed by Fabien Potencier and distributed as open source tools which also supports the MVC approach to separatino of concerns. It uses the very flexible Twig templating engine (which in the author's opinion is easier to use than Razor!) and allows users to adopt a flexible approach to selecting which Symfony components they choose to use in a given application. As Symfony has reached a wide degree of developer adoption, achieving 500 million downloads of the framework in 2016, it is widely supported with a significant choice of different add-on components (termed bundles in the Symfony domain) which are available to its developer community. Symfony uses PHP as its main code language and allows developers to easily scaffold views and controllers based on the creation of an entity model. It also supports a scaffolded approach to interacting with databases, similar in approach to Entity Framework through the use of command line tools which validate and update your database as required. Because Symfony uses the Doctrine ORM (Object Relational Mapping)which abstacts database layer operations from the rest of the application it supports MySQL and various other database platforms including SQLite, PostgreSQL and Microsoft SQL server.
+
+An interesting twist on the Symfony approach, which is essentially a full stack framework, is the Silex approach, which uses elements of the Symfony framework (and a related library called Pimple) without requiring the developer to fully utilise all of the Symfony components and instead beginning with a skeleton framework which is much smaller and lighter in size than the full Symfony framework. When using Silex, a developer still has the flexibility to add in other components from the larger Symfony stack as the requirements of their application grow. One aspect about Symfony to note here is that the author notes some commentary from the developer community online which would suggest that Symfony is an ideal approach for small to medium web applications but its highly component driven approach can result in some performance impacts when used in very large scale deployments. Symfony also supports a test driven approach, both through using the test classes built into the application framework but also through its tight integration with the PHPUnit testing framework.
+\item \textbf{Node.js} is a third very commonly used web development open source framework developed by Ryan Dahl which runs on a Javascript run time environment which allows for Javascript code to be executed server side. Again, Node.js also supports the MVC approach to separation of concerns. This innovations provided by Node.js allow Javascript, traditionally a client side scripting language, to be run server side and has become one of the core components driving the "Javascript everywhere'' development paradigm. Node.js supports a similar ORM driven approach to database operations resulting in a wide variety of relational and non relational databases being supported. Similar to ASP.Net and Symfony, Node.js has a number of different templating languages including Jade, blade, Mustache and Handlebars JS. It has also achieved wide acceptance among developers and has an extensive library available of reusable components, which serve to significantly reduce the requirement for developers to write their own code for commonly used operations. Node.js is perceived as an advanced level language with a significant learning curve to be overcome for developers migrating to the platform. An advantage of Node.js is that it does not create a lock on server resources and scales very well to large scale applications, working particularly well in scenarios which require real time processing. Corporate users of Node.js include LinkedIn, Microsoft, Netflix and Paypal.
+\end{itemize}
+\subsubsection{Choice of a Web Development Framework}
+
+Though it was very instructuve to learn more about Node.js as part of the research for the project, the perceived difficulty level associated with this platform and the author's lack of previous exposure to it meant that it was not an ideal choice for a student project, particularly as there was a requirement for a rapid delivery of a prototype application for user testing. The author had some previous exposure to ASP.NET MVC and viewed this as viable choice for the application. However, using PHP/Symfony was a better fit given that the syllabus for the HDip in Computing that had been undertaken over the past 2 years had included significant exposure to PHP and the project/prototyping requirement afforded the author an opportunity to gain a familiarity with Symfony. It was also very helpful that the author's supervisor on this project had produced some excellent learning materials on the Symfony platform which greatly assisted in getting to grips with the new platform. A minor criticism of the Symfony platform is that while the documentation is generally excellent and extremely comprehensive, it can be somewhat challenging for developers migrating to the platform for the first time to get over the initial learning curve and get up and runniing in developing their very first Symfony application.
+
+In fact, the first draft of the prototype application for this project was initially built on the Silex platform and as some of the requirements for implementation of a robust security model and the advantages of the scaffolding approach offered by Symfony came to light, it was determined to be useful to rebuild the entire prototype application on the full Symfony stack. It was most instructive to the author to note that having built the application on the Silex plaform originally, the second build on the Symfony platform, which was completed from scratch without reuse of any of the Silex application, took approximately 30\% of the time originally taken to build the Silex application, due in no small part to the automated scaffolding approach which Symfony offers to automate the construction of CRUD controller functions as well templated views. 
+\subsubsection{Examples of some code efficiencies available in Symfony}
+The author was very impressed with the following Symfony capabilities which among others were noted to substantially save time in manual coding tasks:
+\textbf{Twig Templating }allows calling server side code in a format which is less verbose and easier to manage than embedding PHP code among the HTML code in your presentation view. A simple example is included here. Note also the concise way that the Annotation of related classes referred to below allows you to access attributes of a related class, in this case the mobile telephone property of the related employee class.
+
+\begin{verbatim}
+{% for assignedEmployee in assignedEmployees %}
+
+  <td>{{ assignedEmployee.employeeId }}</td>
+  <td>{{ assignedEmployee.employeeId.mobileTelephone }}</td>
+{% endfor %}
+\end{verbatim}
+The \textbf{Annotation capabilities} allow foreign keys to be defined in annotations to a given class or attribute which are automatically created in the underlying database, as follows:
+
+ \begin{verbatim}
+
+/**
+ * Roster
+ *
+ * @ORM\Table(name="roster")
+ * @ORM\Entity(repositoryClass=
+ "AppBundle\Repository\RosterRepository")
+ */
+class Roster
+
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=
+     "AppBundle\Entity\ServiceUser")
+     * @ORM\JoinColumn(name="serviceUserId", 
+     referencedColumnName="id")
+     */
+    private $serviceUserId;
+\end{verbatim}
+ 
+The \textbf{Form Type/ Builder} classes allow an entity's data entry/update form to be automatically scaffolded based on the entities data attributes as defined in its model. For example rather than having to create each an individual label and attribute for each property of the customer class, Symfony automatically scaffolds this using very simple syntax as follows:
+ 
+ \begin{verbatim}
+     public function buildForm(FormBuilderInterface $builder, 
+     array $options)
+    {
+        $builder->add('customerName')->add('addressLine1')->
+        add('addressLine2')->add('addressLine3')->
+        add('eirCode')->add('landlineTelephone')->
+        add('mobileTelephone')->add('isActive')->
+        add('mainContact')->
+        add('countyPostcode')->add('managingOffice');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'AppBundle\Entity\Customer'
+        ));
+    }
+    
+\end{verbatim}
+
+Then in the actual presentation view, the syntax required to build the form, in this case an Edit form for a customer record, is extremely concise and the scaffolding approach automatically updates the form as the model of the entity class changes, An Example of calling the formbuilder from a view is shown in the Twig template as follows:
+
+\begin{verbatim}
+{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+    <input type="submit" value="Edit"/>
+    {{ form_end(edit_form) }}
+\end{verbatim}
+Where it's necessary to extend the logic of an individual entity's form type, Symfony provides an extensive libary of FormTypes which can be used and overridden as required. For example, the EntityType class allows you to wire the contents of a dropdown control to the list of objects in another entity- or in this case,the ChoiceType allows you to define in your FormType class the contents of a drop down control together with both the values and labels for the dropdown control. An example of how you can extend the logic of the formtype is this instance where the form needed to include or not include a roster date field depending whether the submitted form data included a value in the posted \_REQUEST attribute which represented the posted form data. In this scenario, the form builder needed to handle both a new record being created which routes to the generic form without a roster date prepopulated, and a new record being created from a calendar with the specific date in question already set by the user clicking +new in the on a specific date.
+This can be handled using logic in the formbuilder as follows:
+\begin{verbatim}
+
+    public function buildForm(FormBuilderInterface $builder,
+     array $options)
+    {
+        $timezone = new \DateTimeZone("Europe/Dublin");
+
+        if (isset ($_REQUEST['rosterDate'])) {
+        $builder->add('serviceUserId', EntityType::class, 
+        array('class' => 'AppBundle:ServiceUser',
+            'data' => $options['serviceUser']))
+            ->add('rosterStartTime', DateTimeType::class,
+                array('date_widget' => "single_text",
+                    'time_widget' => "single_text",
+                    'data' => new \DateTime($_REQUEST['rosterDate'], 
+                    $timezone)))
+            ->add('rosterEndTime', DateTimeType::class, 
+            array('date_widget' => "single_text",
+                'time_widget' => "single_text",
+                'data' => new \DateTime($_REQUEST['rosterDate'],
+                 $timezone)))
+            ->add('numberResourcesNeeded',
+             ChoiceType::class, array(
+                'choices' => array(
+                    '0' => '0',
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3'),
+                'required' => true,
+                'placeholder' => 'Choose How Many
+                 Resources Are Needed',
+                'empty_data' => null
+            ))
+            ->add('customerId');
+    } else {
+            $builder->add('serviceUserId', EntityType::class, 
+            array('class' => 'AppBundle:ServiceUser',
+                'data' => $options['serviceUser']))
+                ->add('rosterStartTime', DateTimeType::class,
+                    array('date_widget' => "single_text",
+                        'time_widget' => "single_text",
+                    ))
+                ->add('rosterEndTime', DateTimeType::class,
+                 array('date_widget' => "single_text",
+                    'time_widget' => "single_text",
+                ))
+                ->add('numberResourcesNeeded', 
+                ChoiceType::class, array(
+                    'choices' => array(
+                        '0' => '0',
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3'),
+                    'required' => true,
+                    'placeholder' => 'Choose How Many Resources Are Needed',
+                    'empty_data' => null
+                ))
+                ->add('customerId');
+        }
+    }
+\end{verbatim}
+ 
+The \textbf{Dynamic Query} capabilities of Symfony the Doctrine ORM can obviate the need to create specific views at a database level of entity classes where a (presentation level) view needed to present de-normalised data to the user. As an example of this capability, on the assumption that a \textbf{rosterassigned} entity exists and this has a foreign key attribute which relates to a roster entity. In this case there's a many to one entity relationship as one or more employees may be assigned via a rosterassignment record to a single roster entity. Once this relationship exists, it's possible to dynamically query the entity to retrieve only assignments which have a relationship to a specific roster, as follows:
+
+\begin{verbatim}$assignedEmployees = $em->
+getRepository('AppBundle:RosterAssignedEmployee')
+->findByRosterId($roster->getId());
+\end{verbatim}
+\
+The \textbf{Query builder} feature offers a powerful and flexible range of default Doctrine ORM queries similar to the findByRosterId() one noted above. These cater for most scenarios but it is also possible to create your own queries which resemble an SQL type logic (there's also a Doctrine Query Language which resembles the T-SQL query approach to database queries even more closely, but the author did not find a need for this in this project) which allows you to create your own custom queries when the need arises. 
+
+For example, this query accepts a datetime object and a service user object as input parameters and checks to see if there are any rosters for the service user starting at any time in the 24 hour period of the datetime object provided. This query is used in a section of the Show view for a service user which displays a calendar control in a table control showing each as a line of table data. It then returns a true or false value to the calling method depending on whether or not a roster was found for that day.
+The logic of the custom getByDate() query is as follows:
+\begin{verbatim}
+     
+// this doctrine filter is used by the for loop in the show
+// method of the service user controller.
+//for each checked date in the for loop it checks to see if 
+//that service user has any rosters starting in that 24 hour period.
+    public function getByDate(\DateTime $date, ServiceUser $serviceUser)
+    {
+        $from = new \DateTime($date->format("Y-m-d") . " 00:00:00");
+        $to = new \DateTime($date->format("Y-m-d") . " 23:59:59");
+       
+        $qb = $this->createQueryBuilder("roster");
+        $qb->andWhere($qb->expr()
+        ->between('roster.rosterStartTime', ':date_from', ':date_to'))
+         ->andWhere("roster.serviceUserId= " . $serviceUser->getId());
+        $qb->setParameter('date_from', $from,
+         \Doctrine\DBAL\Types\Type::DATETIME);
+        $qb->setParameter('date_to', $to, 
+        \Doctrine\DBAL\Types\Type::DATETIME);
+        $result = $qb->getQuery()->getResult();
+        return $result;
+    }
+}  
+\end{verbatim}
+
+\subsection { Entity Relationship Diagram}
+Based on the review of the use cases together with workshops with the subject matter experts provided within the Assisted Living Services team a map of the required classes for the application together with the properties and methods required for each class was created. This was then modelled into an initial Entity Relationship Diagram which is included on the next page.
+ \includepdf[]{erd.pdf}
+
+\subsection { Code Organisation for Project}
+As the prototype application, though less full featured than the anticipated production version, utilised a reasonable number of entity (model) classes, views and controller methods, an organised an consistent approach to code organisation within the project was important. The following strategy was adopted.
+\begin {itemize}
+\item \textbf{Presentation views} were grouped, as is standard in under the \\.app\\Resources\\views node of the project. WIthin this folder a subfolder for each entity was created with a standard naming convention used, based on the scaffolded names created by Symfony of index, show, edit and delete.
+\item \textbf{Controllers classes} for each object were grouped in under the \\..src\\AppBundle\\Controller node of the project. Within this folder a separate controller file was created with a standard naming convention used e.g. EmployeeController, RosterController. Within each controller file, the method names mapped to the related views e.g. index(), new() etc.
+\item \textbf{Entity Models} classes for each object were grouped in under the \\..src\\AppBundle\\Entity node of the project. WIthin this folder a separate controller file was created with a standard naming convention used e.g. Employee, Roster. As noted the Annotation facility within Symfony was used to implement database level requirements such as primary keys, foreign keys, foreign key constraints etc.
+\item \textbf{Form types classes} for each entity were grouped in under the \\..src\\AppBundle\\Form node of the project. WIthin this folder a separate controller file was created with a standard naming convention used e.g. EmployeeType, RosterType. These were extended to implement linkages between different entity classes in the view- for example contents of drop down controls related to other entities.
+\item \textbf{Repository classes} for each entity were grouped in under the \\..src\\AppBundle\\Repository node of the project. WIthin this folder a separate controller file was created with a standard naming convention used e.g. EmployeeRepository, RosterRepository. 
+\item \textbf{Test classes} for each object were grouped in under the \\..src\\AppBundle\\Test node of the project.  
+\item \textbf{Reusable or Factory Methods} which did not relate to a specific entity, for example the Google Maps integration classes were grouped in a specific folder for that type for example the Google Maps classes are under the \\..src\\AppBundle\\Mapping node of the project.  
+\item \textbf{Third party components} were installed as default by Composer in the \\..src\\Vendor node of the project.  
+\end {itemize}
+
 \subsection {Test Analysis Report}
-\end{samepage}
-\begin{samepage}
+
 \section {Testing Specification}
 \subsection {Testing Approaches Used}
 \subsection {Test Problem report}
-\end{samepage}
-\begin{samepage}
 \section {Implementation}
 \subsection {Implementation Plan}
-\end{samepage}
-\begin{samepage}
 \section {Evaluation}
 \subsection {User Feedback}
 \subsection {Further Enhancements}
-\end{samepage}
-\begin{samepage}
 \section {Conclusions}
 \subsection {Review of material covered }
 \subsection {Further Development Opportunities}
 \subsection {Outstanding Issues/Continuous Improvement Plan}
-\end{samepage}
-\begin{samepage}
+
 
 \section {Appendices}
 \subsection {Code Listing}
@@ -596,6 +839,5 @@ The following detailed use cases have been identified for the prototype applicat
 \subsubsection {Controller Classes}
 \subsubsection {Twig Templates}
 \subsubsection {List of Vendor tools used}
-\end{samepage}
 \newpage\printbibliography[title={Bibliography}]
 \end{document}
