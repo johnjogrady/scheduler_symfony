@@ -12,12 +12,12 @@
 \newcommand\addrow[2]{#1 &#2\\ }
 
 \newcommand\addheading[2]{#1 &#2\\ \hline}
-\newcommand\tabularhead{\begin{tabular}{lp{8cm}}
+\newcommand\tabularhead{\begin{tabular}{lp{11cm}}
 \hline
 }
 
-\newcommand\addmulrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}% 
-   &\begin{minipage}[t][][t]{8cm}
+\newcommand\addmulrow[2]{ \begin{minipage}[t][][t]{3cm}#1\end{minipage}% 
+   &\begin{minipage}[t][][t]{11cm}
     \begin{enumerate} #2   \end{enumerate}
     \end{minipage}\\ }
 
@@ -388,10 +388,10 @@ The high-level use case specification aims to identify all the actors who will u
   \label{fig:roster use case}
 \end{figure}
 The following detailed use cases have been identified for the prototype application. As many of the use cases relate to standard CRUD (Create, Read, Update, Delete) functionality for each entity for which it is envisaged that using the Symfony templating approach to initially scaffold the generic controller and related views and form type classes,a generic use case for each of these four standard functions has been created to avoid duplication and repetition. As noted, this generic use case- for example new() entity record- is therefore applicable to all of the individual entities noted, and any particular variations (for example passing parameters to identify a related entity context) are noted in the use case where appropriate
+\newpage
 \begin{usecase}
-    \addheading{Title}{User login}
+  \addheading{Title}{User login}
   \addheading{Description}{User supplies credentials to login}
-  
   \addheading{Actor}{User} 
   \addrow{Precondition}{User must not be logged in ie is currently authenticated as anonymous user}
   \addrow{Postcondition}{User is authenticated having supplied correct password and holds one or more security role}
@@ -606,7 +606,17 @@ In this approach there are three main components in the architectural pattern ea
 \item \textbf{Controller} represents the connecting layer between the model and the view. It allows the data flow into the model object and keeps the presentation of the data in the viewup to date when the actual data in the object changes. It can act on both the model and the view and keeps the view and the model separate from one another.
 \end{itemize}
 
-\subsubsection{Comparison of a Web Development Framework}
+The discussion of choosing an appropriate project implementation methodology is continued in the Implementation plan later in this document
+
+\subsection {Test Analysis Report}
+
+\section {Testing Specification}
+\subsection {Testing Approaches Used}
+\subsection {Test Problem report}
+\section {Implementation}
+\subsection {Implementation Plan}
+
+\subsubsection{Evaluation of Different Web Development Frameworks}
 The following different web development frameworks- each of which are suitable to produce dynamic, data driven web pages- were evaluated in the search to find a suitable platform on which to build the prototype application. All three platforms examined offer the ability for server side logic within an application.
 \begin{itemize}
 \item \textbf{ASP.NET MVC} is the Microsoft led development stack based on the .Net framework which is a widely used set of web development tools . It offers a strong integrated development environment (IDE) in Visual Studio which is freely available in the Community edition for non commercial use cases. It uses a combination of HTML, Razor, a proprietary Microsoft syntax used for developing views and C\# for controller and repository and other non view related classes. It supports an MVC led approach with  scaffolding of views and controllers based on having first creating a model with the relevant entity classes. It also integrates well with Azure web services, Microsoft's cloud stack where Visual Studio allows you to easily deploy web applications from a development environment. Asp.Net also includes the Entity Framework which essentially allows a code free, scaffolded approach to working with the database, driven entirely from the data model in your application. It also supports a test driven approach and integrates with a wide variety of third party components through a vibrant Nuget package marketplace.
@@ -801,24 +811,60 @@ Based on the review of the use cases together with workshops with the subject ma
 
 \subsection { Code Organisation for Project}
 As the prototype application, though less full featured than the anticipated production version, utilised a reasonable number of entity (model) classes, views and controller methods, an organised an consistent approach to code organisation within the project was important. The following strategy was adopted.
+
 \begin {itemize}
-\item \textbf{Presentation views} were grouped, as is standard in under the \\.app\\Resources\\views node of the project. WIthin this folder a subfolder for each entity was created with a standard naming convention used, based on the scaffolded names created by Symfony of index, show, edit and delete.
-\item \textbf{Controllers classes} for each object were grouped in under the \\..src\\AppBundle\\Controller node of the project. Within this folder a separate controller file was created with a standard naming convention used e.g. EmployeeController, RosterController. Within each controller file, the method names mapped to the related views e.g. index(), new() etc.
-\item \textbf{Entity Models} classes for each object were grouped in under the \\..src\\AppBundle\\Entity node of the project. WIthin this folder a separate controller file was created with a standard naming convention used e.g. Employee, Roster. As noted the Annotation facility within Symfony was used to implement database level requirements such as primary keys, foreign keys, foreign key constraints etc.
-\item \textbf{Form types classes} for each entity were grouped in under the \\..src\\AppBundle\\Form node of the project. WIthin this folder a separate controller file was created with a standard naming convention used e.g. EmployeeType, RosterType. These were extended to implement linkages between different entity classes in the view- for example contents of drop down controls related to other entities.
-\item \textbf{Repository classes} for each entity were grouped in under the \\..src\\AppBundle\\Repository node of the project. WIthin this folder a separate controller file was created with a standard naming convention used e.g. EmployeeRepository, RosterRepository. 
-\item \textbf{Test classes} for each object were grouped in under the \\..src\\AppBundle\\Test node of the project.  
-\item \textbf{Reusable or Factory Methods} which did not relate to a specific entity, for example the Google Maps integration classes were grouped in a specific folder for that type for example the Google Maps classes are under the \\..src\\AppBundle\\Mapping node of the project.  
-\item \textbf{Third party components} were installed as default by Composer in the \\..src\\Vendor node of the project.  
+\item \textbf{Presentation views} were grouped, as is standard in under the Symfony project structure under the 
+
+\textbackslash.app\textbackslash Resources\textbackslash views node of the project. WIthin this folder a subfolder for each entity was created with a standard naming convention used, based on the scaffolded names created by Symfony of index, show, edit and delete.
+\item \textbf{Controllers classes} for each object were grouped in under the 
+
+\textbackslash..src\textbackslash AppBundle\textbackslash Controller node of the project. Within this folder a separate controller file was created with a standard naming convention used e.g. EmployeeController, RosterController. Within each controller file, the method names mapped to the related views e.g. index(), new() etc.
+\item \textbf{Entity Models} classes for each object were grouped in under the 
+
+\textbackslash ..src\textbackslash AppBundle\textbackslash Entity node of the project. WIthin this folder a separate controller file was created with a standard naming convention used e.g. Employee, Roster. As noted the Annotation facility within Symfony was used to implement database level requirements such as primary keys, foreign keys, foreign key constraints etc.
+\item \textbf{Form types classes} for each entity were grouped in under the 
+
+\textbackslash ..src\textbackslash AppBundle\textbackslash Form node of the project. WIthin this folder a separate controller file was created with a standard naming convention used e.g. EmployeeType, RosterType. These were extended to implement linkages between different entity classes in the view- for example contents of drop down controls related to other entities.
+
+\item \textbf{Repository classes} for each entity were grouped in under the 
+
+\textbackslash ..src\textbackslash AppBundle\textbackslash Repository node of the project. WIthin this folder a separate controller file was created with a standard naming convention used e.g. EmployeeRepository, RosterRepository. 
+
+\item \textbf{Test classes} for each object were grouped in under the 
+\textbackslash..src\textbackslash AppBundle\textbackslash Test node of the project.  
+
+\item \textbf{Reusable or Factory Methods} which did not relate to a specific entity, for example the Google Maps integration classes were grouped in a specific folder for that type for example the Google Maps classes are under the 
+\textbackslash..src\textbackslash AppBundle\textbackslash Mapping node of the project.  
+
+\item \textbf{Third party components} were installed as default by Composer in the 
+\textbackslash ..src\textbackslash Vendor node of the project.  
 \end {itemize}
 
-\subsection {Test Analysis Report}
+\subsection {Detailed  Implementation Plan}
 
-\section {Testing Specification}
-\subsection {Testing Approaches Used}
-\subsection {Test Problem report}
-\section {Implementation}
-\subsection {Implementation Plan}
+The following implementation plan was developed and progressively put into practice as work on the project progressed. See also the Gantt chart (TO DO!!!) for the project which outlines the expected timeline for each project task and the dependencies between tasks.
+
+\begin {itemize}
+\item  \textbf{Complete and confirm Entity Relational Design} including models and anticipated methods and views for each entity.
+ \item  \textbf{Complete and confirm Use cases } for different functionality of the application
+\item  \textbf{Install Symfony Project} and supporting components e.g. Twig, Doctrine etc.
+\item  \textbf{Create Entity model classes for main areas of application} e.g. Employee, Service User, Office, Roster, Customer etc.
+\item  \textbf{Create supporting Entity model classes for other areas of application} e.g. ServiceUser Assignment, 
+ServiceUserDoNotSend, EmployeeAbsence, RosterAssignment as well as lookup list classes e.g. AbsenceReason, County etc. 
+\item  \textbf{Annotate} data classes to create appopriate entity relationships and primary, foreign keys 
+\item  \textbf{Scaffold initial views and controlllers} using Symfony/Doctrine commands to create initial default views and controllers with standard Create/Read/Update and Delete Classes
+\item  \textbf{Test and Confirm resulting Database schema}and populate with sample data
+\item  \textbf{Extend views and controllers }to show related entities where requried for example Service User views to be facilitate user creating viewing, editing and deleting related records e.g. Rosters, Assignments etc. and automatically associating these with the underlying service user from whose context the action was initiated.
+\item  \textbf{Update Form Types} so that the forms correctly show related entities
+\item  \textbf{Update Repository Classes} for custom queries as required
+\item  \textbf{Google Maps integration} build and implement to controllers and views on various entities using this functionality.
+\item  \textbf{Implement Find Available Employees} adapt subsidiary methods in the service user controller so that the system has the capacity to suggest available employees for a given roster slot, progressively completing validation on initial list of employees and filtering out do not sends, employees on absence, employees working elsewhere, employees who are not available at time of the roster.
+\item  \textbf{Implement Security} Extend user class and create roles and annotate controller methods to restrict access where needed.
+\item  \textbf{Calendar view of Rosters}Show monthly view of calendars using third party framework such as Bootstrap Calendar or Full Calendar.
+\item  \textbf{Calendar Add/Delete/Update }Update so that users can add/delete or update individual rosters when shown in the calendar view.
+\item  \textbf{First Pass testing} on above methods and logic
+\end {itemize}
+
 \section {Evaluation}
 \subsection {User Feedback}
 \subsection {Further Enhancements}
