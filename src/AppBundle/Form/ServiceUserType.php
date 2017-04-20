@@ -27,7 +27,7 @@ class ServiceUserType extends AbstractType
                 'date_format' => 'yyyy-MM-dd HH:mm',
                 // add a class that can be selected in JavaScript
                 'attr' => ['class' => 'js-datepicker']))
-            ->add('countyPostcode')->add('managingOffice');
+            ->add('countyPostcode')->add('managingOffice')->add('relatedUser');
     }
 
     /**

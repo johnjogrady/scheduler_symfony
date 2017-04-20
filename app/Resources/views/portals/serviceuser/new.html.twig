@@ -1,7 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends '_base.html.twig' %}
 
 {% block body %}
-    <h1>Elective creation</h1>
+    {{ dump() }}
+    <h1>Roster creation</h1>
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
@@ -10,7 +11,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('elective_index') }}">Back to the list</a>
+            <a href="{{ path('roster_index') }}">Back to the list</a>
         </li>
     </ul>
 {% endblock %}

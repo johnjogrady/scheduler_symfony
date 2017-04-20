@@ -49,6 +49,8 @@ class RosterController extends Controller
     public function newAction(Request $request)
     {
         $roster = new Roster();
+        $session = $request->getSession();
+        $session->start();
         $serviceUser = new ServiceUser();
         $form = $this->createForm('AppBundle\Form\RosterType', $roster);
         $form->handleRequest($request);
@@ -56,11 +58,19 @@ class RosterController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($roster);
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the roster was added!');
             $em->flush($roster);
+
 
             return $this->redirectToRoute('roster_show', array('id' => $roster->getId()));
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the roster was not created');
+        }
         return $this->render('roster/new.html.twig', array(
             'roster' => $roster,
             'serviceUser' => $serviceUser,
@@ -77,6 +87,9 @@ class RosterController extends Controller
     public function newActionfromServiceUser(Request $request, ServiceUser $serviceUser)
     {
         $roster = new Roster();
+        $session = $request->getSession();
+        $session->start();
+
 
 //        $form = $this->createForm('AppBundle\Form\RosterType', $roster);
         $form = $this->createForm('AppBundle\Form\RosterType', $roster, array(
@@ -84,15 +97,25 @@ class RosterController extends Controller
         ));
         $form->handleRequest($request);
 
+        $session = $request->getSession();
+        $session->start();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($roster);
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the roster was created!');
+
             $em->flush($roster);
 
             return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the roster was not created');
+        }
         return $this->render('roster/newfromsu.html.twig', array(
             'roster' => $roster,
             'serviceUser' => $serviceUser
@@ -110,7 +133,8 @@ class RosterController extends Controller
     public function newActionfromServiceUserDate(Request $request, ServiceUser $serviceUser, DateTime $rosterDate)
     {
         $roster = new Roster();
-
+        $session = $request->getSession();
+        $session->start();
         $form = $this->createForm('AppBundle\Form\RosterType', $roster, array(
             'serviceUser' => $serviceUser, 'rosterDate' => $rosterDate
         ));
@@ -121,11 +145,19 @@ class RosterController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($roster);
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the roster was created!');
+
             $em->flush($roster);
 
             return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the roster was not created');
+        }
         return $this->render('serviceuser/index.html.twig', array(
             'roster' => $roster,
             'serviceUser' => $serviceUser
@@ -170,15 +202,25 @@ class RosterController extends Controller
     public function editAction(Request $request, Roster $roster)
     {
         $deleteForm = $this->createDeleteForm($roster);
+        $session = $request->getSession();
+        $session->start();
         $editForm = $this->createForm('AppBundle\Form\RosterType', $roster);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the roster was updated!');
+
 
             return $this->redirectToRoute('roster_edit', array('id' => $roster->getId()));
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the roster was not edited');
+        }
         return $this->render('roster/edit.html.twig', array(
             'roster' => $roster,
             'edit_form' => $editForm->createView(),
@@ -196,12 +238,28 @@ class RosterController extends Controller
     {
         $form = $this->createDeleteForm($roster);
         $form->handleRequest($request);
+        $session = $request->getSession();
+        $session->start();
+        $em = $this->getDoctrine()->getManager();
+
+        $rosterAssignedEmployees = $em->getRepository('AppBundle:RosterAssignedEmployee')->findByRosterId($roster->getId());
+
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($roster);
+            //due to foreign key dependencies, we must delete roster assignments for this roster before deleting the roster
+            foreach ($rosterAssignedEmployees as $item) {
+                $em->remove($item);
+            }
+
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the roster was deleted!');
+
             $em->flush();
         }
+
 
         return $this->redirectToRoute('roster_index');
     }

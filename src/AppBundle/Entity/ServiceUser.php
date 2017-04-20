@@ -86,6 +86,28 @@ class ServiceUser
     private $managingOffice;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id")
+     */
+    private $relatedUser;
+
+    /**
+     * @return mixed
+     */
+    public function getRelatedUser()
+    {
+        return $this->relatedUser;
+    }
+
+    /**
+     * @param mixed $relatedUser
+     */
+    public function setRelatedUser($relatedUser)
+    {
+        $this->relatedUser = $relatedUser;
+    }
+
+    /**
      * @ORM\Column(type="date", nullable=true)
      */
     private $startDate;

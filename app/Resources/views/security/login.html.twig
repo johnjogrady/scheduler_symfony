@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '_base.html.twig' %}
 
 {% block body %}
     <div class="container">
@@ -8,15 +8,23 @@
 
 
                 {% if error %}
+
                     <div class="alert-danger alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
 
                 {{ form_start(form) }}
-                {{ form_row(form._username) }}
-                {{ form_row(form._password) }}
+                <table>
+                    <tr>
+                        <td>{{ form_row(form._username) }}
+                        </td>
+                        <td>{{ form_row(form._password) }}
+                        </td>
+                    </tr>
+                </table>
                 <button type="submit" class="btn btn-success">Login <span class="fa fa-lock"></span></button>
-                {{ form_end(form) }}
 
+                {{ form_end(form) }}
+                </table>
             </div>
         </div>
     </div>

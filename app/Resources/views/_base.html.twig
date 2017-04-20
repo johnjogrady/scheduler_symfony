@@ -84,8 +84,31 @@
         <img src="/images/customer.png" alt="customer" height="32" width="32"></a>
 
     <a href="{{ path('customer_index') }}" class="btn btn-info" role="button">Customers</a>
+    <a href="{{ path('security_login') }}">
+
+        <img src="/images/login.png" alt="customer" height="32" width="32"></a>
+
+    <a href="{{ path('security_login') }}" class="btn btn-success" role="button">Login</a>
+
+    <a href="{{ path('security_logout') }}">
+
+        <img src="/images/logout.png" alt="customer" height="32" width="32"></a>
+
+    <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
+
 </div>
 <hr>
+
+{% for flashMessage in app.session.flashbag.get('error') %}
+    <div class="alert-danger" role="alert">
+        <strong>{{ flashMessage }}</strong>
+    </div>
+{% endfor %}
+{% for flashNotice in app.session.flashbag.get('notice') %}
+    <div class="alert-success" role="alert">
+        <strong>{{ flashNotice }}</strong>
+    </div>
+{% endfor %}
 {% block body %}
 {% endblock %}
 

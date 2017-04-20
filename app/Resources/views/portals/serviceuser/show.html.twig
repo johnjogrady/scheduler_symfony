@@ -1,26 +1,13 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
-    <h4>Roster Status:
-        {% if assignedEmployees|length < roster.numberResourcesNeeded %}
-            <div class="alert alert-danger" role="alert">
-                <strong>Warning:</strong> Not enough employees assigned
-                <a href="{{ path('rosterassignedemployee_new', { 'roster': roster.id }) }}"
-                   class="btn btn-success btn-med" role="button">Find An Employee To Assign</a>
-            </div>
-        {% elseif assignedEmployees|length == roster.numberResourcesNeeded %}
-            <div class="alert alert-success" role="alert">
-                <strong>Success:</strong> Correct number of employees assigned
-            </div>
-        {% elseif assignedEmployees|length > roster.numberResourcesNeeded %}
-            <div class="alert alert-danger" role="alert">
-                <strong>Warning:</strong> Too many employees assigned
-            </div>
-        {% endif %}
-    </h4>
+    <h3>Roster Details:
+    </h3>
+
     <div class="column_container">
     <section class="flex">
         <section>
+
 
     <table>
         <tbody>
@@ -90,12 +77,6 @@
             <tr>
                 {% for assignedEmployee in assignedEmployees %}
 
-                <td>
-
-                    <a href="{{ path('rosterassignedemployee_delete', { 'id': assignedEmployee.id }) }}"
-                       class="btn btn-success btn-sm"
-                       role="button">Remove</a>
-                </td>
                 <td>{{ assignedEmployee.employeeId }}</td>
                 <td>{{ assignedEmployee.employeeId.mobileTelephone }}</td>
                 <td>{{ assignedEmployee.employeeId.addressLine1 }}</td>
@@ -108,8 +89,6 @@
             {% endfor %}
         </table>
 
-
-
     </section>
     </section>
     </section>
@@ -117,15 +96,16 @@
 
     <ul>
         <li>
-            <a href="{{ path('roster_index') }}" class="btn btn-success btn-sm" role="button">Back to the list</a>
+            <a href="{{ path('portal_serviceuser_index') }}" class="btn btn-success btn-sm" role="button">Back to the
+                list</a>
         </li>
         <li>
-            <a href="{{ path('roster_edit', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
+            <a href="{{ path('portal_roster_edit', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
                role="button">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete Roster" class="btn btn-success btn-sm" role="button">
+            <input type="submit" value="Cancel this roster" class="btn btn-success btn-sm" role="button">
             {{ form_end(delete_form) }}
         </li>
     </ul>

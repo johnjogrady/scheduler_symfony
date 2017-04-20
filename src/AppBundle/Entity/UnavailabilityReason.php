@@ -82,4 +82,5 @@ class UnavailabilityReason
 
         return $this;
     }
+
 }

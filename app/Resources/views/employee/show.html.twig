@@ -141,6 +141,9 @@
                                 <li>
                                     <a href="{{ path('employeeabsence_edit', { 'id': employeeAbsence.id }) }}"
                                        class="btn btn-info btn-sm" role="button">Update</a>
+
+                                    <a href="{{ path('employeeabsence_delete', { 'id': employeeAbsence.id }) }}"
+                                       class="btn btn-info btn-sm" role="button">Remove</a>
                                 </li>
                             </ul>
                         </td>
@@ -176,6 +179,7 @@
                     <th>Starttime</th>
                     <th>Endtime</th>
                     <th>Duration</th>
+                    <th>Reason</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -202,6 +206,7 @@
                         <td>{% if employeeunavailability.startTime %}{{ employeeunavailability.startTime|date('H:i:s') }}{% endif %}</td>
                         <td>{% if employeeunavailability.endTime %}{{ employeeunavailability.endTime|date('H:i:s') }}{% endif %}</td>
                         <td>{{ employeeunavailability.endTime.diff(employeeunavailability.startTime )|date("%H hrs ") }}</td>
+                        <td>{{ employeeunavailability.unavailabilityReason }}</td>
 
 
                         <td>
@@ -209,7 +214,8 @@
                                 <li>
                                     <a href="{{ path('employeeunavailability_edit', { 'id': employeeunavailability.id }) }}"
                                        class="btn btn-info btn-sm" role="button">Update</a>
-                                    \
+                                    <a href="{{ path('employeeunavailability_delete', { 'id': employeeunavailability.id }) }}"
+                                       class="btn btn-info btn-sm" role="button">Remove</a>
                                 </li>
                             </ul>
                         </td>

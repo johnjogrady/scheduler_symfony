@@ -29,7 +29,8 @@ class UserRegistrationForm extends AbstractType
                     'ROLE_ADMIN' => 'ROLE_ADMIN',
                     'ROLE_LECTURER' => 'ROLE_LECTURER',
                     'ROLE_PUBLIC' => 'ROLE_PUBLIC',
-                    'ROLE_USER' => 'ROLE_USER'
+                    'ROLE_USER' => 'ROLE_USER',
+                    'ROLE_SERVICEUSER' => 'ROLE_SERVICEUSER'
                 ),
                 'required' => true,
                 'placeholder' => 'Choose Role for User',

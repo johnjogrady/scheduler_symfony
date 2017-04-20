@@ -54,6 +54,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if (!$isLoginSubmit) {
             return;
         }
+        $session = $request->getSession();
+        $session->start();
 
         $form = $this->formFactory->create(LoginForm::class);
         $form->handleRequest($request);
@@ -118,12 +120,17 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             }
         }
 
+
         if (!$targetPath) {
             if (!$this->defaultTargetPath) {
                 throw new \LogicException('No previous target path found in session and no default target path set');
             }
 
             $targetPath = $this->defaultTargetPath;
+            $session = $request->getSession();
+            $session->start();
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, you are now logged in!');
 
             if (strpos($targetPath, 'http' !== 0 && $targetPath[0] !== '/')) {
                 $targetPath = $this->router->generate($targetPath);
@@ -135,6 +142,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     }
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
+
+
         $data = array(
             'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
 
