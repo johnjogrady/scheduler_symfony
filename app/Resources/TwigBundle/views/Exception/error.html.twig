@@ -1,0 +1,14 @@
+{% extends '_base.html.twig' %}
+{% block body %}
+    <h1> Whoops! An Unknown Error has been encountered</h1>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        Try emailing our support team for further help.
+    {% endif %}
+
+    <p>
+
+        The requested page couldn't be located. Checkout for any URL
+        misspelling or <a href="{{ path('homepage') }}">return to the homepage</a>.
+    </p>
+{% endblock %}

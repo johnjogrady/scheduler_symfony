@@ -1,0 +1,13 @@
+{% extends '_base.html.twig' %}
+{% block body %}
+    <h1> !!403 ERROR!!! FORBIDDEN!!</h1>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        Try emailing our support team for further help.
+    {% endif %}
+
+    <p>
+
+        Sorry about that. Click <a href="{{ path('homepage') }}">return to the homepage</a>.
+    </p>
+{% endblock %}
