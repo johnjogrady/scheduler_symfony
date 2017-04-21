@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\AppBundle;
 use AppBundle\Entity\ServiceUser;
 
 /**
@@ -24,7 +25,7 @@ class RosterRepository extends \Doctrine\ORM\EntityRepository
 
 // this doctrine filter is used by the for loop in the show method of the service user controller.
 //for each checked date in the for loop it checks to see if that service has any roster starting in that 24 hour period.
-    public function getByDate(\DateTime $date, ServiceUser $serviceUser)
+    public function getByDateByServiceUser(\DateTime $date, ServiceUser $serviceUser)
     {
         $from = new \DateTime($date->format("Y-m-d") . " 00:00:00");
         $to = new \DateTime($date->format("Y-m-d") . " 23:59:59");
@@ -40,4 +41,24 @@ class RosterRepository extends \Doctrine\ORM\EntityRepository
 
         return $result;
     }
+
+    public function getByDate(\DateTime $date)
+    {
+        $from = new \DateTime($date->format("Y-m-d") . " 00:00:00");
+        $to = new \DateTime($date->format("Y-m-d") . " 23:59:59");
+        //var_dump($from,$to);
+
+        $qb = $this->createQueryBuilder("roster");
+        $qb->andWhere($qb->expr()->between('roster.rosterStartTime', ':date_from', ':date_to'));
+        $qb->setParameter('date_from', $from, \Doctrine\DBAL\Types\Type::DATETIME);
+        $qb->setParameter('date_to', $to, \Doctrine\DBAL\Types\Type::DATETIME);
+
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
+
+// this doctrine filter is used by the for loop in the show method of the service user controller.
+//for each checked date in the for loop it checks to see if that service has any roster starting in that 24 hour period.
+
 }

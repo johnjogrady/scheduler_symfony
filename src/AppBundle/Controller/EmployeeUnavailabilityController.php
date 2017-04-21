@@ -42,6 +42,9 @@ class EmployeeUnavailabilityController extends Controller
     public function newAction(Request $request, Employee $employee)
     {
         $employeeUnavailability = new EmployeeUnavailability();
+        $session = $request->getSession();
+        $session->start();
+
         $form = $this->createForm('AppBundle\Form\EmployeeUnavailabilityType', $employeeUnavailability, array(
             'employee' => $employee));
         $form->handleRequest($request);
@@ -49,11 +52,18 @@ class EmployeeUnavailabilityController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($employeeUnavailability);
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Employee unavailable time was saved!');
+
             $em->flush($employeeUnavailability);
 
             return $this->redirectToRoute('employee_show', array('id' => $employeeUnavailability->getEmployeeId()->getId()));
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the Employee unavailable time was not saved');
+        }
         return $this->render('employeeunavailability/new.html.twig', array(
             'employeeUnavailability' => $employeeUnavailability,
             'form' => $form->createView(),
@@ -85,13 +95,25 @@ class EmployeeUnavailabilityController extends Controller
     public function editAction(Request $request, EmployeeUnavailability $employeeUnavailability)
     {
         $deleteForm = $this->createDeleteForm($employeeUnavailability);
+        $session = $request->getSession();
+        $session->start();
+
         $editForm = $this->createForm('AppBundle\Form\EmployeeUnavailabilityType', $employeeUnavailability);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Employee unavailable time was updated!');
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('employee_show', array('id' => $employeeUnavailability->getEmployeeId()->getId()));
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the Employee unavailable time was not updated');
         }
 
         return $this->render('employeeunavailability/edit.html.twig', array(
@@ -110,9 +132,15 @@ class EmployeeUnavailabilityController extends Controller
     public function deleteAction(Request $request, EmployeeUnavailability $employeeUnavailability)
     {
         $form = $this->createDeleteForm($employeeUnavailability);
+        $session = $request->getSession();
+        $session->start();
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Employee unavailable time was deleted!');
+
             $em = $this->getDoctrine()->getManager();
             $em->remove($employeeUnavailability);
             $em->flush();

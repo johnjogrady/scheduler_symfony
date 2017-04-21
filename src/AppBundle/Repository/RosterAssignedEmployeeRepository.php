@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Roster;
+
 /**
  * RosterAssignedEmployeeRepository
  *
@@ -10,4 +12,24 @@ namespace AppBundle\Repository;
  */
 class RosterAssignedEmployeeRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
+    public function getByDateByEmployee(\DateTime $date, $id)
+    {
+        $from = new \DateTime($date->format("Y-m-d") . " 00:00:00");
+        $to = new \DateTime($date->format("Y-m-d") . " 23:59:59");
+        //var_dump($from,$to);
+
+        $qb = $this->createQueryBuilder("RosterAssignedEmployee")
+            ->innerJoin('RosterAssignedEmployee.rosterId', 'roster');
+
+        $qb->andWhere($qb->expr()->between('roster.rosterStartTime', ':date_from', ':date_to'))
+            ->andWhere("RosterAssignedEmployee.employeeId=" . $id);
+        $qb->setParameter('date_from', $from, \Doctrine\DBAL\Types\Type::DATETIME);
+        $qb->setParameter('date_to', $to, \Doctrine\DBAL\Types\Type::DATETIME);
+
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
 }

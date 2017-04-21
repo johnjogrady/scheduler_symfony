@@ -43,6 +43,9 @@ class EmployeeAbsenceController extends Controller
     public function newAction(Request $request, Employee $employee)
     {
         $employeeAbsence = new Employeeabsence();
+        $session = $request->getSession();
+        $session->start();
+
         $form = $this->createForm('AppBundle\Form\EmployeeAbsenceType', $employeeAbsence, array(
             'employee' => $employee
         ));
@@ -51,9 +54,19 @@ class EmployeeAbsenceController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($employeeAbsence);
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Employee Absence was created!');
+
             $em->flush($employeeAbsence);
 
             return $this->redirectToRoute('employee_show', array('id' => $employeeAbsence->getEmployeeId()->getId()));
+        }
+
+        //if it's a post and not a get and we got here, Houston we have a problem, better tell the user
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the Employee absence was not created');
         }
 
         return $this->render('employeeabsence/new.html.twig', array(
@@ -87,13 +100,25 @@ class EmployeeAbsenceController extends Controller
     public function editAction(Request $request, EmployeeAbsence $employeeAbsence)
     {
         $deleteForm = $this->createDeleteForm($employeeAbsence);
+        $session = $request->getSession();
+        $session->start();
+
         $editForm = $this->createForm('AppBundle\Form\EmployeeAbsenceType', $employeeAbsence);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Employee Absence was updated!');
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('employee_show', array('id' => $employeeAbsence->getEmployeeId()->getId()));
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the Employee absence was not updated');
         }
 
         return $this->render('employeeabsence/edit.html.twig', array(
@@ -113,9 +138,15 @@ class EmployeeAbsenceController extends Controller
     {
         $form = $this->createDeleteForm($employeeAbsence);
         $form->handleRequest($request);
+        $session = $request->getSession();
+        $session->start();
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Employee Absence was deleted!');
+
             $em->remove($employeeAbsence);
             $em->flush();
         }

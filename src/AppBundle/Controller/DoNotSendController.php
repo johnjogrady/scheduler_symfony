@@ -42,6 +42,9 @@ class DoNotSendController extends Controller
     public function newAction(Request $request, ServiceUser $serviceUser)
     {
         $doNotSend = new Donotsend();
+        $session = $request->getSession();
+        $session->start();
+
         $form = $this->createForm('AppBundle\Form\DoNotSendType', $doNotSend, array(
             'serviceUser' => $serviceUser
         ));
@@ -50,11 +53,20 @@ class DoNotSendController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($doNotSend);
+            $session->getFlashBag()->add('notice', 'Success, employee ' . $doNotSend->getEmployeeId() .
+                ' has been updated as not to be sent to work with ' . $doNotSend->getServiceUserId()->getFirstName() .
+                ' ' . $doNotSend->getServiceUserId()->getLastName() . '!');
+
             $em->flush($doNotSend);
 
             return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the employee was NOT marked DO NOT SEND to this service user');
+
+        }
         return $this->render('donotsend/new.html.twig', array(
             'doNotSend' => $doNotSend,
             'serviceUser' => $serviceUser,
@@ -88,15 +100,25 @@ class DoNotSendController extends Controller
     public function editAction(Request $request, DoNotSend $doNotSend)
     {
         $deleteForm = $this->createDeleteForm($doNotSend);
+        $session = $request->getSession();
+        $session->start();
         $editForm = $this->createForm('AppBundle\Form\DoNotSendType', $doNotSend);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $session->getFlashBag()->add('notice', 'Success, employee ' . $doNotSend->getEmployeeId() .
+                ' has been updated as not to be sent to work with ' . $doNotSend->getServiceUserId()->getFirstName() .
+                ' ' . $doNotSend->getServiceUserId()->getLastName() . '!');
+
 
             return $this->redirectToRoute('donotsend_edit', array('id' => $doNotSend->getId()));
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the employee was NOT updated as  DO NOT SEND to this service user');
+        }
         return $this->render('donotsend/edit.html.twig', array(
             'doNotSend' => $doNotSend,
             'edit_form' => $editForm->createView(),
@@ -114,10 +136,16 @@ class DoNotSendController extends Controller
     {
         $form = $this->createDeleteForm($doNotSend);
         $form->handleRequest($request);
+        $session = $request->getSession();
+        $session->start();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($doNotSend);
+            $session->getFlashBag()->add('notice', 'Success, the designation of employee ' . $doNotSend->getEmployeeId() .
+                ' as not to be sent to work with ' . $doNotSend->getServiceUserId()->getFirstName() .
+                ' ' . $doNotSend->getServiceUserId()->getLastName() . ' has been removed!');
+
             $em->flush();
         }
 

@@ -47,7 +47,16 @@
         <tr>
             <th>Roster Duration</th>
             <td>
-                {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:%i") }}
+                {% if roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i")==0 %}
+                    {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:") }}00
+                {% elseif (roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i")<10)
+                and (roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i")>0) %}
+                    {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:") }}0
+                    {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i") }}
+                {% else %}
+                    {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:%i") }}
+                {% endif %}
+
             </td>
         </tr>
         <tr>
@@ -57,10 +66,6 @@
         <tr>
             <th>Number of resources Assigned</th>
             <td>{{ assignedEmployees|length }}</td>
-        </tr>
-        <tr>
-            <th>Status</th>
-
         </tr>
         <tr>
             <th>Customerid</th>

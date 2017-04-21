@@ -3,7 +3,7 @@
 
 {% block body %}
     <div class="column_container">
-        <section class="fixed_wide">
+        <section class="fixed">
 
             <h3>Serviceuser edit</h3>
 
@@ -27,13 +27,13 @@
             <section>
                 <p>`
                     <iframe
-                            width=750"
+                            width=450"
                             height="600"
                             frameborder="1" style="border:1px"
                             src="http://maps.google.com/maps?q={{ serviceUser.latitude }},{{ serviceUser.longtitude }}&zoom=15&output=embed"></iframe>
                 </p>
             </section>
-            <section>
+            <section class="flex">
                 <table>
                     <th>Latitude</th>
                     <th>Longtitude</th>

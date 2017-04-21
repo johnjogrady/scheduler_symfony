@@ -44,6 +44,8 @@ class RosterAssignedEmployeeController extends Controller
     public function newAction(Request $request, Roster $roster)
     {
         $rosterAssignedEmployee = new RosterAssignedEmployee();
+        $session = $request->getSession();
+        $session->start();
 
         $em = $this->getDoctrine()->getManager();
         $availableEmployees = $em->getRepository('AppBundle:Employee')->findAll();
@@ -72,6 +74,8 @@ class RosterAssignedEmployeeController extends Controller
         $rosterid = $roster->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Employee was assigned to the Roster!');
             $em = $this->getDoctrine()->getManager();
             $em->persist($rosterAssignedEmployee);
             $em->flush($rosterAssignedEmployee);
@@ -79,6 +83,11 @@ class RosterAssignedEmployeeController extends Controller
             return $this->redirectToRoute('roster_show', array('id' => $rosterid));
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the employee was not assigned to the Roster');
+        }
         return $this->render('rosterassignedemployee/new.html.twig', array(
             'rosterAssignedEmployee' => $rosterAssignedEmployee,
             'roster' => $roster,
@@ -98,6 +107,8 @@ class RosterAssignedEmployeeController extends Controller
     {
         $rosterAssignedEmployee = new RosterAssignedEmployee();
         $em = $this->getDoctrine()->getManager();
+        $session = $request->getSession();
+        $session->start();
 
 
         $rosterAssignedEmployees = $em->getRepository('AppBundle:RosterAssignedEmployee')->findByRosterId($rosterid);
@@ -107,6 +118,9 @@ class RosterAssignedEmployeeController extends Controller
         $rosterAssignedEmployee->setRosterId($roster);
         $em = $this->getDoctrine()->getManager();
         $em->persist($rosterAssignedEmployee);
+        $session->getFlashBag('notice');
+        $session->getFlashBag()->add('notice', 'Success, the Employee was assigned to the Roster!');
+
         $em->flush($rosterAssignedEmployee);
 
         return $this->redirectToRoute('roster_show', array('id' => $rosterid));
@@ -138,15 +152,27 @@ class RosterAssignedEmployeeController extends Controller
     public function editAction(Request $request, RosterAssignedEmployee $rosterAssignedEmployee)
     {
         $deleteForm = $this->createDeleteForm($rosterAssignedEmployee);
+        $session = $request->getSession();
+        $session->start();
+
         $editForm = $this->createForm('AppBundle\Form\RosterAssignedEmployeeType', $rosterAssignedEmployee);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Employee was updated on the Roster!');
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('roster_show', array('id' => $rosterAssignedEmployee->getRosterId()));
 
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the Employee was not was updated on the Roster');
+        }
+
 
         return $this->render('rosterassignedemployee/edit.html.twig', array(
             'rosterAssignedEmployee' => $rosterAssignedEmployee,
@@ -164,12 +190,18 @@ class RosterAssignedEmployeeController extends Controller
     public function deleteAction(Request $request, RosterAssignedEmployee $rosterAssignedEmployee)
     {
         $form = $this->createDeleteForm($rosterAssignedEmployee);
+        $session = $request->getSession();
+        $session->start();
+
         $form->handleRequest($request);
         $rosterid = $rosterAssignedEmployee->getRosterId()->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($rosterAssignedEmployee);
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Employee was removed from the Roster!');
+
             $em->flush();
         }
 

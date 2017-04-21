@@ -3,12 +3,6 @@ body {
     margin: 0.5rem;
 }
 
-tr.cast_sheet {
-    display: block;
-    border-bottom: dotted 1px #999999;
-
-}
-
 th, th a {
     height: 30px;
     font-size: 12px;
@@ -17,7 +11,7 @@ th, th a {
 }
 
 tr {
-    height: 30px;
+    height: 20px;
 }
 
 tr:nth-child(even) {
@@ -75,7 +69,6 @@ div.column_container section.flexnarrow {
 }
 
 #column_container section.fixed {
-    flex: 2;
     color: yellow;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -112,8 +105,8 @@ div.column_container {
 }
 
 span.highlight_name {
-    font-size: 2rem;
-    font-family: Serif;
+    font-size: 1rem;
+    font-family: Tahoma;
     padding: 3px 3px 3px 5px;
     color: #ffff00;
 }
@@ -142,10 +135,10 @@ legend {
 }
 
 label.field {
-    text-align: right;
+    text-align: left;
     padding: 3px;
     background-color: #1d6293;
     color: #f2f2f2;
-    width: 110px;
+    width: 50px;
     float: left;
 }

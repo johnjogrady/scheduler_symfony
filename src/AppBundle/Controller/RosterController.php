@@ -213,7 +213,7 @@ class RosterController extends Controller
             $session->getFlashBag()->add('notice', 'Success, the roster was updated!');
 
 
-            return $this->redirectToRoute('roster_edit', array('id' => $roster->getId()));
+            return $this->redirectToRoute('roster_show', array('id' => $roster->getId()));
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -43,6 +43,9 @@ class ServiceUserAssignedEmployeeController extends Controller
     public function newAction(Request $request, ServiceUser $serviceUser)
     {
         $serviceUserAssignedEmployee = new ServiceUserAssignedEmployee();
+        $session = $request->getSession();
+        $session->start();
+
         $form = $this->createForm('AppBundle\Form\ServiceUserAssignedEmployeeType', $serviceUserAssignedEmployee, array(
             'serviceUser' => $serviceUser
         ));
@@ -51,9 +54,19 @@ class ServiceUserAssignedEmployeeController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($serviceUserAssignedEmployee);
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, employee ' . $serviceUserAssignedEmployee->getEmployeeId() .
+                ' was updated as assigned to work with ' . $serviceUserAssignedEmployee->getServiceUserId()->getFirstName() .
+                ' ' . $serviceUserAssignedEmployee->getServiceUserId()->getLastName() . '!');
             $em->flush($serviceUserAssignedEmployee);
 
             return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the employee was not assigned to this service user');
         }
 
         return $this->render('serviceuserassignedemployee/new.html.twig', array(
@@ -89,14 +102,29 @@ class ServiceUserAssignedEmployeeController extends Controller
     public function editAction(Request $request, ServiceUserAssignedEmployee $serviceUserAssignedEmployee)
     {
         $deleteForm = $this->createDeleteForm($serviceUserAssignedEmployee);
+        $session = $request->getSession();
+        $session->start();
+
         $editForm = $this->createForm('AppBundle\Form\ServiceUserAssignedEmployeeType', $serviceUserAssignedEmployee);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $session->getFlashBag()->add('notice', 'Success, employee ' . $serviceUserAssignedEmployee->getEmployeeId() .
+                ' was updated as assigned to work with ' . $serviceUserAssignedEmployee->getServiceUserId()->getFirstName() .
+                ' ' . $serviceUserAssignedEmployee->getServiceUserId()->getLastName() . '!');
+
 
             return $this->redirectToRoute('serviceuserassignedemployee_edit', array('id' => $serviceUserAssignedEmployee->getId()));
         }
+
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the employee was not assigned to this service user');
+        }
+
 
         return $this->render('serviceuserassignedemployee/edit.html.twig', array(
             'serviceUserAssignedEmployee' => $serviceUserAssignedEmployee,
@@ -115,10 +143,17 @@ class ServiceUserAssignedEmployeeController extends Controller
     {
         $form = $this->createDeleteForm($serviceUserAssignedEmployee);
         $form->handleRequest($request);
+        $session = $request->getSession();
+        $session->start();
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($serviceUserAssignedEmployee);
+            $session->getFlashBag()->add('notice', 'Success, employee ' . $serviceUserAssignedEmployee->getEmployeeId() .
+                ' is no longer assigned to work with ' . $serviceUserAssignedEmployee->getServiceUserId()->getFirstName() .
+                ' ' . $serviceUserAssignedEmployee->getServiceUserId()->getLastName() . '!');
+
             $em->flush();
         }
 

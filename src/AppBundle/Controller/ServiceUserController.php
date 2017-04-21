@@ -112,7 +112,7 @@ class ServiceUserController extends Controller
         // iterate through the month and check each day against roster fill array with individual rosters which occur during month
 
         for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
-            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDate($i, $serviceUser);
+            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDateByServiceUser($i, $serviceUser);
             if (!empty($rosterforday)) {
                 $daysThisMonth[$i->format('d')] = $rosterforday;
             }
@@ -127,7 +127,8 @@ class ServiceUserController extends Controller
 
         // iterate through the month and check each day against roster fill array with individual rosters which occur during month
         for ($i = $beginNextMonth; $i <= $end; $i->modify('+1 day')) {
-            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDate($i, $serviceUser);
+            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDateByServiceUser($i, $serviceUser);
+
             if (!empty($rosterforday)) {
                 $daysNextMonth[$i->format('d')] = $rosterforday;
             }
@@ -144,7 +145,7 @@ class ServiceUserController extends Controller
         // iterate through the month and check each day against roster fill array with individual rosters which occur during month
 
         for ($i = $beginLastMonth; $i <= $end; $i->modify('+1 day')) {
-            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDate($i, $serviceUser);
+            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDateByServiceUser($i, $serviceUser);
             if (!empty($rosterforday)) {
                 $daysLastMonth[$i->format('d')] = $rosterforday;
             }

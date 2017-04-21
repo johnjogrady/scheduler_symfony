@@ -1,13 +1,16 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
-    <div class="column_container" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-        <section class="fixed">
+    <div class="column_container">
+        <div class="container">
+            <section class="flexnarrow">
+                <section class="navbar-left">
             <h4>Service User Details</h4>
+
             <table>
-                <tbody>
 
                 <tr>
+
                     <th>First name</th>
                     <td>{{ serviceUser.firstName }}</td>
                 </tr>
@@ -62,7 +65,7 @@
                             Service User list</a>
                         <a href="{{ path('serviceuser_edit', { 'id': serviceUser.id }) }}"
                            class="btn btn-success btn-sm"
-                           role="button">Edit Record</a>
+                           role="button">Edit Service User Record</a>
                         {{ form_start(delete_form) }}
                         <input type="submit" class="btn btn-success btn-sm" role="button" value="Delete Service User">
                         {{ form_end(delete_form) }}
@@ -70,14 +73,13 @@
 
                 </tr>
 
-                </tbody>
             </table>
 
             <table>
                 <th>Assigned Employees</th>
                 <th>
                     <a href="{{ path('serviceuserassignedemployee_new', { 'serviceUser': serviceUser.id }) }}"
-                       class="btn btn-success btn-sm" role="button">Assign Employee</a>
+                       class="btn btn-success btn-md" role="button">Assign Employee</a>
                 </th>
                 {% for assignedEmployee in assignedEmployees %}
 
@@ -87,7 +89,7 @@
                         </td>
                         <td>
                             <a href="{{ path('serviceuserassignedemployee_delete', { 'id': assignedEmployee.id }) }}"
-                               class="btn btn-info btn-sm" role="button">Remove Assignment</a>
+                               class="btn btn-info btn-md" role="button">Remove Employee Assignment</a>
                         </td>
 
                     </tr>
@@ -109,7 +111,8 @@
                     <tr>
                         <td>
                             {{ doNotSend.employeeId }}  </td>
-                        <td><a href="{{ path('donotsend_delete', { 'id': doNotSend.id }) }}" class="btn info btn-sm"
+                        <td><a href="{{ path('donotsend_delete', { 'id': doNotSend.id }) }}"
+                               class="btn btn-warning btn-sm"
                                role="button">Remove Do Not Send Flag</a>
                         </td>
 
@@ -120,6 +123,8 @@
             </table>
         </section>
 
+            </section>
+        </div>
 
         <section class="flex">
             <section>
@@ -414,8 +419,8 @@
             <section>
                 <p>
                     <iframe
-                            width="250"
-                            height="500"
+                            width="330"
+                            height="425"
                             frameborder="0" style="border:1px"
                             src="http://maps.google.com/maps?q={{ serviceUser.latitude }},{{ serviceUser.longtitude }}&zoom=15&output=embed"></iframe>
                 </p>

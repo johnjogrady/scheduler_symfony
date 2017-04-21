@@ -16,9 +16,9 @@
 
         {% block stylesheets %}
         label {
-            display: inline-block;
+            display: inline-flex;
             float: left;
-            width: 10rem;
+            width: 3rem;
             padding-right: 0.5rem;
             font-weight: bold;
             color: blue;
@@ -84,18 +84,17 @@
         <img src="/images/customer.png" alt="customer" height="32" width="32"></a>
 
     <a href="{{ path('customer_index') }}" class="btn btn-info" role="button">Customers</a>
-    <a href="{{ path('security_login') }}">
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <a href="{{ path('security_logout') }}">
+            <a class="btn btn-default btn-lg"> Current user:{{ app.user }}</a>
+            <img src="/images/logout.png" alt="customer" height="32" width="32"></a>
+        <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
 
-        <img src="/images/login.png" alt="customer" height="32" width="32"></a>
-
-    <a href="{{ path('security_login') }}" class="btn btn-success" role="button">Login</a>
-
-    <a href="{{ path('security_logout') }}">
-
-        <img src="/images/logout.png" alt="customer" height="32" width="32"></a>
-
-    <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
-
+    {% else %}
+        <a href="{{ path('security_login') }}">
+            <img src="/images/login.png" alt="customer" height="32" width="32"></a>
+        <a href="{{ path('security_login') }}" class="btn btn-success" role="button">Login</a>
+    {% endif %}
 </div>
 <hr>
 
