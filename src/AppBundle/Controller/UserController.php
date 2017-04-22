@@ -116,7 +116,7 @@ class UserController extends Controller
      * Update: actually not needed because form type for thie entity uses \RepeatedType
      * if two plain password values don't match, validation will fail
      */
-    function passwordMatchCheck($password1, $password2)
+    private function passwordMatchCheck($password1, $password2)
     {
         if ($password1 == $password2) {
             return true;

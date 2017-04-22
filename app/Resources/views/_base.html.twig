@@ -96,7 +96,7 @@
 
         <img src="/images/user.png" alt="user" height="32" width="32"></a>
 
-    <a href="{{ path('customer_index') }}" class="btn btn-default" role="button">Users</a>
+    <a href="{{ path('user_index') }}" class="btn btn-default" role="button">Users</a>
 
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <a href="{{ path('security_logout') }}">

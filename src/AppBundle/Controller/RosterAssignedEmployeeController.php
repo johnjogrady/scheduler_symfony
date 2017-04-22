@@ -375,7 +375,7 @@ class RosterAssignedEmployeeController extends Controller
 
     }
 
-    public function sortByDistance($a, $b)
+    private function sortByDistance($a, $b)
     {
         return strcmp($a->distance, $b->distance);
     }
