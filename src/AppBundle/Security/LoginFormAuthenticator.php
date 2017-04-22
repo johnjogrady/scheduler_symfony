@@ -120,7 +120,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             }
         }
 
-
         if (!$targetPath) {
             if (!$this->defaultTargetPath) {
                 throw new \LogicException('No previous target path found in session and no default target path set');
@@ -128,7 +127,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
             $targetPath = $this->defaultTargetPath;
             $session = $request->getSession();
-            $session->start();
             $session->getFlashBag('notice');
             $session->getFlashBag()->add('notice', 'Success, you are now logged in!');
 

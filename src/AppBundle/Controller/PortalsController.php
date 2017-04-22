@@ -3,8 +3,6 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\AppBundle;
-use AppBundle\Mapping;
 use AppBundle\Entity\ServiceUser;
 use AppBundle\Entity\Roster;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class PortalsController extends Controller
@@ -33,7 +30,6 @@ class PortalsController extends Controller
         $user = $em->getRepository('AppBundle:User')->findByEmail($authenticationUtils);
         $serviceUser = $em->getRepository('AppBundle:ServiceUser')->findByRelatedUser($user);
         $thisServiceUser = $serviceUser[0];
-        // var_dump($serviceUser);
 
 
         $rosters = $em->getRepository('AppBundle:Roster')->findByServiceUserId($serviceUser);

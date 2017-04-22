@@ -2,7 +2,6 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\AppBundle;
 use AppBundle\Entity\ServiceUser;
 
 /**
@@ -29,7 +28,6 @@ class RosterRepository extends \Doctrine\ORM\EntityRepository
     {
         $from = new \DateTime($date->format("Y-m-d") . " 00:00:00");
         $to = new \DateTime($date->format("Y-m-d") . " 23:59:59");
-        //var_dump($from,$to);
 
         $qb = $this->createQueryBuilder("roster");
         $qb->andWhere($qb->expr()->between('roster.rosterStartTime', ':date_from', ':date_to'))
@@ -46,7 +44,6 @@ class RosterRepository extends \Doctrine\ORM\EntityRepository
     {
         $from = new \DateTime($date->format("Y-m-d") . " 00:00:00");
         $to = new \DateTime($date->format("Y-m-d") . " 23:59:59");
-        //var_dump($from,$to);
 
         $qb = $this->createQueryBuilder("roster");
         $qb->andWhere($qb->expr()->between('roster.rosterStartTime', ':date_from', ':date_to'));

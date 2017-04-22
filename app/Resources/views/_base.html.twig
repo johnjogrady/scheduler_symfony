@@ -55,6 +55,12 @@
 <body>
 
 <div class="topnav">
+
+    <a href="{{ path('office_index') }}">
+
+        <img src="/images/iwalogo2017.png" alt="IWA logo" width="160" height="40"></a>
+    <a href="{{ path('office_index') }}" class="btn btn-primary" role="button">Home</a>
+
     <a href="{{ path('roster_index') }}">
 
         <img src="/images/time.png" alt="Clock" height="32" width="32"></a>
@@ -84,17 +90,27 @@
         <img src="/images/customer.png" alt="customer" height="32" width="32"></a>
 
     <a href="{{ path('customer_index') }}" class="btn btn-info" role="button">Customers</a>
+
+
+    <a href="{{ path('user_index') }}">
+
+        <img src="/images/user.png" alt="user" height="32" width="32"></a>
+
+    <a href="{{ path('customer_index') }}" class="btn btn-default" role="button">Users</a>
+
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <a href="{{ path('security_logout') }}">
-            <a class="btn btn-default btn-lg"> Current user:{{ app.user }}</a>
+            <a class="btn btn-default btn"> Current user:{{ app.user }}</a>
             <img src="/images/logout.png" alt="customer" height="32" width="32"></a>
         <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
-
-    {% else %}
-        <a href="{{ path('security_login') }}">
-            <img src="/images/login.png" alt="customer" height="32" width="32"></a>
-        <a href="{{ path('security_login') }}" class="btn btn-success" role="button">Login</a>
     {% endif %}
+    {#
+        {% else %}
+            <a href="{{ path('security_login') }}">
+                <img src="/images/login.png" alt="customer" height="32" width="32"></a>
+            <a href="{{ path('security_login') }}" class="btn btn-success" role="button">Login</a>
+
+        #}
 </div>
 <hr>
 

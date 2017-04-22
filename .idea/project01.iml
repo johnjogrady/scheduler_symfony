@@ -48,19 +48,37 @@
       <library name="PHARS">
         <CLASSES>
           <root url="phar://$MODULE_DIR$/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar/" />
-          <root url="phar://$MODULE_DIR$/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar/" />
-          <root url="phar://$MODULE_DIR$/phpunit-6.1.phar/" />
-          <root url="phar://$MODULE_DIR$/code/03_parserManyTests/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/code/06_data_provider/phpDocumentor.phar/" />
           <root url="phar://$MODULE_DIR$/code/02_PHPUnit_ArtUnitTesting/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/code/06_data_provider/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar/" />
+          <root url="phar://$MODULE_DIR$/code/03_parserManyTests/phpunit.phar/" />
           <root url="phar://$MODULE_DIR$/code/04_expectedException/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/code/05_customException/phpDocumentor.phar/" />
+          <root url="phar://$MODULE_DIR$/code/04_expectedException/phpDocumentor.phar/" />
+          <root url="phar://$MODULE_DIR$/code/05_customException/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/code/07_parser_data_provider/phpDocumentor.phar/" />
+          <root url="phar://$MODULE_DIR$/code/02_PHPUnit_ArtUnitTesting/phpDocumentor.phar/" />
+          <root url="phar://$MODULE_DIR$/code/07_parser_data_provider/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/phpunit-6.1.phar/" />
+          <root url="phar://$MODULE_DIR$/code/03_parserManyTests/phpDocumentor.phar/" />
         </CLASSES>
         <SOURCES>
           <root url="phar://$MODULE_DIR$/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar/" />
-          <root url="phar://$MODULE_DIR$/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar/" />
-          <root url="phar://$MODULE_DIR$/phpunit-6.1.phar/" />
-          <root url="phar://$MODULE_DIR$/code/03_parserManyTests/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/code/06_data_provider/phpDocumentor.phar/" />
           <root url="phar://$MODULE_DIR$/code/02_PHPUnit_ArtUnitTesting/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/code/06_data_provider/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar/" />
+          <root url="phar://$MODULE_DIR$/code/03_parserManyTests/phpunit.phar/" />
           <root url="phar://$MODULE_DIR$/code/04_expectedException/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/code/05_customException/phpDocumentor.phar/" />
+          <root url="phar://$MODULE_DIR$/code/04_expectedException/phpDocumentor.phar/" />
+          <root url="phar://$MODULE_DIR$/code/05_customException/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/code/07_parser_data_provider/phpDocumentor.phar/" />
+          <root url="phar://$MODULE_DIR$/code/02_PHPUnit_ArtUnitTesting/phpDocumentor.phar/" />
+          <root url="phar://$MODULE_DIR$/code/07_parser_data_provider/phpunit.phar/" />
+          <root url="phar://$MODULE_DIR$/phpunit-6.1.phar/" />
+          <root url="phar://$MODULE_DIR$/code/03_parserManyTests/phpDocumentor.phar/" />
         </SOURCES>
       </library>
     </orderEntry>

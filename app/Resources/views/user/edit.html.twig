@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>User edit</h1>
-
+    <h1>User edit/ Password reset </h1>
+    <h4>You can use this form to edit user details and reset a user's password</h4>
     {{ form_start(edit_form) }}
     {{ form_row(edit_form.email) }}
     {{ form_row(edit_form.plainPassword.first, {
@@ -18,11 +18,11 @@
 
     <ul>
         <li>
-            <a href="{{ path('user_index') }}">Back to the list of my rosters</a>
+            <a href="{{ path('user_index') }}">Back to the list of my Users</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Cancel this roster">
+            <input type="submit" value="Delete this User">
             {{ form_end(delete_form) }}
         </li>
     </ul>

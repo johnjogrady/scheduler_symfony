@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\AppBundle;
 use AppBundle\Mapping;
 use AppBundle\Entity\ServiceUser;
 use AppBundle\Entity\Roster;
@@ -10,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
@@ -74,7 +72,7 @@ class ServiceUserController extends Controller
             return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
         }
 //if it's a post and not a get and we got here, Houston we have a problem, better tell the user
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the service user was not created');
@@ -99,7 +97,6 @@ class ServiceUserController extends Controller
         $id = $serviceUser->getId();
         $assignedEmployees = $em->getRepository('AppBundle:ServiceUserAssignedEmployee')->findByServiceUserId($id);
         $doNotSends = $em->getRepository('AppBundle:DoNotSend')->findByServiceUserId($id);
-        $geoCoder = new Mapping\geoCodeFunctions();
         $rosters = $em->getRepository('AppBundle:Roster')->findByServiceUserId($id);
 
         //create an empty Array and determine dates bounds for THIS month
@@ -176,7 +173,7 @@ class ServiceUserController extends Controller
      * @Method("GET")
      */
 //similar to show method but calls geocoder, a little bit of code duplication here which can be refactored later
-    public function getCoordinates(Request $request, ServiceUser $serviceUser)
+    public function getCoordinatesAction(Request $request, ServiceUser $serviceUser)
     {
         $deleteForm = $this->createDeleteForm($serviceUser);
         $session = $request->getSession();
@@ -201,11 +198,69 @@ class ServiceUserController extends Controller
         $session->getFlashBag('notice');
         $session->getFlashBag()->add('notice', 'Success, the service user was updated!');
 
+        //create an empty Array and determine dates bounds for THIS month
+
+        $daysThisMonth = [];
+        $begin = new \DateTime('first day of this month');
+        $begin = new \DateTime($begin->format("Y-m-d") . " 00:00:00");
+
+        $end = new \DateTime('last day of this month');
+        // iterate through the month and check each day against roster fill array with individual rosters which occur during month
+
+        for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
+            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDateByServiceUser($i, $serviceUser);
+            if (!empty($rosterforday)) {
+                $daysThisMonth[$i->format('d')] = $rosterforday;
+            }
+
+        }
+
+
+        //create an empty Array and determine dates bounds for NEXT month
+        $daysNextMonth = [];
+        $beginNextMonth = new \DateTime('first day of next month');
+        $beginNextMonth = new \DateTime($beginNextMonth->format("Y-m-d") . " 00:00:00");
+
+        $end = new \DateTime('last day of next month');
+
+        // iterate through the month and check each day against roster fill array with individual rosters which occur during month
+        for ($i = $beginNextMonth; $i <= $end; $i->modify('+1 day')) {
+            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDateByServiceUser($i, $serviceUser);
+
+            if (!empty($rosterforday)) {
+                $daysNextMonth[$i->format('d')] = $rosterforday;
+            }
+        }
+
+        //create an empty Array and determine dates bounds for LAST month
+
+        $daysLastMonth = [];
+        $beginLastMonth = new \DateTime('first day of last month');
+        $beginLastMonth = new \DateTime($beginLastMonth->format("Y-m-d") . " 00:00:00");
+
+        $end = new \DateTime('last day of last month');
+
+        // iterate through the month and check each day against roster fill array with individual rosters which occur during month
+
+        for ($i = $beginLastMonth; $i <= $end; $i->modify('+1 day')) {
+            $rosterforday = $em->getRepository('AppBundle:Roster')->getByDateByServiceUser($i, $serviceUser);
+            if (!empty($rosterforday)) {
+                $daysLastMonth[$i->format('d')] = $rosterforday;
+            }
+
+        }
+
+
         return $this->render('serviceuser/show.html.twig', array(
             'serviceUser' => $serviceUser,
             'rosters' => $rosters,
             'doNotSends' => $doNotSends,
             'assignedEmployees' => $assignedEmployees,
+            'daysThisMonth' => $daysThisMonth,
+            'beginNextMonth' => $beginNextMonth,
+            'daysNextMonth' => $daysNextMonth,
+            'beginLastMonth' => $beginLastMonth,
+            'daysLastMonth' => $daysLastMonth,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -238,7 +293,7 @@ class ServiceUserController extends Controller
 
             return $this->redirectToRoute('serviceuser_edit', array('id' => $serviceUser->getId()));
         }
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the service user was not updated ');

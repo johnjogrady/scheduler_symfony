@@ -4,10 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Office;
 use AppBundle\Entity\County;
+use AppBundle\Mapping;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -46,13 +46,32 @@ class OfficeController extends Controller
         $office = new Office();
         $form = $this->createForm('AppBundle\Form\OfficeType', $office);
         $form->handleRequest($request);
+        $session = $request->getSession();
+        $session->start();
+
+        $geoCoder = new Mapping\geoCodeFunctions();
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            // call geocoder class with service user object
+            $coordinates = $geoCoder->geocode($office);
+
+            $office->setLatitude($coordinates[0]);
+            $office->setLongtitude($coordinates[1]);
             $em->persist($office);
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Office was added!');
+
             $em->flush($office);
 
             return $this->redirectToRoute('office_show', array('id' => $office->getId()));
+        }
+
+
+        if (['REQUEST_METHOD'] === 'POST') {
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the Office was not updated');
         }
 
         return $this->render('office/new.html.twig', array(
@@ -103,12 +122,25 @@ class OfficeController extends Controller
     {
         $deleteForm = $this->createDeleteForm($office);
         $editForm = $this->createForm('AppBundle\Form\OfficeType', $office);
+        $session = $request->getSession();
+        $session->start();
         $editForm->handleRequest($request);
+        $geoCoder = new Mapping\geoCodeFunctions();
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('office_edit', array('id' => $office->getId()));
+        // call geocoder class with service user object
+        $coordinates = $geoCoder->geocode($office);
+        $session->getFlashBag('notice');
+        $session->getFlashBag()->add('notice', 'Success, the Office was updated!');
+
+        $office->setLatitude($coordinates[0]);
+        $office->setLongtitude($coordinates[1]);
+
+        if (['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the Office was not updated');
         }
+
 
         return $this->render('office/edit.html.twig', array(
             'office' => $office,

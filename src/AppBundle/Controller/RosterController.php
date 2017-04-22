@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Roster;
-use AppBundle\Entity\RosterStatus;
 use AppBundle\Entity\ServiceUser;
 use AppBundle\Entity\Employee;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -66,7 +65,7 @@ class RosterController extends Controller
             return $this->redirectToRoute('roster_show', array('id' => $roster->getId()));
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the roster was not created');
@@ -81,10 +80,10 @@ class RosterController extends Controller
     /**
      * Creates a new roster entity.
      *
-     * @Route("/newfromsu/serviceUser={serviceUser}", name="roster_new_su")
+     * @Route("/new/serviceUser={serviceUser}", name="roster_new_su")
      * @Method({"GET", "POST"})
      */
-    public function newActionfromServiceUser(Request $request, ServiceUser $serviceUser)
+    public function newActionFromServiceUser(Request $request, ServiceUser $serviceUser)
     {
         $roster = new Roster();
         $session = $request->getSession();
@@ -111,7 +110,7 @@ class RosterController extends Controller
             return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the roster was not created');
@@ -127,10 +126,10 @@ class RosterController extends Controller
     /**
      * Creates a new roster entity.
      *
-     * @Route("/newfromsu/serviceUser={serviceUser},rosterDate={rosterDate}", name="roster_new_su_date")
+     * @Route("/new/serviceUser={serviceUser},rosterDate={rosterDate}", name="roster_new_su_date")
      * @Method({"GET", "POST"})
      */
-    public function newActionfromServiceUserDate(Request $request, ServiceUser $serviceUser, DateTime $rosterDate)
+    public function newActionFromServiceUserDate(Request $request, ServiceUser $serviceUser, DateTime $rosterDate)
     {
         $roster = new Roster();
         $session = $request->getSession();
@@ -138,7 +137,6 @@ class RosterController extends Controller
         $form = $this->createForm('AppBundle\Form\RosterType', $roster, array(
             'serviceUser' => $serviceUser, 'rosterDate' => $rosterDate
         ));
-        var_dump($form);
         $form->handleRequest($request);
 
 

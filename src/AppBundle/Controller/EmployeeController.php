@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Employee controller.
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("employee")
  */
 class EmployeeController extends Controller
@@ -49,12 +49,17 @@ class EmployeeController extends Controller
         $employee = new Employee();
         $session = $request->getSession();
         $session->start();
+        $geoCoder = new Mapping\geoCodeFunctions();
+
 
         $form = $this->createForm('AppBundle\Form\EmployeeType', $employee);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            // call geocoder class with service user object
+            $coordinates = $geoCoder->geocode($employee);
+            $employee->setLatitude($coordinates[0]);
+            $employee->setLongtitude($coordinates[1]);
             $em->persist($employee);
             $session->getFlashBag('notice');
             $session->getFlashBag()->add('notice', 'Success, the Employee was added!');
@@ -64,7 +69,7 @@ class EmployeeController extends Controller
             return $this->redirectToRoute('employee_show', array('id' => $employee->getId()));
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the Employee  was not added');
@@ -87,11 +92,8 @@ class EmployeeController extends Controller
         $deleteForm = $this->createDeleteForm($employee);
         $em = $this->getDoctrine()->getManager();
         $id = $employee->getId();
-        $employeeId = $em->getRepository('AppBundle:Employee')->find($id)->getId();
 
         $employeeAbsences = $em->getRepository('AppBundle:EmployeeAbsence')->findByEmployeeId($employee->getId());
-        $geoCoder = new Mapping\geoCodeFunctions();
-        $coordinates = $geoCoder->geocode($employee);
 
         $rostersAssignments = $em->getRepository('AppBundle:RosterAssignedEmployee')->findByEmployeeId($employee->getId());
 
@@ -200,9 +202,17 @@ class EmployeeController extends Controller
         $deleteForm = $this->createDeleteForm($employee);
         $session = $request->getSession();
         $session->start();
+        // create new GeoCoder class
+        $geoCoder = new Mapping\geoCodeFunctions();
+
+        // call geocoder class with service user object
+        $coordinates = $geoCoder->geocode($employee);
 
         $editForm = $this->createForm('AppBundle\Form\EmployeeType', $employee);
         $editForm->handleRequest($request);
+        $employee->setLatitude($coordinates[0]);
+        $employee->setLongtitude($coordinates[1]);
+
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $session->getFlashBag('notice');
@@ -210,9 +220,9 @@ class EmployeeController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('employee_edit', array('id' => $employee->getId()));
+            return $this->redirectToRoute('employee_show', array('id' => $employee->getId()));
         }
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the Employee was not updated');

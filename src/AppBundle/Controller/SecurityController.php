@@ -13,7 +13,6 @@ use AppBundle\Form\LoginForm;
 use Doctrine\ORM\Mapping as ORM;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Request;
 
 /**
  * @ORM\Entity

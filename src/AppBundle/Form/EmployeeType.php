@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -22,12 +23,13 @@ class EmployeeType extends AbstractType
             ->add('lastName')->add('staffNumber')
             ->add('addressLine1')->add('addressLine2')->add('addressLine3')
             ->add('countyPostcode')
-            ->add('eirCode')->add('landlineTelephone')->add('mobileTelephone')->add('isActive')->add('managingOffice')
+            ->add('eirCode')
+            ->add('landlineTelephone')->add('mobileTelephone')->add('isActive')->add('managingOffice')
             ->add('startDate', DateTimeType::class, array('widget' => 'single_text',
-                'date_format' => 'yyyy-MM-dd HH:mm',
+                'date_format' => 'yyyy-MM-dd HH:mm', 'required' => false,
                 // add a class that can be selected in JavaScript
                 'attr' => ['class' => 'js-datepicker']))
-            ->add('finishDate', DateTimeType::class, array('widget' => 'single_text',
+            ->add('finishDate', DateTimeType::class, array('widget' => 'single_text', 'required' => false,
                 'date_format' => 'yyyy-MM-dd HH:mm',
                 // add a class that can be selected in JavaScript
                 'attr' => ['class' => 'js-datepicker']));

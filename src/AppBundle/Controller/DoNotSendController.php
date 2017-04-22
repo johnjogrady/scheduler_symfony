@@ -61,7 +61,7 @@ class DoNotSendController extends Controller
 
             return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
         }
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the employee was NOT marked DO NOT SEND to this service user');
@@ -114,7 +114,7 @@ class DoNotSendController extends Controller
 
             return $this->redirectToRoute('donotsend_edit', array('id' => $doNotSend->getId()));
         }
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the employee was NOT updated as  DO NOT SEND to this service user');

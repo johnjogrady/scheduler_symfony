@@ -9,11 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Rosterassignedemployee controller.
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("rosterassignedemployee")
  */
 class RosterAssignedEmployeeController extends Controller
@@ -48,7 +48,9 @@ class RosterAssignedEmployeeController extends Controller
         $session->start();
 
         $em = $this->getDoctrine()->getManager();
+
         $availableEmployees = $em->getRepository('AppBundle:Employee')->findAll();
+//        $this->getDoctrine()->getRepository('MyBundle:MyTable')->findBy([], ['distance' => 'ASC']);
         $serviceUser = $roster->getServiceUserId();
 
 
@@ -67,6 +69,21 @@ class RosterAssignedEmployeeController extends Controller
             }
         }
 
+        foreach ($availableEmployees as $key => $id) {
+            if ($availableEmployees[$key]->getLatitude() > 0 && $roster->getServiceUserId()->getLatitude() > 0) {
+                $availableEmployees[$key]->setDistance($this->checkDistance(
+                    $availableEmployees[$key]->getLatitude(),
+                    $availableEmployees[$key]->getLongtitude(),
+                    $roster->getServiceUserId()->getLatitude(),
+                    $roster->getServiceUserId()->getLongtitude()
+                ));
+            }
+
+
+        }
+
+
+
         $form = $this->createForm('AppBundle\Form\RosterAssignedEmployeeType', $rosterAssignedEmployee, array(
             'roster' => $roster));
         $form->handleRequest($request);
@@ -83,7 +100,7 @@ class RosterAssignedEmployeeController extends Controller
             return $this->redirectToRoute('roster_show', array('id' => $rosterid));
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the employee was not assigned to the Roster');
@@ -167,7 +184,7 @@ class RosterAssignedEmployeeController extends Controller
             return $this->redirectToRoute('roster_show', array('id' => $rosterAssignedEmployee->getRosterId()));
 
         }
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the Employee was not was updated on the Roster');
@@ -230,12 +247,11 @@ class RosterAssignedEmployeeController extends Controller
 
         //find all all Do not send relationships for that service user
         $doNotSend = $em->getRepository('AppBundle:DoNotSend')->findByServiceUserId($serviceUser->getId());
-        //  var_dump($serviceUser->getId());
         //iterate through them and check below to see if array contains employee being checked
         foreach ($doNotSend as $item) {
             $item_ee = $item->getEmployeeId()->getId();
             // check to see if the employee being checked is this item in the Do Not Send list for that employee.
-            if ($item_ee == $employee)
+            if ($item_ee === $employee)
                 return true;
         }
 
@@ -251,20 +267,20 @@ class RosterAssignedEmployeeController extends Controller
         // this one checks to see if the employee has an unavailability recorded permanently for that time of the week
         $unavailable = $this->checkForUnavailableTime($employee, $rosterid);
         // if an unavailability is found, return true and break from the method
-        if ($unavailable == true)
+        if ($unavailable === true)
             return true;
         // this one checks to see if the employee has an planned absence recorded which overlaps with the time of the roster
 
         $onAbsence = $this->checkForAbsence($employee, $rosterid);
         // if an absence is found which overlaps, return true and break from the method
-        if ($onAbsence == true)
+        if ($onAbsence === true)
             return true;
 
         // this one checks to see if the is already rostered at the time of the unfilled roster
 
         $onAbsence = $this->checkForAlreadyAssigned($employee, $rosterid);
         // if another roster for the same employee is found which overlaps, return true and break from the method
-        if ($onAbsence == true)
+        if ($onAbsence === true)
             return true;
 
         return false;
@@ -285,7 +301,6 @@ class RosterAssignedEmployeeController extends Controller
         $day = date('w', $dateAsInt);
         // iterate through unavailable times and search for matches
         foreach ($employeeUnavailability as $item) {
-            // var_dump($item->getId());
             $itemday = strval($item->getDayOfWeek());
             if ($day == $itemday) {
                 // to do handles unavailability after roster ok, but not before
@@ -293,13 +308,6 @@ class RosterAssignedEmployeeController extends Controller
                 $checkedStartTime = date("H:i:s", strval($roster->getRosterStartTime()->getTimestamp()));
                 $unavailableEndTime = date("H:i:s", ($item->getEndTime()->getTimestamp()));
                 $checkedEndTime = date("H:i:s", strval($roster->getRosterEndTime()->getTimestamp()));
-
-//                $checkedEndTime=$roster->getRosterEndTime();
-                //              $unavailableEndTime=$item->getEndTime();
-                // to do extract time from both DateTime objects
-                //  var_dump($employee->getId());
-                //var_dump($unavailableStartTime,$unavailableEndTime);
-                //var_dump($checkedStartTime,$checkedEndTime);
                 if ($unavailableEndTime > $checkedStartTime && $unavailableStartTime < $checkedEndTime)
 
                     // implementation of this algorithm
@@ -348,4 +356,28 @@ class RosterAssignedEmployeeController extends Controller
         return false;
 
     }
+
+    private function checkDistance($empllat, $empllong, $sulat, $sulong)
+    {
+
+        $url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $empllat . ',' . $empllong . '&destinations=' . $sulat . ',' . $sulong . '&mode=driving&key=AIzaSyAzyO_ohGHVXjjO7rQZLKhQUzHF0iMchds';
+        // get response as json
+        $json_response = file_get_contents($url);
+        $result = json_decode($json_response, true);
+
+        if ($result['status'] == "ZERO_RESULTS") {
+
+            $distance = 0;
+        } else {
+            $distance = $result['rows'][0]['elements'][0]['distance']['text'];
+        }
+        return $distance;
+
+    }
+
+    public function sortByDistance($a, $b)
+    {
+        return strcmp($a->distance, $b->distance);
+    }
+
 }

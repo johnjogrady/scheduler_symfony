@@ -45,15 +45,26 @@ class CustomerController extends Controller
         $customer = new Customer();
         $form = $this->createForm('AppBundle\Form\CustomerType', $customer);
         $form->handleRequest($request);
+        $session = $request->getSession();
+        $session->start();
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the customer was created!');
+
             $em->persist($customer);
             $em->flush($customer);
 
             return $this->redirectToRoute('customer_show', array('id' => $customer->getId()));
         }
 
+        if (['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the customer was not created');
+        }
         return $this->render('customer/new.html.twig', array(
             'customer' => $customer,
             'form' => $form->createView(),
@@ -85,15 +96,25 @@ class CustomerController extends Controller
     public function editAction(Request $request, Customer $customer)
     {
         $deleteForm = $this->createDeleteForm($customer);
+        $session = $request->getSession();
+        $session->start();
+
         $editForm = $this->createForm('AppBundle\Form\CustomerType', $customer);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the customer was updated!');
 
             return $this->redirectToRoute('customer_edit', array('id' => $customer->getId()));
         }
+        if (['REQUEST_METHOD'] === 'POST') {
 
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the customer was not created');
+
+        }
         return $this->render('customer/edit.html.twig', array(
             'customer' => $customer,
             'edit_form' => $editForm->createView(),

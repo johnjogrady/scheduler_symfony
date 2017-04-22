@@ -22,8 +22,7 @@
         </section>
     </div>
     <div class="column_container">
-        <section class="flex">
-
+        <section>
             <table>
                 <tbody>
 
@@ -52,6 +51,11 @@
                     <td>{{ employee.addressLine3 }}</td>
                 </tr>
                 <tr>
+                    <th>County/Postcode</th>
+                    <td>{{ employee.countyPostcode }}</td>
+                </tr>
+
+                <tr>
                     <th>Eircode</th>
                     <td>{{ employee.eirCode }}</td>
                 </tr>
@@ -79,17 +83,27 @@
                     <th>Finishdate</th>
                     <td>{% if employee.finishDate %}{{ employee.finishDate|date('Y-m-d') }}{% endif %}</td>
                 </tr>
+                <tr>
+                    <th>Latitude</th>
+                    <td>{{ employee.latitude }}</td>
+                </tr>
+                <tr>
+                    <th>Longtitude</th>
+                    <td>{{ employee.longtitude }}</td>
+                </tr>
                 </tbody>
             </table>
 
+
         </section>
-        <section class="flex">
+
+        <section>
             <section>
-                <h4>Rosters for this Employee User</h4>
+                <h4>Rosters for this Employee</h4>
 
                 {% set time = "now"|date("U") %}
 
-                <table>
+                <table align="stretch">
                     <thead>
                     <tr>
                         <th colspan="7" class="center">
@@ -369,11 +383,11 @@
                     </tr>
                     </tbody>
                 </table>
-
             </section>
-            </hr>
-            <section class="flex">
-                <section>
+        </section>
+
+        <section>
+            <section>
                     <h4>
                     <span>
                   <strong>Absences for this employee</strong>
@@ -383,7 +397,6 @@
               </span>
                     </h4>
 
-                    <section class="flex">
 
                         <table>
                 <tr>
@@ -428,7 +441,8 @@
                 {% endfor %}
                 </tbody>
             </table>
-                    </section>
+            </section>
+            <section>
                     <h4>
                     <span>
                   <strong>Unavailable Times for employee</strong>
@@ -437,7 +451,6 @@
                         <a href="{{ path('employeeunavailability_new', { 'employee': employee.id }) }}"
                            class="btn btn-success btn-sm" role="button">Add New Unavailable Time </a>
                     </h4>
-                    <section class="flex">
 
             <table>
 
@@ -492,9 +505,16 @@
                 {% endfor %}
                 </tbody>
             </table>
-                    </section>
-                </section>
             </section>
+            <section>
+                <p>
+                    <iframe
+                            width="380"
+                            height="405"
+                            frameborder="1" style="align-items: center"
+                            src="http://maps.google.com/maps?q={{ employee.latitude }},{{ employee.longtitude }}&z=13&output=embed"></iframe>
+                </p>
+        </section>
         </section>
     </div>
 

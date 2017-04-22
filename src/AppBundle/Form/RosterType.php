@@ -60,7 +60,7 @@ class RosterType extends AbstractType
                     'placeholder' => 'Choose How Many Resources Are Needed',
                     'empty_data' => null
                 ))
-                ->add('customerId');
+                ->add('customerId')->add('rosterStatus');
         }
     }
 //

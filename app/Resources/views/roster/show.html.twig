@@ -29,8 +29,13 @@
             <td>{{ roster.id }}</td>
         </tr>
         <tr>
-            <th>Serviceuserid</th>
+            <th>Service User</th>
             <td>{{ roster.serviceUserId }}</td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td>{{ roster.serviceUserId.addressLine1 }} {{ roster.serviceUserId.addressLine2 }} {{ roster.serviceUserId.addressLine3 }}
+                {{ roster.serviceUserId.countyPostcode }}</td>
         </tr>
         <tr>
             <th>Rosterstarttime</th>

@@ -20,14 +20,6 @@ class DefaultController extends Controller
         return $this->render($templateName . '.html.twig', $argsArray);
     }
 
-    /**
-     * @Route("/admin")
-     */
-    public function adminAction()
-    {
-        return new Response('<html><body>Admin page!</body></html>');
-    }
-
 }
 
 

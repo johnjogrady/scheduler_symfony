@@ -1,17 +1,17 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
-    <h1>Offices View</h1>
-    {{ dump() }}
+
+    <h3> Click on one of the icons above to get started or view contact info for IWA offices below</h3>
     <table>
         <thead>
         <tr>
             <th></th>
-            <th>Officename</th>
+            <th>Office Name</th>
             <th>Address Line1</th>
             <th>Address Line2</th>
             <th>Address Line3</th>
-            <th>Countypostcode</th>
+            <th>County/Postcode</th>
             <th>Landline Telephone</th>
             <th>Mobile Telephone</th>
             <th>Active</th>
@@ -28,8 +28,11 @@
                                role="button">View</a>
                         </li>
                         <li>
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
                             <a href="{{ path('office_edit', { 'id': office.id }) }}" class="btn btn-success btn-sm"
                                role="button">Edit</a>
+                            {% endif %}
                         </li>
                     </ul>
                 </td>
@@ -46,10 +49,16 @@
         {% endfor %}
         </tbody>
     </table>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
     <ul>
         <li>
             <a href="{{ path('office_new') }}" class="btn btn-success btn-sm" role="button">Create a new Office</a>
         </li>
     </ul>
+        <a href="{{ path('security_logout') }}">
+            <a class="btn btn-default btn"> You are currently logged in as {{ app.user }}</a>
+            <img src="/images/logout.png" alt="customer" height="32" width="32"></a>
+        <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
+    {% endif %}
 {% endblock %}

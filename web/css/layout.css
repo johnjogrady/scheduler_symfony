@@ -40,9 +40,15 @@ div.column_container section.flex {
     margin-top: 10px;
     border-style: solid;
     border-width: 1px;
-    flex: 3;
     align-content: center;;
 
+}
+
+section {
+    border: solid;
+    color: darkgrey;
+    padding: 0.5em;
+    border-width: 1px;
 }
 
 div.column_container section.flexnarrow {
@@ -53,13 +59,12 @@ div.column_container section.flexnarrow {
     margin-top: 10px;
     border-style: solid;
     border-width: 1px;
-    flex: 1;
     align-content: center;;
 
 }
 
 #column_container section.fixed_wide {
-    flex: 5;
+
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     margin-left: 0.5rem;
@@ -141,4 +146,8 @@ label.field {
     color: #f2f2f2;
     width: 50px;
     float: left;
+}
+
+img {
+    padding: 2px;
 }

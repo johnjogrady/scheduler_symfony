@@ -8,10 +8,11 @@ use AppBundle\Entity\ServiceUser;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Serviceuserassignedemployee controller.
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("serviceuserassignedemployee")
  */
 class ServiceUserAssignedEmployeeController extends Controller
@@ -63,7 +64,7 @@ class ServiceUserAssignedEmployeeController extends Controller
             return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the employee was not assigned to this service user');
@@ -119,7 +120,7 @@ class ServiceUserAssignedEmployeeController extends Controller
         }
 
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the employee was not assigned to this service user');

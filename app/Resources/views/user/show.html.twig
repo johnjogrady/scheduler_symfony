@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '_base.html.twig' %}
 
 {% block body %}
     <h1>User</h1>
@@ -29,7 +29,7 @@
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete">
+            <input type="submit" value="Delete User">
             {{ form_end(delete_form) }}
         </li>
     </ul>

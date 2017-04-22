@@ -8,10 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 /**
  * User controller.
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("user")
  */
 class UserController extends Controller
@@ -19,6 +21,7 @@ class UserController extends Controller
     /**
      * Lists all user entities.
      *
+     * @Security("is_granted('ROLE_ADMIN')")
      * @Route("/", name="user_index")
      * @Method("GET")
      */
@@ -74,6 +77,8 @@ class UserController extends Controller
     public function createuserAction(Request $request)
     {
         $form = $this->createForm(UserRegistrationForm::class);
+        $session = $request->getSession();
+        $session->start();
 
         $form->handleRequest($request);
         $user = $form->getData();
@@ -85,9 +90,18 @@ class UserController extends Controller
             $user->setPassword($encodedpw);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', ', the user record was updated!');
+
             $em->flush();
 
-            return $this->redirectToRoute('user_show', array('id' => $user->getId()));
+            return $this->redirectToRoute('user_index');
+        }
+
+        if (['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the user was not created');
         }
 
         return $this->render('user/createuser.html.twig', array(
@@ -95,10 +109,6 @@ class UserController extends Controller
             'form' => $form->createView(),
         ));
 
-
-        return $this->render('user/createuser.html.twig', [
-            'form' => $form->createView()
-        ]);
     }
 
     /**
@@ -106,7 +116,7 @@ class UserController extends Controller
      * Update: actually not needed because form type for thie entity uses \RepeatedType
      * if two plain password values don't match, validation will fail
      */
-    public function passwordMatchCheck($password1, $password2)
+    function passwordMatchCheck($password1, $password2)
     {
         if ($password1 == $password2) {
             return true;
@@ -141,6 +151,8 @@ class UserController extends Controller
     {
         $deleteForm = $this->createDeleteForm($user);
         $editForm = $this->createForm('AppBundle\Form\UserRegistrationForm', $user);
+        $session = $request->getSession();
+        $session->start();
         $editForm->handleRequest($request);
         $encoder = $this->container->get('security.password_encoder');
         $encodedpw = $encoder->encodePassword($user, $editForm["plainPassword"]->getData());
@@ -149,10 +161,20 @@ class UserController extends Controller
 
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', ', the user records was been updated !');
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_show', array('id' => $user->getId()));
         }
+
+        if (['REQUEST_METHOD'] === 'POST') {
+
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, the service user was not updated ');
+        }
+
 
         return $this->render('user/edit.html.twig', array(
             'user' => $user,

@@ -10,4 +10,9 @@ namespace AppBundle\Repository;
  */
 class Employee extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findAllCustom()
+    {
+        return $this->findBy(array(), array('id' => 'DESC'));
+    }
 }

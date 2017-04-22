@@ -7,10 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Absencereason controller.
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("absencereason")
  */
 class AbsenceReasonController extends Controller

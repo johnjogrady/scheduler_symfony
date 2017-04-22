@@ -18,7 +18,6 @@ class RosterAssignedEmployeeRepository extends \Doctrine\ORM\EntityRepository
     {
         $from = new \DateTime($date->format("Y-m-d") . " 00:00:00");
         $to = new \DateTime($date->format("Y-m-d") . " 23:59:59");
-        //var_dump($from,$to);
 
         $qb = $this->createQueryBuilder("RosterAssignedEmployee")
             ->innerJoin('RosterAssignedEmployee.rosterId', 'roster');
@@ -31,5 +30,10 @@ class RosterAssignedEmployeeRepository extends \Doctrine\ORM\EntityRepository
         $result = $qb->getQuery()->getResult();
 
         return $result;
+    }
+
+    public function findAllCustom()
+    {
+        return $this->findBy(array(), array('id' => 'DESC'));
     }
 }

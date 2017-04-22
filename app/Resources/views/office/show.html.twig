@@ -1,8 +1,11 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
+
+    <div class="column_container">
+        <section class="flex">
+            <section>
     <h1>Office</h1>
-    {{ dump() }}
     <table>
         <tbody>
 
@@ -39,6 +42,15 @@
             <td>{{ office.mobileTelephone }}</td>
         </tr>
         <tr>
+            <th>Latitude</th>
+            <td>{{ office.latitude }}</td>
+        </tr>
+
+        <tr>
+            <th>Longtitude</th>
+            <td>{{ office.longtitude }}</td>
+        </tr>
+        <tr>
             <th>Is Active</th>
             <td>{% if office.isActive %}Yes{% else %}No{% endif %}</td>
         </tr>
@@ -50,15 +62,31 @@
             <a href="{{ path('office_index') }}" class="btn btn-success btn-sm" role="button">Back to the Offices
                 list</a>
         </li>
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
         <li>
 
             <a href="{{ path('office_edit', { 'id': office.id }) }}" class="btn btn-success btn-sm" role="button">Edit
                 Record</a>
         </li>
+
         <li>
             {{ form_start(delete_form) }}
             <input type="submit" value="Delete" class="btn btn-success btn-sm" role="button">
             {{ form_end(delete_form) }}
         </li>
+        {% endif %}
     </ul>
+            </section>
+            <section>
+                <p>
+                    <iframe
+                            width="380"
+                            height="405"
+                            frameborder="1" style="align-items: center"
+                            src="http://maps.google.com/maps?q={{ office.latitude }},{{ office.longtitude }}&z=13&output=embed"></iframe>
+                </p>
+            </section>
+        </section>
+    </div>
 {% endblock %}

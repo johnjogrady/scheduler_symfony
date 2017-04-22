@@ -6,10 +6,11 @@ use AppBundle\Entity\RosterStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Rosterstatus controller.
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("rosterstatus")
  */
 class RosterStatusController extends Controller

@@ -1,6 +1,7 @@
 {% extends '_base.html.twig' %}
-
 {% block body %}
+    {{ dump() }}
+
     <h1>Assign an Employee to this Roster </h1>
     <div class="column_container">
         <section class="flex">
@@ -61,6 +62,7 @@
                         <th>Staff Number</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Distance in kms</th>
                         <th>Action</th>
                     </tr>
 
@@ -76,6 +78,9 @@
                         </td>
                         <td>
                             {{ availableEmployee.lastName }}
+                        </td>
+                        <td>
+                            {{ availableEmployee.distance }}
                         </td>
                         <td>
                             <a href="{{ path('rosterassignedemployee_assign', { 'rosterid': roster.id,'employeeid': availableEmployee.id} ) }}"

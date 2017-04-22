@@ -63,7 +63,7 @@ class EmployeeAbsenceController extends Controller
         }
 
         //if it's a post and not a get and we got here, Houston we have a problem, better tell the user
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the Employee absence was not created');
@@ -115,7 +115,7 @@ class EmployeeAbsenceController extends Controller
             return $this->redirectToRoute('employee_show', array('id' => $employeeAbsence->getEmployeeId()->getId()));
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the Employee absence was not updated');

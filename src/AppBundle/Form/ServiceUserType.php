@@ -19,11 +19,11 @@ class ServiceUserType extends AbstractType
             ->add('lastName')
             ->add('addressLine1')->add('addressLine2')->add('addressLine3')->add('eirCode')
             ->add('landlineTelephone')->add('mobileTelephone')->add('isActive')
-            ->add('startDate', DateTimeType::class, array('widget' => 'single_text',
+            ->add('startDate', DateTimeType::class, array('widget' => 'single_text', 'required' => false,
                 'date_format' => 'yyyy-MM-dd HH:mm',
                 // add a class that can be selected in JavaScript
                 'attr' => ['class' => 'js-datepicker']))
-            ->add('finishDate', DateTimeType::class, array('widget' => 'single_text',
+            ->add('finishDate', DateTimeType::class, array('widget' => 'single_text', 'required' => false,
                 'date_format' => 'yyyy-MM-dd HH:mm',
                 // add a class that can be selected in JavaScript
                 'attr' => ['class' => 'js-datepicker']))

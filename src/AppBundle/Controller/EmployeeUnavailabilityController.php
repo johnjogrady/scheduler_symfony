@@ -8,10 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * EmployeeUnavailability controller.
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("employeeunavailability")
  */
 class EmployeeUnavailabilityController extends Controller
@@ -59,7 +60,7 @@ class EmployeeUnavailabilityController extends Controller
 
             return $this->redirectToRoute('employee_show', array('id' => $employeeUnavailability->getEmployeeId()->getId()));
         }
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the Employee unavailable time was not saved');
@@ -110,7 +111,7 @@ class EmployeeUnavailabilityController extends Controller
             return $this->redirectToRoute('employee_show', array('id' => $employeeUnavailability->getEmployeeId()->getId()));
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (['REQUEST_METHOD'] === 'POST') {
 
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the Employee unavailable time was not updated');

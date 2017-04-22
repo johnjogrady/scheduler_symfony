@@ -5,10 +5,10 @@
 \usepackage{booktabs}	
 \usepackage{csquotes}
 \usepackage{hyperref}
+\usepackage{ragged2e}
 \usepackage{multirow}
 \usepackage[style=authoryear-ibid,backend=biber]{biblatex}
 \addbibresource{mybib.bib}
-
 \newcommand\addrow[2]{#1 &#2\\ }
 
 \newcommand\addheading[2]{#1 &#2\\ \hline}
@@ -94,6 +94,8 @@ Finally, in conclusion, the author offers some insights from his experience of t
 \tableofcontents
 \pagebreak------------------------------------------------
 \begin{samepage}
+\justify
+
 \section{Introduction}
 
 This project examines the requirements for a prototype Rostering and Scheduling solution for which the ultimate client, the Irish Wheelchair Association (IWA) has a real world business requirement. It is envisaged that the finished software deliverable at the conclusion of this project will not be a fully enterprise ready software solution but rather the project deliverable will be employed as a prototype for user acceptance testing by representative end users.  This software development process will be used to examine and further refine IWA's existing assumptions in relation to the imminent deployment of a critical real life deployment whose successful implementation is considered to be fundamental to the competitive position of the IWA. 
@@ -290,7 +292,7 @@ The \textbf{Manifesto for Agile Software Development} is based on twelve princip
 \section {Initiation and Concept Development}
 
 \subsection {Scope of Final Rostering and Scheduling Solution}
-In order to address this deficiency, the IWA's Senior Management Team have mandated the IWA ICT team to work with internal stakeholders to define functional requirements and implement a competitive tender process to select and deploy a new software solution to enable IWA to manage rostering and the capture of time and attendance information in a more efficient manner.
+In order to address and remedy the deficiencies noted in the earlier Organisational context section in relation to the inefficient processes currently being used to manage the organisation's rostering and scheduling processes,  the IWA's Senior Management Team have mandated the IWA ICT team to work with internal stakeholders to define functional requirements and implement a competitive tender process to select and deploy a new software solution to enable IWA to manage rostering and the capture of time and attendance information in a more efficient manner.
 The proposed solution will deliver the following functionality components to IWA:
 \begin{itemize}
 \item \textbf{A Rostering and Scheduling solution} for use by ALS Administrators, Coordinators and Support Officers. The proposed solution should also interface with the IWA Megapay payroll system. Finally, it should manage the customer billing process in relation to the care services provided to statutory and individual customers.
