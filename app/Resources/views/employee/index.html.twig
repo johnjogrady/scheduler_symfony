@@ -29,13 +29,11 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('employee_show', { 'id': employee.id }) }}" class="btn btn-success btn-sm"
-                               role="button">Detail</a>
+                            <a href="{{ path('employee_show', { 'id': employee.id }) }}">Detail</a>
                         </li>
 
                         <li>
-                            <a href="{{ path('employee_edit', { 'id': employee.id }) }}" class="btn btn-success btn-sm"
-                               role="button">Edit</a>
+                            <a href="{{ path('employee_edit', { 'id': employee.id }) }}">Edit</a>
                         </li>
                     </ul>
                 </td>
@@ -60,7 +58,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('employee_new') }}" class="btn btn-success btn-sm" role="button">Create a new Employee</a>
+            <a href="{{ path('employee_new') }}">Create a new Employee</a>
         </li>
     </ul>
 {% endblock %}

@@ -6,16 +6,15 @@
             <h4>Employee Details</h4>
             <ul>
                 <li>
-                    <a href="{{ path('employee_index') }}" class="btn btn-success btn-sm" role="button">Back to the
+                    <a href="{{ path('employee_index') }}">Back to the
                         Employee list</a>
                 </li>
                 <li>
-                    <a href="{{ path('employee_edit', { 'id': employee.id }) }}" class="btn btn-success btn-sm"
-                       role="button">Edit Record</a>
+                    <a href="{{ path('employee_edit', { 'id': employee.id }) }}">Edit Record</a>
                 </li>
                 <li>
                     {{ form_start(delete_form) }}
-                    <input type="submit" class="btn btn-success btn-sm" role="button" value="Delete">
+                    <input type="submit" value="Delete">
                     {{ form_end(delete_form) }}
                 </li>
             </ul>
@@ -392,7 +391,7 @@
                     <span>
                   <strong>Absences for this employee</strong>
                          <a href="{{ path('employeeabsence_new', { 'employee': employee.id }) }}"
-                            class="btn btn-success btn-sm" role="button">Add New Absence</a>
+                         >Add New Absence</a>
 
               </span>
                     </h4>
@@ -430,10 +429,10 @@
                             <ul>
                                 <li>
                                     <a href="{{ path('employeeabsence_edit', { 'id': employeeAbsence.id }) }}"
-                                       class="btn btn-info btn-sm" role="button">Update</a>
+                                    >Update</a>
                                     <span>. </span>
                                     <a href="{{ path('employeeabsence_delete', { 'id': employeeAbsence.id }) }}"
-                                       class="btn btn-info btn-sm" role="button">Remove</a>
+                                    >Remove</a>
                                 </li>
                             </ul>
                         </td>
@@ -449,7 +448,7 @@
 
               </span>
                         <a href="{{ path('employeeunavailability_new', { 'employee': employee.id }) }}"
-                           class="btn btn-success btn-sm" role="button">Add New Unavailable Time </a>
+                        >Add New Unavailable Time </a>
                     </h4>
 
             <table>
@@ -493,11 +492,11 @@
                             <ul>
                                 <li>
                                     <a href="{{ path('employeeunavailability_edit', { 'id': employeeunavailability.id }) }}"
-                                       class="btn btn-info btn-sm" role="button">Update</a>
+                                    >Update</a>
                                     <span><p>.</p> </span>
 
                                     <a href="{{ path('employeeunavailability_delete', { 'id': employeeunavailability.id }) }}"
-                                       class="btn btn-info btn-sm" role="button">Remove</a>
+                                    >Remove</a>
                                 </li>
                             </ul>
                         </td>
