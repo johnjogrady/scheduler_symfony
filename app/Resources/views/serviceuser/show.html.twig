@@ -65,7 +65,7 @@
                            class="btn btn-success btn-sm"
                            role="button">Edit Service User Record</a>
                         {{ form_start(delete_form) }}
-                        <input type="submit" class="btn btn-success btn-sm" role="button" value="Delete Service User">
+                        <input type="submit" value="Delete Service User">
                         {{ form_end(delete_form) }}
                     </td>
 
@@ -77,7 +77,7 @@
                 <th>Assigned Employees</th>
                 <th>
                     <a href="{{ path('serviceuserassignedemployee_new', { 'serviceUser': serviceUser.id }) }}"
-                       class="btn btn-success btn-md" role="button">Assign Employee</a>
+                    >Assign Employee</a>
                 </th>
                 {% for assignedEmployee in assignedEmployees %}
 
@@ -87,7 +87,7 @@
                         </td>
                         <td>
                             <a href="{{ path('serviceuserassignedemployee_delete', { 'id': assignedEmployee.id }) }}"
-                               class="btn btn-info btn-md" role="button">Remove Employee Assignment</a>
+                            >Remove Employee Assignment</a>
                         </td>
 
                     </tr>
@@ -100,8 +100,7 @@
                 <th>Do Not Send These Employees</th>
                 <th>
                     <a href="{{ path('donotsend_new', { 'serviceUser': serviceUser.id }) }}"
-                       class="btn btn-success btn-sm"
-                       role="button">Mark an Employee As Do Not Send</a>
+                    >Mark an Employee As Do Not Send</a>
 
                 </th>
                 {% for doNotSend in doNotSends %}
@@ -110,8 +109,7 @@
                         <td>
                             {{ doNotSend.employeeId }}  </td>
                         <td><a href="{{ path('donotsend_delete', { 'id': doNotSend.id }) }}"
-                               class="btn btn-warning btn-sm"
-                               role="button">Remove Do Not Send Flag</a>
+                            >Remove Do Not Send Flag</a>
                         </td>
 
                     </tr>
@@ -124,8 +122,7 @@
 
             <section>
                 <h4>Rosters for this Service User</h4>
-                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id }) }}" class="btn btn-success btn"
-                   role="button">Add New Roster</a>
+                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id }) }}">Add New Roster</a>
 
 
                 {% set time = "now"|date("U") %}
@@ -200,12 +197,12 @@
 
 
                                 <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
-                                   class="btn btn-block btn-xs bottom-left" role="button">Add</a>
+                                >Add</a>
                             {% else %}
                                 {% set currentDate = [day,month, year]|join('-')|date("m/d/Y") %}
 
                                 <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
-                                   class="btn btn-block btn-xs bottom-left" role="button">Add</a>
+                                >Add</a>
 
                             {% endif %}
 
@@ -298,12 +295,12 @@
 
 
                                 <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
-                                   class="btn btn-block btn-xs bottom-left" role="button">Add</a>
+                                >Add</a>
                             {% else %}
                                 {% set currentDate = [day,month, year]|join('-')|date("m/d/Y") %}
 
                                 <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
-                                   class="btn btn-block btn-xs bottom-left" role="button">Add</a>
+                                >Add</a>
 
                             {% endif %}
 

@@ -65,7 +65,7 @@ class RosterController extends Controller
             return $this->redirectToRoute('roster_show', array('id' => $roster->getId()));
         }
 
-        if ($this->input->server('REQUEST_METHOD') == 'GET') {
+        if (['REQUEST_METHOD'] === 'POST') {
             $session->getFlashBag('error');
             $session->getFlashBag()->add('error', 'Error, the roster was not created');
         }

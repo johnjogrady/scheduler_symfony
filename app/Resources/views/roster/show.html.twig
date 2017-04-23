@@ -52,7 +52,10 @@
         <tr>
             <th>Roster Duration</th>
             <td>
-                {% if roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i")==0 %}
+                {% if roster.rosterEndTime.diff(roster.rosterStartTime ) is not defined %}
+
+
+                {% elseif roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i")==0 %}
                     {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:") }}00
                 {% elseif (roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i")<10)
                 and (roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i")>0) %}
@@ -127,15 +130,14 @@
 
     <ul>
         <li>
-            <a href="{{ path('roster_index') }}" class="btn btn-success btn-sm" role="button">Back to the list</a>
+            <a href="{{ path('roster_index') }}">Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('roster_edit', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
-               role="button">Edit</a>
+            <a href="{{ path('roster_edit', { 'id': roster.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete Roster" class="btn btn-success btn-sm" role="button">
+            <input type="submit" value="Delete Roster" role="button">
             {{ form_end(delete_form) }}
         </li>
     </ul>

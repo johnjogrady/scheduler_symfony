@@ -12,9 +12,6 @@
         <tr>
             <th></th>
             <th>Serviceuserid</th>
-            <th>Start time</th>
-            <th>End time</th>
-            <th>Duration</th>
             <th>Status</th>
             <th>Resources needed</th>
             <th>Customer</th>
@@ -26,30 +23,16 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('roster_show', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
-                               role="button">View</a>
+                            <a href="{{ path('roster_show', { 'id': roster.id }) }}">View</a>
                         </li>
                         <li>
-                            <a href="{{ path('roster_edit', { 'id': roster.id }) }}" class="btn btn-success btn-sm"
-                               role="button">Edit</a>
+                            <a href="{{ path('roster_edit', { 'id': roster.id }) }}">Edit</a>
                         </li>
                     </ul>
                 </td>
 
                 <td>{{ roster.serviceUserId }}</td>
-                <td>{% if roster.rosterStartTime %}{{ roster.rosterStartTime|date('D d-m-y H:i:s') }}{% endif %}</td>
-                <td>{% if roster.rosterEndTime %}{{ roster.rosterEndTime|date('D d-m-y H:i:s') }}{% endif %}</td>
-                <td>
-                    {% if roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i")==0 %}
-                        {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:") }}00
-                    {% elseif (roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i")<10)
-                    and (roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i")>0) %}
-                        {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:") }}0
-                        {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%i") }}
-                    {% else %}
-                        {{ roster.rosterEndTime.diff(roster.rosterStartTime )|date("%H:%i") }}
-                    {% endif %}
-                </td>
+
                 <td>{{ roster.rosterStatus }}</td>
                 <td>{{ roster.numberResourcesNeeded }}</td>
                 <td>{{ roster.customerId }}</td>
