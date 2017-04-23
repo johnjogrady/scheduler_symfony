@@ -127,13 +127,22 @@ class OfficeController extends Controller
         $editForm->handleRequest($request);
         $geoCoder = new Mapping\geoCodeFunctions();
 
-        // call geocoder class with service user object
-        $coordinates = $geoCoder->geocode($office);
-        $session->getFlashBag('notice');
-        $session->getFlashBag()->add('notice', 'Success, the Office was updated!');
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            // call geocoder class with service user object
+            $coordinates = $geoCoder->geocode($office);
 
-        $office->setLatitude($coordinates[0]);
-        $office->setLongtitude($coordinates[1]);
+            $office->setLatitude($coordinates[0]);
+            $office->setLongtitude($coordinates[1]);
+            $em->persist($office);
+            $session->getFlashBag('notice');
+            $session->getFlashBag('notice');
+            $session->getFlashBag()->add('notice', 'Success, the Office was updated!');
+
+            $em->flush($office);
+
+            return $this->redirectToRoute('office_show', array('id' => $office->getId()));
+        }
 
         if (['REQUEST_METHOD'] === 'POST') {
 

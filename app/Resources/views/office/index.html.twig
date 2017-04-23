@@ -24,14 +24,13 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('office_show', { 'id': office.id }) }}" class="btn btn-success btn-sm"
-                               role="button">View</a>
+                            <a href="{{ path('office_show', { 'id': office.id }) }}">View</a>
+
                         </li>
                         <li>
                             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
-                            <a href="{{ path('office_edit', { 'id': office.id }) }}" class="btn btn-success btn-sm"
-                               role="button">Edit</a>
+                                <a href="{{ path('office_edit', { 'id': office.id }) }}">Edit</a>
                             {% endif %}
                         </li>
                     </ul>
@@ -53,7 +52,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('office_new') }}" class="btn btn-success btn-sm" role="button">Create a new Office</a>
+            <a href="{{ path('office_new') }}">Create a new Office</a>
         </li>
     </ul>
         <a href="{{ path('security_logout') }}">

@@ -59,20 +59,17 @@
 
     <ul>
         <li>
-            <a href="{{ path('office_index') }}" class="btn btn-success btn-sm" role="button">Back to the Offices
-                list</a>
+            <a href="{{ path('office_index') }}">Back to the Offices list</a>
         </li>
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
         <li>
-
-            <a href="{{ path('office_edit', { 'id': office.id }) }}" class="btn btn-success btn-sm" role="button">Edit
-                Record</a>
+            <a href="{{ path('office_edit', { 'id': office.id }) }}">Edit</a>
         </li>
 
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete" class="btn btn-success btn-sm" role="button">
+            <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
         {% endif %}
