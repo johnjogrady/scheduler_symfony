@@ -1,0 +1,182 @@
+/* these are from the standard bootstrap styling*/
+
+.button-red {
+    color: #fff;
+    background-color: #d9534f;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 1px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-color: black;
+    border-radius: 4px;
+
+}
+
+.button-blue {
+    color: #fff;
+    background: steelblue;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 1px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-color: black;
+    border-radius: 4px;
+
+}
+
+.button-green {
+    color: #fff;
+    background: seagreen;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 1px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-color: black;
+    border-radius: 4px;
+
+}
+
+.button-green-xs {
+    color: #fff;
+    background: seagreen;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 1px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-color: black;
+    border-radius: 4px;
+
+}
+
+.button-orange {
+    color: #fff;
+    background: #f0ad4e;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 1px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-color: black;
+    border-radius: 4px;
+
+}
+
+.button-grey {
+    color: navy;
+    background-color: darkgrey;
+    border-color: #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 1px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-color: black;
+    border-radius: 4px;
+}
+
+.button-grey-xs {
+    background-color: darkgrey;
+    border-color: #ccc;
+    margin-bottom: 1px;
+    margin-right: 2px;
+    font-size: 12px;
+    height: 18px;
+    color: navy;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}

@@ -13,6 +13,7 @@
         @import "/css/basic.css";
         @import "/css/header_footer.css";
         @import "/css/layout.css";
+        @import "/css/buttons.css";
 
         {% block stylesheets %}
         label {
@@ -103,16 +104,14 @@
             <a class="btn btn-default btn"> Current user:{{ app.user }}</a>
             <img src="/images/logout.png" alt="customer" height="32" width="32"></a>
         <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
-    {% endif %}
-    {#
-        {% else %}
-            <a href="{{ path('security_login') }}">
-                <img src="/images/login.png" alt="customer" height="32" width="32"></a>
-            <a href="{{ path('security_login') }}" class="btn btn-success" role="button">Login</a>
 
-        #}
+        {% else %}
+            <a href="{{ path('serviceuser_index') }}">
+                <img src="/images/login.png" alt="customer" height="32" width="32"></a>
+            <a href="{{ path('serviceuser_index') }}" class="btn btn-success" role="button">Login</a>
+
+    {% endif %}
 </div>
-<hr>
 
 {% for flashMessage in app.session.flashbag.get('error') %}
     <div class="alert-danger" role="alert">

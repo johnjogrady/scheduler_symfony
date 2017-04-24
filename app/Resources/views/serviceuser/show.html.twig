@@ -1,16 +1,13 @@
 {% extends '_base.html.twig' %}
-
 {% block body %}
-    <div class="column_container">
-        <section>
-            <h4>Service User Details</h4>
+    <div class="column_container" xmlns="http://www.w3.org/1999/html">
+        <section class="col-md-4">
+            <h2>Service User Details</h2>
 
             <table>
-
                 <tr>
-
-                    <th>First name</th>
-                    <td>{{ serviceUser.firstName }}</td>
+                    <th width="40%">First name</th>
+                    <td width="60%">{{ serviceUser.firstName }}</td>
                 </tr>
                 <tr>
                     <th>Last name</th>
@@ -20,6 +17,7 @@
                     <th>Address line1</th>
                     <td>{{ serviceUser.addressLine1 }}</td>
                 </tr>
+
                 <tr>
                     <th>Address line2</th>
                     <td>{{ serviceUser.addressLine2 }}</td>
@@ -56,29 +54,29 @@
                     <th>Finish date</th>
                     <td>{% if serviceUser.finishDate %}{{ serviceUser.finishDate|date('Y-m-d') }}{% endif %}</td>
                 </tr>
-                <tr>
-                    <td>
-                        <a href="{{ path('serviceuser_index') }}" class="btn btn-success btn-sm" role="button">Back to
+            </table>
+
+            <section class="flex">
+                <a href="{{ path('serviceuser_index') }}" class="button-grey">Back to
                             the
                             Service User list</a>
                         <a href="{{ path('serviceuser_edit', { 'id': serviceUser.id }) }}"
-                           class="btn btn-success btn-sm"
-                           role="button">Edit Service User Record</a>
-                        {{ form_start(delete_form) }}
-                        <input type="submit" value="Delete Service User">
+                           class="button-orange">Edit Service User Record</a>
+            </section>
+            <section class="flex">
+                {{ form_start(delete_form) }}
+                <input type="submit" class="button-red" value="Delete Service User">
                         {{ form_end(delete_form) }}
-                    </td>
+            </section>
+            <h2>Assigned Employees</h2>
+            <table align="center">
 
-                </tr>
-
-            </table>
-
-            <table>
-                <th>Assigned Employees</th>
                 <th>
-                    <a href="{{ path('serviceuserassignedemployee_new', { 'serviceUser': serviceUser.id }) }}"
+                    <a class="button-green"
+                       href="{{ path('serviceuserassignedemployee_new', { 'serviceUser': serviceUser.id }) }}"
                     >Assign Employee</a>
                 </th>
+                <th></th>
                 {% for assignedEmployee in assignedEmployees %}
 
                     <tr>
@@ -86,30 +84,32 @@
                             {{ assignedEmployee.employeeId }}
                         </td>
                         <td>
-                            <a href="{{ path('serviceuserassignedemployee_delete', { 'id': assignedEmployee.id }) }}"
-                            >Remove Employee Assignment</a>
+                            <a class="button-red"
+                               href="{{ path('serviceuserassignedemployee_delete', { 'id': assignedEmployee.id }) }}"
+                            >Remove Assignment</a>
                         </td>
 
                     </tr>
                 {% endfor %}
 
             </table>
+            <h2>Do Not Send These Employees</h2>
 
-
-            <table>
-                <th>Do Not Send These Employees</th>
+            <table align="center">
                 <th>
-                    <a href="{{ path('donotsend_new', { 'serviceUser': serviceUser.id }) }}"
+                    <a class="button-green" href="{{ path('donotsend_new', { 'serviceUser': serviceUser.id }) }}"
                     >Mark an Employee As Do Not Send</a>
 
                 </th>
+                <th></th>
+
                 {% for doNotSend in doNotSends %}
 
                     <tr>
                         <td>
                             {{ doNotSend.employeeId }}  </td>
-                        <td><a href="{{ path('donotsend_delete', { 'id': doNotSend.id }) }}"
-                            >Remove Do Not Send Flag</a>
+                        <td><a class="button-red" href="{{ path('donotsend_delete', { 'id': doNotSend.id }) }}"
+                            >Remove DoNotSend Flag</a>
                         </td>
 
                     </tr>
@@ -118,11 +118,12 @@
 
             </table>
         </section>
-            </section>
 
-            <section>
-                <h4>Rosters for this Service User</h4>
-                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id }) }}">Add New Roster</a>
+
+        <section class="col-md-5">
+            <h2>Rosters for this Service User</h2>
+            <a class="button-green" href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id }) }}">Add New
+                Roster</a>
 
 
                 {% set time = "now"|date("U") %}
@@ -157,28 +158,27 @@
                         <td>
                             <div>
                                 <div><strong>{{ day }}</strong>
+                                    </br>
 
                                     {# as days in months have been extracted from dates, the first ten days have index keys of 01,02 then 10,11 #}
                                     {% if (attribute(daysThisMonth,day)is defined) or (attribute(daysThisMonth,0~day)is defined) %}
 
                                     {% if day<10 %}
-                                        </br>
                                         {% for item in range(0,daysThisMonth[0~day]|length-1 ) %}
 
 
                                             <a href="{{ path('roster_show', { 'id': daysThisMonth[0~day][item].id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
 
                                                 {{ daysThisMonth[0~day][item].rosterStartTime|date(' H:i') }} to
                                                 {{ daysThisMonth[0~day][item].rosterEndTime|date(' H:i') }}
                                             </a>
-
                                         {% endfor %}
                                     {% else %}
                                         {% for item in range(0,daysThisMonth[day]|length-1 ) %}
 
                                             <a href="{{ path('roster_show', { 'id': daysThisMonth[day][item].id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
 
                                                 {{ daysThisMonth[day][item].rosterStartTime|date(' H:i') }} to
                                                 {{ daysThisMonth[day][item].rosterEndTime|date(' H:i') }}
@@ -196,12 +196,14 @@
 
 
 
-                                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
+                                <a class="button-green-xs"
+                                   href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
                                 >Add</a>
                             {% else %}
                                 {% set currentDate = [day,month, year]|join('-')|date("m/d/Y") %}
 
-                                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
+                                <a class="button-green-xs"
+                                   href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
                                 >Add</a>
 
                             {% endif %}
@@ -254,17 +256,18 @@
                         <td>
                             <div>
                                 <div><strong>{{ day }}</strong>
+                                    </br>
+
                                     {# as days in months have been extracted from dates, the first ten days have index keys of 01,02 then 10,11 #}
 
                                     {% if (attribute(daysNextMonth,day)is defined) or (attribute(daysNextMonth,0~day)is defined) %}
 
                                     {% if day<10 %}
-                                        </br>
                                         {% for item in range(0,daysNextMonth[0~day]|length-1 ) %}
 
 
                                             <a href="{{ path('roster_edit', { 'id': daysNextMonth[0~day][item].id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
 
                                                 {{ daysNextMonth[0~day][item].rosterStartTime|date(' H:i') }} to
                                                 {{ daysNextMonth[0~day][item].rosterEndTime|date(' H:i') }}
@@ -274,7 +277,7 @@
                                         {% for item in range(0,daysNextMonth[day]|length-1 ) %}
 
                                             <a href="{{ path('roster_edit', { 'id': daysNextMonth[day][item].id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
 
                                                 {{ daysNextMonth[day][item].rosterStartTime|date(' H:i') }} to
                                                 {{ daysNextMonth[day][item].rosterEndTime|date(' H:i') }}
@@ -294,12 +297,14 @@
 
 
 
-                                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
+                                <a class="button-green-xs"
+                                   href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
                                 >Add</a>
                             {% else %}
                                 {% set currentDate = [day,month, year]|join('-')|date("m/d/Y") %}
 
-                                <a href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
+                                <a class="button-green-xs"
+                                   href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id, 'rosterDate': currentDate}) }}"
                                 >Add</a>
 
                             {% endif %}
@@ -352,17 +357,18 @@
                         <td>
                             <div>
                                 <div><strong>{{ day }}</strong>
+                                    </br>
+
                                     {# as days in months have been extracted from dates, the first ten days have index keys of 01,02 then 10,11 #}
 
                                     {% if (attribute(daysLastMonth,day)is defined) or (attribute(daysLastMonth,0~day)is defined) %}
 
                                     {% if day<10 %}
-                                        </br>
                                         {% for item in range(0,daysLastMonth[0~day]|length-1 ) %}
 
 
                                             <a href="{{ path('roster_edit', { 'id': daysLastMonth[0~day][item].id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
 
                                                 {{ daysLastMonth[0~day][item].rosterStartTime|date(' H:i') }} to
                                                 {{ daysLastMonth[0~day][item].rosterEndTime|date(' H:i') }}
@@ -371,8 +377,9 @@
                                     {% else %}
                                         {% for item in range(0,daysLastMonth[day]|length-1 ) %}
 
-                                            <a href="{{ path('roster_edit', { 'id': daysLastMonth[day][item].id}) }}"
-                                               class="btn btn-success btn-sm">
+                                            <a class="button-grey-xs"
+                                               href="{{ path('roster_edit', { 'id': daysLastMonth[day][item].id}) }}"
+                                            >
 
                                                 {{ daysLastMonth[day][item].rosterStartTime|date(' H:i') }} to
                                                 {{ daysLastMonth[day][item].rosterEndTime|date(' H:i') }}
@@ -405,17 +412,17 @@
 
 
         </section>
-        <section class="fixed">
+        <section class="col-md-3">
                 <p>
                     <iframe
-                            width="270"
-                            height="425"
-                            frameborder="0" style="border:1px"
+                            width="290"
+                            height="485"
+                            frameborder="1" style="border:1px"
                             src="http://maps.google.com/maps?q={{ serviceUser.latitude }},{{ serviceUser.longtitude }}&z=13&output=embed"></iframe>
                 </p>
-                <table>
-                    <th>Latitude</th>
-                    <th>Longtitude</th>
+            <table width="100%">
+                <th width="60%">Latitude</th>
+                <th width="60%">Longtitude</th>
                     <tr>
                         <td>{{ serviceUser.latitude }}</td>
                         <td>{{ serviceUser.longtitude }}</td>

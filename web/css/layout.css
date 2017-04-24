@@ -3,15 +3,24 @@ body {
     margin: 0.5rem;
 }
 
-th, th a {
-    height: 30px;
-    font-size: 12px;
+th, a {
+    height: 28px;
+    font-size: 13px;
     color: #ffffff;
     background-color: lightseagreen;
 }
 
+td {
+    font-size: 13px;
+
+}
+
+table.narrow tr th {
+    column-width: 50px;
+}
+
 tr {
-    height: 20px;
+    height: 18px;
 }
 
 tr:nth-child(even) {
@@ -46,7 +55,7 @@ div.column_container section.flex {
 
 section {
     border: solid;
-    color: darkgrey;
+    text-align: center;
     padding: 0.5em;
     border-width: 1px;
 }
@@ -91,7 +100,10 @@ section p, aside p {
 }
 
 section h2 {
-    font-size: 1.1rem;
+    font-size: 1.6rem;
+    color: white;
+    border-style: solid;
+
     margin-top: 1rem;
     text-align: center;
 }
