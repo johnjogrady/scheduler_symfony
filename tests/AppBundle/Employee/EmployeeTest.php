@@ -45,7 +45,7 @@ class EmployeeTest extends WebTestCase
 
         // Edit the entity
 
-        $crawler = $client->click($crawler->selectLink('Edit Record')->link());
+        $crawler = $client->click($crawler->selectLink('Edit Employee Record')->link());
         $buttonCrawlerNode = $crawler->selectButton('Submit Changes');
         //create a new form object, nb because we can have more than one form, each one is linked to its submit button
         //fill in new form values

@@ -97,13 +97,13 @@ class DoNotSendController extends Controller
      * @Route("/{id}/edit", name="donotsend_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, DoNotSend $doNotSend, ServiceUser $serviceUser)
+    public function editAction(Request $request, DoNotSend $doNotSend)
     {
         $deleteForm = $this->createDeleteForm($doNotSend);
         $session = $request->getSession();
         $session->start();
-        $editForm = $this->createForm('AppBundle\Form\DoNotSendType', $doNotSend, array(
-            'serviceUser' => $serviceUser));
+
+        $editForm = $this->createForm('AppBundle\Form\DoNotSendType', $doNotSend, array());
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

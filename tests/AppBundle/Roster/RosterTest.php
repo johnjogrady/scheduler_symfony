@@ -38,19 +38,13 @@ class RosterControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/roster');
         $crawler = $client->followRedirect();
         // find the last anchor tag
-        $link = $crawler->selectLink('View')
+        $link = $crawler->selectLink('Edit')
             ->last()
             ->link();
 
-        var_dump($link->getUri());
         $client->click($link);
         $client->followRedirects(true);
 
-        // Delete the newly create roster entity record
-        $link = $crawler->selectLink('Edit')->last()->link();
-        $client->click($link);
-        $client->followRedirects(true);
-        var_dump($link->getUri());
 
         $this->assertNotRegExp('/TestUnit/', $client->getResponse()->getContent());
 
