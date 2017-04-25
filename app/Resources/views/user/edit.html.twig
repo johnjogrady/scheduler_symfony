@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>User edit/ Password reset </h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <h1>User edit/ Password reset </h1>
     <h4>You can use this form to edit user details and reset a user's password</h4>
     {{ form_start(edit_form) }}
     {{ form_row(edit_form.email) }}
@@ -13,17 +17,20 @@
     }) }}
     {{ form_row(edit_form.role) }}
 
-    <input type="submit" value="Submit Changes"/>
+                <input class="button-green" type="submit" value="Submit Changes"/>
     {{ form_end(edit_form) }}
 
     <ul>
         <li>
-            <a href="{{ path('user_index') }}">Back to the list of my Users</a>
+            <a class="button-grey" href="{{ path('user_index') }}">Back to the list of my Users</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete this User">
+            <input class="button-red" type="submit" value="Delete this User">
             {{ form_end(delete_form) }}
         </li>
     </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

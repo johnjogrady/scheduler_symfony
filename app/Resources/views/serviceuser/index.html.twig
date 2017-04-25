@@ -1,7 +1,7 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
-    <h1>Service Users </h1>
+    <h2>Service Users Index Page</h2>
 
     <table>
         <thead>
@@ -27,13 +27,13 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('serviceuser_show', { 'id': serviceUser.id }) }}"
-                               class="btn btn-info btn-xs" role="button">View</a>
+                            <a class="button-blue" href="{{ path('serviceuser_show', { 'id': serviceUser.id }) }}"
+                            >View</a>
                         </li>
 
                         <li>
-                            <a href="{{ path('serviceuser_edit', { 'id': serviceUser.id }) }}"
-                               class="btn btn-info btn-xs" role="button">Edit</a>
+                            <a class="button-orange" href="{{ path('serviceuser_edit', { 'id': serviceUser.id }) }}"
+                            >Edit</a>
                         </li>
                     </ul>
                 </td>
@@ -57,7 +57,8 @@
 
     <ul>
         <li>
-            <a href="{{ path('serviceuser_new') }}" class="btn btn-info" role="button">Add new Service User</a>
+            <a class="button-green" href="{{ path('serviceuser_new') }}" class="btn btn-info" role="button">Add new
+                Service User</a>
         </li>
     </ul>
 {% endblock %}

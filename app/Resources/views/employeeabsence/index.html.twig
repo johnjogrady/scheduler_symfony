@@ -5,7 +5,7 @@
     <table>
         <thead>
         <tr>
-            <th>Id</th>
+            <th>Employee</th>
             <th>Starttime</th>
             <th>Endtime</th>
             <th>Actions</th>
@@ -15,17 +15,19 @@
         {% for employeeAbsence in employeeAbsences %}
             <tr>
                 <td>
-                    <a href="{{ path('employeeabsence_show', { 'id': employeeAbsence.id }) }}">{{ employeeAbsence.id }}</a>
+                    {{ employeeAbsence.employeeId }}
                 </td>
                 <td>{% if employeeAbsence.startTime %}{{ employeeAbsence.startTime|date('D d-m-y H:i:s') }}{% endif %}</td>
                 <td>{% if employeeAbsence.endTime %}{{ employeeAbsence.endTime|date('D d-m-y H:i:s') }}{% endif %}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('employeeabsence_show', { 'id': employeeAbsence.id }) }}">show</a>
+                            <a class="button-blue"
+                               href="{{ path('employeeabsence_show', { 'id': employeeAbsence.id }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('employeeabsence_edit', { 'id': employeeAbsence.id }) }}">edit</a>
+                            <a class="button-orange"
+                               href="{{ path('employeeabsence_edit', { 'id': employeeAbsence.id }) }}">edit</a>
                         </li>
                     </ul>
                 </td>

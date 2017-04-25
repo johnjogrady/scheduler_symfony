@@ -6,21 +6,27 @@
     <table>
         <thead>
         <tr>
-            <th>Id</th>
+            <th>Employee</th>
+            <th></th>
+            <th>Service User</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for doNotSend in doNotSends %}
             <tr>
-                <td><a href="{{ path('donotsend_show', { 'id': doNotSend.id }) }}">{{ doNotSend.id }}</a></td>
+                <td>{{ doNotSend.employeeId }}</td>
+                <td> is noted as not to be sent to</td>
+                <td>{{ doNotSend.serviceUserid }}</td>
+
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('donotsend_show', { 'id': doNotSend.id }) }}">show</a>
+                            <a class="button-blue" href="{{ path('donotsend_show', { 'id': doNotSend.id }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('donotsend_edit', { 'id': doNotSend.id }) }}">edit</a>
+                            <a class="button-orange"
+                               href="{{ path('donotsend_edit', { 'id': doNotSend.id }) }}">edit</a>
                         </li>
                     </ul>
                 </td>
@@ -29,9 +35,4 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('donotsend_new') }}">Create a new doNotSend</a>
-        </li>
-    </ul>
 {% endblock %}

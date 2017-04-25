@@ -6,12 +6,12 @@
         <section class="flex">
             <section>
     <h1>Office</h1>
-    <table>
+                <table width="100%">
         <tbody>
 
         <tr>
-            <th>Office name</th>
-            <td>{{ office.officeName }}</td>
+            <th width="30%">Office name</th>
+            <td width="70%">{{ office.officeName }}</td>
         </tr>
         <tr>
             <th>Address line1</th>
@@ -59,17 +59,17 @@
 
     <ul>
         <li>
-            <a href="{{ path('office_index') }}">Back to the Offices list</a>
+            <a class="button-grey" href="{{ path('office_index') }}">Back to the Offices list</a>
         </li>
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
         <li>
-            <a href="{{ path('office_edit', { 'id': office.id }) }}">Edit</a>
+            <a class="button-orange" href="{{ path('office_edit', { 'id': office.id }) }}">Edit</a>
         </li>
 
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete">
+            <input class="button-red" type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
         {% endif %}

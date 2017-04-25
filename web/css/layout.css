@@ -4,14 +4,14 @@ body {
 }
 
 th, a {
-    height: 28px;
+    height: 24px;
     font-size: 13px;
     color: #ffffff;
     background-color: lightseagreen;
 }
 
 td {
-    font-size: 13px;
+    font-size: 12px;
 
 }
 
@@ -99,8 +99,21 @@ section p, aside p {
     text-align: justify;
 }
 
+form {
+    display: inline-block;
+    align-items: flex-start;
+    vertical-align: middle;
+
+}
+
+form li {
+    padding: 3px;
+    margin: 1px;
+    border: 1px;
+}
+
 section h2 {
-    font-size: 1.6rem;
+    font-size: 2.2rem;
     color: white;
     border-style: solid;
 
@@ -115,6 +128,15 @@ section.registration {
     border-style: solid;
     border-width: 1px;
 }
+
+table td ul li a, ul li a {
+    color: #ffffff;
+    flex: 1;
+    align-items: left;
+
+}
+
+
 
 div.column_container {
     display: flex;

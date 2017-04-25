@@ -24,13 +24,13 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('office_show', { 'id': office.id }) }}">View</a>
+                            <a class="button-blue" href="{{ path('office_show', { 'id': office.id }) }}">View</a>
 
                         </li>
                         <li>
                             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
-                                <a href="{{ path('office_edit', { 'id': office.id }) }}">Edit</a>
+                                <a class="button-orange" href="{{ path('office_edit', { 'id': office.id }) }}">Edit</a>
                             {% endif %}
                         </li>
                     </ul>
@@ -52,12 +52,12 @@
 
     <ul>
         <li>
-            <a href="{{ path('office_new') }}">Create a new Office</a>
+            <a class="button-green" href="{{ path('office_new') }}">Create a new Office</a>
         </li>
     </ul>
         <a href="{{ path('security_logout') }}">
             <a class="btn btn-default btn"> You are currently logged in as {{ app.user }}</a>
             <img src="/images/logout.png" alt="customer" height="32" width="32"></a>
-        <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
+        <a class="button-grey" href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
     {% endif %}
 {% endblock %}

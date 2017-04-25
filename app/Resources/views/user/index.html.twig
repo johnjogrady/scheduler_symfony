@@ -19,10 +19,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('user_show', { 'id': user.id }) }}">show</a>
+                            <a class="button-blue" href="{{ path('user_show', { 'id': user.id }) }}">View</a>
                         </li>
                         <li>
-                            <a href="{{ path('user_edit', { 'id': user.id }) }}">edit</a>
+                            <a class="button-orange" href="{{ path('user_edit', { 'id': user.id }) }}">Edit</a>
                         </li>
                     </ul>
                 </td>
@@ -33,7 +33,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('user_register') }}">Create a new user</a>
+            <a class="button-green" href="{{ path('user_register') }}">Create a new user</a>
         </li>
     </ul>
 {% endblock %}

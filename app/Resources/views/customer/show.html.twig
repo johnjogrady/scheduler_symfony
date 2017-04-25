@@ -1,7 +1,7 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
-    <h1>Customer</h1>
+    <h2>Customer Details</h2>
 
     <table>
         <tbody>
@@ -55,15 +55,15 @@
 
     <ul>
         <li>
-            <a href="{{ path('customer_index') }}">Back to the Customer
+            <a class="button-grey" href="{{ path('customer_index') }}">Back to the Customer
                 list</a>
         </li>
         <li>
-            <a href="{{ path('customer_edit', { 'id': customer.id }) }}">Edit This Record</a>
+            <a class="button-orange" href="{{ path('customer_edit', { 'id': customer.id }) }}">Edit This Record</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete" class="btn btn-success btn-sm" role="button">
+            <input type="submit" value="Delete" class="button-red">
             {{ form_end(delete_form) }}
         </li>
     </ul>

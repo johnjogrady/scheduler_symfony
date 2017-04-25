@@ -5,20 +5,20 @@
     <div class="column_container">
         <section class="fixed">
 
-            <h3>Serviceuser edit</h3>
+            <h2>Service User Edit Page</h2>
 
             {{ form_start(edit_form) }}
     {{ form_widget(edit_form) }}
-            <input type="submit" value="Submit Changes"/>
+            <input class="button-green" type="submit" value="Submit Changes"/>
     {{ form_end(edit_form) }}
     <ul>
         <li>
-            <a href="{{ path('serviceuser_index') }}" role="button">Back to the Service
+            <a href="{{ path('serviceuser_index') }}" class="button-grey">Back to the Service
                 Users list</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete">
+            <input class="button-red" type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>
@@ -30,7 +30,8 @@
                             width=450"
                             height="600"
                             frameborder="1" style="border:1px"
-                            src="http://maps.google.com/maps?q={{ serviceUser.latitude }},{{ serviceUser.longtitude }}&zoom=15&output=embed"></iframe>
+                            src="http://maps.google.com/maps?q={{ serviceUser.latitude }},{{ serviceUser.longtitude }}&z=13&output=embed"></iframe>
+
                 </p>
             </section>
             <section class="flex">

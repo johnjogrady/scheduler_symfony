@@ -103,6 +103,12 @@ table td ul li a, ul li a {
     color: blue;
 }
 
+#topnav {
+    border: 1px solid transparent;
+    border-color: black;
+    border-radius: 4px;
+
+}
 #topnav ul {
     list-style-type: none;
     padding: 0;
@@ -114,9 +120,3 @@ table td ul li a, ul li a {
     padding-left: 1em;
     border: black;
 }
-
-
-
-
-
-

@@ -105,9 +105,9 @@
 
                 <td>
 
-                    <a href="{{ path('rosterassignedemployee_delete', { 'id': assignedEmployee.id }) }}"
-                       class="btn btn-success btn-sm"
-                       role="button">Remove</a>
+                    <a class="button-red"
+                       href="{{ path('rosterassignedemployee_delete', { 'id': assignedEmployee.id }) }}"
+                    >Remove</a>
                 </td>
                 <td>{{ assignedEmployee.employeeId }}</td>
                 <td>{{ assignedEmployee.employeeId.mobileTelephone }}</td>
@@ -130,14 +130,14 @@
 
     <ul>
         <li>
-            <a href="{{ path('roster_index') }}">Back to the list</a>
+            <a class="button-grey" href="{{ path('roster_index') }}">Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('roster_edit', { 'id': roster.id }) }}">Edit</a>
+            <a class="button-orange" href="{{ path('roster_edit', { 'id': roster.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete Roster" role="button">
+            <input class="button-red" type="submit" value="Delete Roster" role="button">
             {{ form_end(delete_form) }}
         </li>
     </ul>

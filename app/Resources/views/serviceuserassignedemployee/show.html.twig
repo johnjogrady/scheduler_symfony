@@ -1,14 +1,19 @@
 {% extends '::_base.html.twig' %}
 
 {% block body %}
-<h1>Serviceuserassignedemployee</h1>
+<h3>Manage Employee Assignment to Service User</h3>
 
 <table>
     <tbody>
 
     <tr>
         <th>Employee</th>
-        <td>{{ serviceUserAssignedEmployee.employeeId }}</td>
+
+        <td>
+            {{ serviceUserAssignedEmployee.EmployeeId }}
+            {{ serviceUserAssignedEmployee.EmployeeId.AddressLine1 }} {{ serviceUserAssignedEmployee.EmployeeId.AddressLine2 }} {{ serviceUserAssignedEmployee.EmployeeId.AddressLine3 }} {{ serviceUserAssignedEmployee.EmployeeId.CountyPostcode }}
+
+        </td>
     </tr>
     <tr>
         <th>
@@ -19,20 +24,23 @@
     </tr>
     <tr>
         <th>Service User</th>
-        <td>{{ serviceUserAssignedEmployee.serviceUserId }}</td>
+        <td>
+            {{ serviceUserAssignedEmployee.ServiceUserId }} {{ serviceUserAssignedEmployee.ServiceUserId.AddressLine1 }} {{ serviceUserAssignedEmployee.ServiceUserId.AddressLine2 }} {{ serviceUserAssignedEmployee.ServiceUserId.AddressLine3 }} {{ serviceUserAssignedEmployee.ServiceUserId.CountyPostcode }}
+        </td>
     </tr>
     </tbody>
 </table>
 
 <ul>
     <li>
-        <a href="{{ path('serviceuser_index') }}" class="btn-success btn-sm" role="button">Back to the Service User
+        <a class="button-grey" href="{{ path('serviceuser_index') }}" class="btn-success btn-sm" role="button">Back to
+            the Service User
             list</a>
     </li>
 
     <li>
         {{ form_start(delete_form) }}
-        <input type="submit" value="Remove Association" class="btn-success btn-sm" role="button>
+        <input class="button-red" type="submit" value="Remove Association" class="btn-success btn-sm" role="button>
             {{ form_end(delete_form) }}
         </li>
     </ul>

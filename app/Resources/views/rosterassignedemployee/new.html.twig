@@ -1,6 +1,5 @@
 {% extends '_base.html.twig' %}
 {% block body %}
-    {{ dump() }}
 
     <h1>Assign an Employee to this Roster </h1>
     <div class="column_container">
@@ -50,6 +49,8 @@
         <section class="flex">
             <section>
                 <h4>The following employees are currently available for this Roster:</h4>
+                <a class="button-blue" href="{{ path('rosterassignedemployee_index') }}">Back to the Assigned Employees
+                    list</a>
 
                 {% if availableEmployees|length ==0 %}
                 <tr>There are no available employees</tr>
@@ -84,7 +85,7 @@
                         </td>
                         <td>
                             <a href="{{ path('rosterassignedemployee_assign', { 'rosterid': roster.id,'employeeid': availableEmployee.id} ) }}"
-                               class="btn btn-success btn-sm" role="button">Assign Employee</a>
+                               class="button-green">Assign Employee</a>
 
                         </td>
                         {% endfor %}
@@ -92,6 +93,7 @@
                     </tr>
                 </table>
             </section>
+
         </section>
 
 

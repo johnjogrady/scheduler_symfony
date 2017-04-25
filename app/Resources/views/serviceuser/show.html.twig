@@ -1,8 +1,28 @@
 {% extends '_base.html.twig' %}
 {% block body %}
-    <div class="column_container" xmlns="http://www.w3.org/1999/html">
+    <div class="column_container">
+        <section class="flex">
+            <h2>Service UserDetails</h2>
+            <ul>
+                <li>
+                    <a class="button-grey" href="{{ path('serviceuser_index') }}">Back to the
+                        Service User list</a>
+                </li>
+                <li>
+                    <a class="button-orange" href="{{ path('serviceuser_edit', { 'id': serviceUser.id }) }}">Edit
+                        Service User Record</a>
+                </li>
+                <li>
+                    {{ form_start(delete_form) }}
+                    <input type="submit" value="Delete Service User" class="button-red">
+                    {{ form_end(delete_form) }}
+                </li>
+            </ul>
+        </section>
+    </div>
+    <div class="column_container">
+
         <section class="col-md-4">
-            <h2>Service User Details</h2>
 
             <table>
                 <tr>
@@ -56,25 +76,14 @@
                 </tr>
             </table>
 
-            <section class="flex">
-                <a href="{{ path('serviceuser_index') }}" class="button-grey">Back to
-                            the
-                            Service User list</a>
-                        <a href="{{ path('serviceuser_edit', { 'id': serviceUser.id }) }}"
-                           class="button-orange">Edit Service User Record</a>
-            </section>
-            <section class="flex">
-                {{ form_start(delete_form) }}
-                <input type="submit" class="button-red" value="Delete Service User">
-                        {{ form_end(delete_form) }}
-            </section>
+
             <h2>Assigned Employees</h2>
             <table align="center">
 
                 <th>
                     <a class="button-green"
                        href="{{ path('serviceuserassignedemployee_new', { 'serviceUser': serviceUser.id }) }}"
-                    >Assign Employee</a>
+                    >Assign An Employee</a>
                 </th>
                 <th></th>
                 {% for assignedEmployee in assignedEmployees %}
@@ -415,8 +424,8 @@
         <section class="col-md-3">
                 <p>
                     <iframe
-                            width="290"
-                            height="485"
+                            width="300"
+                            height="455"
                             frameborder="1" style="border:1px"
                             src="http://maps.google.com/maps?q={{ serviceUser.latitude }},{{ serviceUser.longtitude }}&z=13&output=embed"></iframe>
                 </p>

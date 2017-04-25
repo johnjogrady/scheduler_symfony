@@ -22,11 +22,11 @@
                     <ul>
                         <li>
                             <a href="{{ path('employeeunavailability_show', { 'id': employeeunavailability.id }) }}"
-                               class="btn btn-success btn-sm" role="button">View</a>
+                               class="button-blue">View</a>
                         </li>
                         <li>
                             <a href="{{ path('employeeunavailability_edit', { 'id': employeeunavailability.id }) }}"
-                               class="btn btn-success btn-sm" role="button">Edit</a>
+                               class="button-orange">Edit</a>
                         </li>
                     </ul>
                 </td>
@@ -60,10 +60,4 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('employeeunavailability_new') }}" class="btn btn-success btn-sm" role="button">Create a new
-                employee unavailability</a>
-        </li>
-    </ul>
 {% endblock %}

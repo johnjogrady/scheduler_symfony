@@ -4,7 +4,8 @@
     <h1>Rosters list</h1>
     <ul>
         <li>
-            <a href="{{ path('roster_new') }}" class="btn btn-success btn-sm" role="button">Create a new roster</a>
+            <a class="button-green" href="{{ path('roster_new') }}" class="btn btn-success btn-sm" role="button">Create
+                a new roster</a>
         </li>
     </ul>
     <table>
@@ -23,10 +24,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('roster_show', { 'id': roster.id }) }}">View</a>
+                            <a class="button-blue" href="{{ path('roster_show', { 'id': roster.id }) }}">View</a>
                         </li>
                         <li>
-                            <a href="{{ path('roster_edit', { 'id': roster.id }) }}">Edit</a>
+                            <a class="button-orange" href="{{ path('roster_edit', { 'id': roster.id }) }}">Edit</a>
                         </li>
                     </ul>
                 </td>

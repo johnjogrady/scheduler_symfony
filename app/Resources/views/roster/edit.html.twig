@@ -5,17 +5,17 @@
 
     {{ form_start(edit_form) }}
     {{ form_widget(edit_form) }}
-    <input type="submit" value="Submit Changes"/>
+    <input class="button-green" type="submit" value="Submit Changes"/>
     {{ form_end(edit_form) }}
 
     <ul>
         <li>
-            <a href="{{ path('roster_index') }}">Back to the Rosters
+            <a class="button-blue" href="{{ path('roster_index') }}">Back to the Rosters
                 list</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete This Roster">
+            <input class="button-red" type="submit" value="Delete This Roster">
             {{ form_end(delete_form) }}
         </li>
     </ul>

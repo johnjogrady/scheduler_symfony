@@ -1,7 +1,7 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
-    <h1>Employees</h1>
+    <h2>Employee Index Page</h2>
 
     <table>
         <thead>
@@ -29,11 +29,11 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('employee_show', { 'id': employee.id }) }}">Detail</a>
+                            <a class="button-blue" href="{{ path('employee_show', { 'id': employee.id }) }}">Detail</a>
                         </li>
 
                         <li>
-                            <a href="{{ path('employee_edit', { 'id': employee.id }) }}">Edit</a>
+                            <a class="button-orange" href="{{ path('employee_edit', { 'id': employee.id }) }}">Edit</a>
                         </li>
                     </ul>
                 </td>
@@ -58,7 +58,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('employee_new') }}">Create a new Employee</a>
+            <a class="button-green" href="{{ path('employee_new') }}">Create a new Employee</a>
         </li>
     </ul>
 {% endblock %}

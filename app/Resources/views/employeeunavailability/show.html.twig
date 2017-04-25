@@ -35,16 +35,19 @@
 
     <ul>
         <li>
-            <a href="{{ path('employee_index') }}" class="btn btn-success btn-sm" role="button">Back to the Employee
+            <a class="button-grey" href="{{ path('employee_index') }}" class="btn btn-success btn-sm" role="button">Back
+                to the Employee
                 list</a>
         </li>
         <li>
-            <a href="{{ path('employeeunavailability_edit', { 'id': employeeUnavailability.id }) }}"
+            <a class="button-orange"
+               href="{{ path('employeeunavailability_edit', { 'id': employeeUnavailability.id }) }}"
                class="btn btn-success btn-sm" role="button">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-            <input type="submit" value="Delete Employee Unavailability" class="btn btn-success btn-sm" role="button">
+            <input class="button-red" type="submit" value="Delete Employee Unavailability"
+                   class="btn btn-success btn-sm" role="button">
             {{ form_end(delete_form) }}
         </li>
     </ul>

@@ -3,18 +3,20 @@
 
     <div class="column_container">
         <section class="flex">
-            <h4>Employee Details</h4>
+            <h2>Employee Details</h2>
+
             <ul>
                 <li>
-                    <a href="{{ path('employee_index') }}">Back to the
+                    <a class="button-grey" href="{{ path('employee_index') }}">Back to the
                         Employee list</a>
                 </li>
                 <li>
-                    <a href="{{ path('employee_edit', { 'id': employee.id }) }}">Edit Record</a>
+                    <a class="button-orange" href="{{ path('employee_edit', { 'id': employee.id }) }}">Edit Employee
+                        Record</a>
                 </li>
                 <li>
                     {{ form_start(delete_form) }}
-                    <input type="submit" value="Delete">
+                    <input type="submit" value="Delete Employee" class="button-red">
                     {{ form_end(delete_form) }}
                 </li>
             </ul>
@@ -143,7 +145,7 @@
 
 
                                             <a href="{{ path('roster_show', { 'id': daysThisMonth[0~day][item].rosterId.Id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
                                                 {{ daysThisMonth[0~day][item].rosterId.rosterStartTime|date(' H:i') }}
                                                 to
                                                 {{ daysThisMonth[0~day][item].rosterId.rosterEndTime|date(' H:i') }}
@@ -154,7 +156,7 @@
                                         {% for item in range(0,daysThisMonth[day]|length-1 ) %}
 
                                             <a href="{{ path('roster_show', { 'id': daysThisMonth[day][item].rosterId.Id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
                                                 {{ daysThisMonth[day][item].rosterId.rosterStartTime|date(' H:i') }} to
                                                 {{ daysThisMonth[day][item].rosterId.rosterEndTime|date(' H:i') }}
                                             </a>
@@ -237,7 +239,7 @@
 
 
                                             <a href="{{ path('roster_show', { 'id': daysNextMonth[0~day][item].rosterId.Id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
                                                 {{ daysNextMonth[0~day][item].rosterId.rosterStartTime|date(' H:i') }}
                                                 to
                                                 {{ daysNextMonth[0~day][item].rosterId.rosterEndTime|date(' H:i') }}
@@ -248,7 +250,7 @@
                                         {% for item in range(0,daysThisMonth[day]|length-1 ) %}
 
                                             <a href="{{ path('roster_show', { 'id': daysThisMonth[day][item].rosterId.Id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
                                                 {{ daysThisMonth[day][item].rosterId.rosterStartTime|date(' H:i') }} to
                                                 {{ daysThisMonth[day][item].rosterId.rosterEndTime|date(' H:i') }}
                                             </a>
@@ -332,7 +334,7 @@
 
 
                                             <a href="{{ path('roster_show', { 'id': daysLastMonth[0~day][item].rosterId.Id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
                                                 {{ daysLastMonth[0~day][item].rosterId.rosterStartTime|date(' H:i') }}
                                                 to
                                                 {{ daysLastMonth[0~day][item].rosterId.rosterEndTime|date(' H:i') }}
@@ -343,7 +345,7 @@
                                         {% for item in range(0,daysThisMonth[day]|length-1 ) %}
 
                                             <a href="{{ path('roster_show', { 'id': daysLastMonth[day][item].rosterId.Id}) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="button-grey-xs">
                                                 {{ daysLastMonth[day][item].rosterId.rosterStartTime|date(' H:i') }} to
                                                 {{ daysLastMonth[day][item].rosterId.rosterEndTime|date(' H:i') }}
                                             </a>
@@ -390,7 +392,7 @@
                     <h4>
                     <span>
                   <strong>Absences for this employee</strong>
-                         <a href="{{ path('employeeabsence_new', { 'employee': employee.id }) }}"
+                         <a class="button-green" href="{{ path('employeeabsence_new', { 'employee': employee.id }) }}"
                          >Add New Absence</a>
 
               </span>
@@ -400,8 +402,8 @@
                         <table>
                 <tr>
                     <th>Reason</th>
-                    <th>Starttime</th>
-                    <th>Endtime</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
                     <th>Duration</th>
 
                     <th>Actions</th>
@@ -428,10 +430,11 @@
                         <td>
                             <ul>
                                 <li>
-                                    <a href="{{ path('employeeabsence_edit', { 'id': employeeAbsence.id }) }}"
+                                    <a class="button-green"
+                                       href="{{ path('employeeabsence_edit', { 'id': employeeAbsence.id }) }}"
                                     >Update</a>
-                                    <span>. </span>
-                                    <a href="{{ path('employeeabsence_delete', { 'id': employeeAbsence.id }) }}"
+                                    <a class="button-red"
+                                       href="{{ path('employeeabsence_delete', { 'id': employeeAbsence.id }) }}"
                                     >Remove</a>
                                 </li>
                             </ul>
@@ -447,7 +450,8 @@
                   <strong>Unavailable Times for employee</strong>
 
               </span>
-                        <a href="{{ path('employeeunavailability_new', { 'employee': employee.id }) }}"
+                        <a class="button-green"
+                           href="{{ path('employeeunavailability_new', { 'employee': employee.id }) }}"
                         >Add New Unavailable Time </a>
                     </h4>
 
@@ -455,8 +459,8 @@
 
                 <tr>
                     <th>Day Of Week</th>
-                    <th>Starttime</th>
-                    <th>Endtime</th>
+                    <th>Start time</th>
+                    <th>End Time</th>
                     <th>Duration</th>
                     <th>Reason</th>
                     <th>Actions</th>
@@ -491,11 +495,12 @@
                         <td>
                             <ul>
                                 <li>
-                                    <a href="{{ path('employeeunavailability_edit', { 'id': employeeunavailability.id }) }}"
+                                    <a class="button-green"
+                                       href="{{ path('employeeunavailability_edit', { 'id': employeeunavailability.id }) }}"
                                     >Update</a>
-                                    <span><p>.</p> </span>
 
-                                    <a href="{{ path('employeeunavailability_delete', { 'id': employeeunavailability.id }) }}"
+                                    <a class="button-red"
+                                       href="{{ path('employeeunavailability_delete', { 'id': employeeunavailability.id }) }}"
                                     >Remove</a>
                                 </li>
                             </ul>
@@ -508,8 +513,8 @@
             <section>
                 <p>
                     <iframe
-                            width="380"
-                            height="405"
+                            width="485"
+                            height="235"
                             frameborder="1" style="align-items: center"
                             src="http://maps.google.com/maps?q={{ employee.latitude }},{{ employee.longtitude }}&z=13&output=embed"></iframe>
                 </p>

@@ -1,11 +1,13 @@
 /* these are from the standard bootstrap styling*/
 
-.button-red {
+input.button-red, a.button-red {
     color: #fff;
     background-color: #d9534f;
     display: inline-block;
+    align-items: flex-start;
     padding: 6px 12px;
     margin: 1px;
+    height: 25px;
     font-size: 12px;
     font-weight: 400;
     line-height: 1.42857143;
@@ -26,12 +28,14 @@
 
 }
 
-.button-blue {
+input.button-blue, a.button-blue {
     color: #fff;
     background: steelblue;
     display: inline-block;
     padding: 6px 12px;
+    align-items: flex-start;
     margin: 1px;
+    height: 25px;
     font-size: 12px;
     font-weight: 400;
     line-height: 1.42857143;
@@ -52,13 +56,14 @@
 
 }
 
-.button-green {
+input.button-green, a.button-green {
     color: #fff;
     background: seagreen;
     display: inline-block;
     padding: 6px 12px;
     margin: 1px;
     font-size: 12px;
+    height: 25px;
     font-weight: 400;
     line-height: 1.42857143;
     text-align: center;
@@ -82,11 +87,11 @@
     color: #fff;
     background: seagreen;
     display: inline-block;
-    padding: 6px 12px;
+    padding: 1px 1px;
+    height: 15px;
     margin: 1px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 400;
-    line-height: 1.42857143;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
@@ -104,14 +109,16 @@
 
 }
 
-.button-orange {
+input.button-orange, a.button-orange {
     color: #fff;
     background: #f0ad4e;
     display: inline-block;
     padding: 6px 12px;
     margin: 1px;
+    height: 25px;
     font-size: 12px;
     font-weight: 400;
+    align-items: flex-start;
     line-height: 1.42857143;
     text-align: center;
     white-space: nowrap;
@@ -130,15 +137,17 @@
 
 }
 
-.button-grey {
+input.button-grey, a.button-grey {
     color: navy;
     background-color: darkgrey;
     border-color: #ccc;
     display: inline-block;
     padding: 6px 12px;
     margin: 1px;
+    height: 25px;
     font-size: 12px;
     font-weight: 400;
+    align-items: flex-start;
     line-height: 1.42857143;
     text-align: center;
     white-space: nowrap;
@@ -164,6 +173,7 @@
     font-size: 12px;
     height: 18px;
     color: navy;
+    align-items: flex-start;
     font-weight: 400;
     line-height: 1.42857143;
     text-align: center;

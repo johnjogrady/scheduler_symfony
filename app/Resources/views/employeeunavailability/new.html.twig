@@ -1,17 +1,16 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
-    {{ dump() }}
     <h1>Create an Employee Unavailability Time </h1>
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <input type="submit" value="Create"/>
+    <input class="button-green" type="submit" value="Create"/>
     {{ form_end(form) }}
 
     <ul>
         <li>
-            <a href="{{ path('employee_index') }}">Back to the list</a>
+            <a class="button-grey" href="{{ path('employee_index') }}">Back to the list</a>
         </li>
     </ul>
 {% endblock %}

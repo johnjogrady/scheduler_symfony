@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '_base.html.twig' %}
 
 {% block body %}
     <h1>Rosterassignedemployees list</h1>
@@ -14,15 +14,33 @@
         {% for rosterAssignedEmployee in rosterAssignedEmployees %}
             <tr>
                 <td>
-                    <a href="{{ path('rosterassignedemployee_show', { 'id': rosterAssignedEmployee.id }) }}">{{ rosterAssignedEmployee.id }}</a>
+                    <a class="button-grey"
+                       href="{{ path('rosterassignedemployee_show', { 'id': rosterAssignedEmployee.id }) }}">{{ rosterAssignedEmployee.id }}</a>
                 </td>
+
+                <th>Employee</th>
+                <td>{{ rosterAssignedEmployee.employeeId }}</td>
+                <th>Service User</th>
+                <td>{{ rosterAssignedEmployee.rosterId.serviceUserId }}</td>
+                <th>Start Time</th>
+                <td>
+                    {% if rosterAssignedEmployee.rosterId.rosterStartTime %}{{ rosterAssignedEmployee.rosterId.rosterStartTime|date('D d-m-y H:i:s') }}{% endif %}
+                </td>
+                <th>Start Time</th>
+                <td>
+                    {% if rosterAssignedEmployee.rosterId.rosterEndTime %}{{ rosterAssignedEmployee.rosterId.rosterEndTime|date('D d-m-y H:i:s') }}{% endif %}
+                </td>
+                <th>Roster Status</th>
+                <td>{{ rosterAssignedEmployee.rosterId.rosterStatus }}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('rosterassignedemployee_show', { 'id': rosterAssignedEmployee.id }) }}">show</a>
+                            <a class="button-blue"
+                               href="{{ path('rosterassignedemployee_show', { 'id': rosterAssignedEmployee.id }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('rosterassignedemployee_edit', { 'id': rosterAssignedEmployee.id }) }}">edit</a>
+                            <a class="button-orange"
+                               href="{{ path('rosterassignedemployee_edit', { 'id': rosterAssignedEmployee.id }) }}">edit</a>
                         </li>
                     </ul>
                 </td>
