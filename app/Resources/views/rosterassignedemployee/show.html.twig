@@ -13,6 +13,16 @@
             <th>Service User</th>
             <td>{{ rosterAssignedEmployee.rosterId.serviceUserId }}</td>
         </tr>
+        <tr>
+            <th>Start Time</th>
+            <td>{% if rosterAssignedEmployee.rosterId.rosterStartTime %}{{ rosterAssignedEmployee.rosterId.rosterStartTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+
+        </tr>
+        <tr>
+            <th>End Time</th>
+            <td>{% if rosterAssignedEmployee.rosterId.rosterEndTime %}{{ rosterAssignedEmployee.rosterId.rosterEndTime|date('D d-m-y H:i:s') }}{% endif %}</td>
+
+        </tr>
         </tbody>
     </table>
 

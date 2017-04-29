@@ -1,6 +1,7 @@
 
 h2 {
-    padding-left: 30px;
+    padding-left: 5px;
+    padding-top: 5px;
     color: white;
     border-color: black;
     border-width: 2px;
@@ -13,7 +14,7 @@ h2 {
     width: 240px;
     float: left;
     margin: 10px 0 0 7px;
-    padding-top: 0px;
+    padding-top: 0;
     display: inline;
 }
 
@@ -45,23 +46,7 @@ img.block {
     border-bottom: dotted 1px #999999;
 }
 
-#sidenav ul li a.current_page {
-    display: block;
-    color: #ffffff !important;
-    background-color: #e91802;
-}
 
-#sidenav ul li a.featured img.featured {
-    display: block;
-    align-items: center;
-    padding: 15px 15px 15px 15px;
-}
-
-#sidenav ul li a.featured {
-    display: block;
-    padding: 3px 5px 5px 5px;
-    border-bottom: dotted 1px #999999;
-}
 
 table td ul li, ul li {
     text-decoration: none;
@@ -105,7 +90,6 @@ table td ul li a, ul li a {
 
 #topnav {
     border: 1px solid transparent;
-    border-color: black;
     border-radius: 4px;
 
 }

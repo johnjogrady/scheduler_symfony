@@ -198,10 +198,11 @@ class RosterController extends Controller
      */
     public function editAction(Request $request, Roster $roster)
     {
+
         $deleteForm = $this->createDeleteForm($roster);
         $session = $request->getSession();
         $session->start();
-        $editForm = $this->createForm('AppBundle\Form\RosterType', $roster);
+        $editForm = $this->createForm('AppBundle\Form\RosterEditType', $roster);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

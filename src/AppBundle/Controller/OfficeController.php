@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Office;
 use AppBundle\Entity\County;
 use AppBundle\Mapping;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -39,6 +40,7 @@ class OfficeController extends Controller
      * Creates a new office entity.
      *
      * @Route("/new", name="office_new")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -116,6 +118,7 @@ class OfficeController extends Controller
      * Displays a form to edit an existing office entity.
      *
      * @Route("/{id}/edit", name="office_edit")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Office $office)
@@ -161,6 +164,7 @@ class OfficeController extends Controller
     /**
      * Deletes a office entity.
      *
+     * @Security("is_granted('ROLE_ADMIN')")
      * @Route("/{id}", name="office_delete")
      * @Method("DELETE")
      */
@@ -180,7 +184,7 @@ class OfficeController extends Controller
 
     /**
      * Creates a form to delete a office entity.
-     *
+     * @Security("is_granted('ROLE_ADMIN')")
      * @param Office $office The office entity
      *
      * @return \Symfony\Component\Form\Form The form

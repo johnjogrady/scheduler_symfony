@@ -8,10 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 /**
  * Employeeabsence controller.
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("employeeabsence")
  */
 class EmployeeAbsenceController extends Controller
@@ -42,7 +44,7 @@ class EmployeeAbsenceController extends Controller
      */
     public function newAction(Request $request, Employee $employee)
     {
-        $employeeAbsence = new Employeeabsence();
+        $employeeAbsence = new EmployeeAbsence();
         $session = $request->getSession();
         $session->start();
 

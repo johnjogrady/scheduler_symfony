@@ -6,9 +6,19 @@ colors / fonts etc. here
 
 body {
     margin: 0;
-    padding: 0;
     background-color: #778899;
-    font-family: Arial, Helvetica, freesans;
+    font-family: Arial, Helvetica;
+    padding: 45px 0 0 0;
+}
+
+.divide-nav {
+    position: fixed;
+    height: 40px;
+    background-color: grey;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+
 }
 
 label {
@@ -17,3 +27,4 @@ label {
     display: inline-block;
     text-align: right;
 }
+

@@ -4,7 +4,7 @@ body {
 }
 
 th, a {
-    height: 24px;
+    height: 30px;
     font-size: 13px;
     color: #ffffff;
     background-color: lightseagreen;
@@ -30,7 +30,7 @@ tr:nth-child(even) {
 h1.banner {
     font-size: 2rem;
     border-style: solid;
-    border-width: 0.5px;
+    border-width: 1px;
     text-align: center;
     margin-left: 2rem;
     margin-right: 2rem;
@@ -39,64 +39,24 @@ h1.banner {
 
 div.column_container {
     display: flex;
+    padding: 0;
 }
 
 div.column_container section.flex {
     color: darkgrey;
-    padding: 0.5rem;
     display: inline-flex;
-    margin-left: 4px;
-    margin-top: 10px;
-    border-style: solid;
-    border-width: 1px;
-    align-content: center;;
-
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    width: 100%;
+    border-style: none;
 }
 
 section {
     border: solid;
     text-align: center;
-    padding: 0.5em;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
     border-width: 1px;
-}
-
-div.column_container section.flexnarrow {
-    color: darkgrey;
-    padding: 0.5rem;
-    display: inline-flex;
-    margin-left: 4px;
-    margin-top: 10px;
-    border-style: solid;
-    border-width: 1px;
-    align-content: center;;
-
-}
-
-#column_container section.fixed_wide {
-
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    margin-left: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-style: solid;
-    border-width: 1px;
-}
-
-#column_container section.fixed {
-    color: yellow;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    margin-left: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-style: solid;
-    border-width: 1px;
-}
-
-section p, aside p {
-    margin: auto;
-    font-size: 0.9rem;
-    padding: 0;
-    text-align: justify;
 }
 
 form {
@@ -145,7 +105,7 @@ div.column_container {
 
 span.highlight_name {
     font-size: 1rem;
-    font-family: Tahoma;
+    font-family: Arial;
     padding: 3px 3px 3px 5px;
     color: #ffff00;
 }
@@ -170,7 +130,7 @@ fieldset {
 legend {
     padding: 15px 15px 15px 15px;
     font-size: 20px;
-    font-family: Arial
+    font-family: Arial;
 }
 
 label.field {

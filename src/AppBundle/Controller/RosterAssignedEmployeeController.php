@@ -365,6 +365,7 @@ class RosterAssignedEmployeeController extends Controller
         $json_response = file_get_contents($url);
         $result = json_decode($json_response, true);
 
+
         if ($result['status'] == "ZERO_RESULTS") {
 
             $distance = 0;
@@ -375,9 +376,5 @@ class RosterAssignedEmployeeController extends Controller
 
     }
 
-    private function sortByDistance($a, $b)
-    {
-        return strcmp($a->distance, $b->distance);
-    }
 
 }

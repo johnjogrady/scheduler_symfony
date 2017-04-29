@@ -22,13 +22,11 @@
             text-align: right;
         }
 
-        .form-field {
-            padding-bottom: 1rem;
-        }
+
     </style>
     {% endblock %}
     {% block body %}
-        <img src="/images/iwalogo2017.png" alt="IWA logo"></a>
+        <a><img src="../images/iwalogo2017.png" alt="IWA logo"></a>
         <div class="column_container">
             <section class="flex">
 
@@ -37,13 +35,14 @@
             </section>
         </div>
 
-        <img src="/images/carericon.jpg" alt="carer icon" height="250" width="250"></a>
+        <a><img src="../images/carericon.jpg" alt="carer icon" height="250" width="250"></a>
 
         <ul>
             <li>
             <a href="{{ path('office_index') }}">
 
-                <img src="/images/department.png" alt="Office" height="48" width="48"></a>
+                <img src="/images/department.png" alt="Office" height="32" width="32"></a>
+
                 <a href="{{ path('office_index') }}" class="btn btn-success" role="button">Get Started</a>
             </li>
             {#
@@ -57,17 +56,12 @@
 
             <a href="https://irishwheelchairassociation.samanage.com">
 
-                <img src="/images/help.png" alt="help" height="48" width="48"></a>
+                <img src="/images/help.png" alt="help" height="32" width="32"></a>
 
             <a href="https://irishwheelchairassociation.samanage.com/" class="btn btn-default" role="button">Get Help
                 from IWA ICT Support</a>
         </li>
     </ul>
-        </section>
-
-        </section>
-        </section>
-        </div>
 
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <a href="{{ path('security_logout') }}">

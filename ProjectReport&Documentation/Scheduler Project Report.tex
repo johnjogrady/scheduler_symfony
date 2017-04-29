@@ -8,6 +8,16 @@
 \usepackage{ragged2e}
 \usepackage{multirow}
 \usepackage[style=authoryear-ibid,backend=biber]{biblatex}
+\usepackage{fancyhdr}
+ 
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[LE,RO]{John O'Grady Diploma in Higher Computing, ITB, 2017}
+\fancyfoot[RE,LO]{\thepage}
+ 
+\renewcommand{\headrulewidth}{2pt}
+\renewcommand{\footrulewidth}{1pt}
+ 
 \addbibresource{mybib.bib}
 \newcommand\addrow[2]{#1 &#2\\ }
 
@@ -608,13 +618,279 @@ In this approach there are three main components in the architectural pattern ea
 \item \textbf{Controller} represents the connecting layer between the model and the view. It allows the data flow into the model object and keeps the presentation of the data in the viewup to date when the actual data in the object changes. It can act on both the model and the view and keeps the view and the model separate from one another.
 \end{itemize}
 
-The discussion of choosing an appropriate project implementation methodology is continued in the Implementation plan later in this document
+The discussion of choosing an appropriate project implementation methodology is continued in the Implementation plan later in this document.
 
 \subsection {Test Analysis Report}
 
 \section {Testing Specification}
 \subsection {Testing Approaches Used}
-\subsection {Test Problem report}
+
+A variety of different approaches were used in testing the application to ensure that all functionality was working as per the specification and also to confirm the usability of the application through end user acceptance testing by subject matter experts within the business.
+
+
+\subsubsection {Unit Testing}
+
+Firstly, a comprehensive series of automated tests were developed using PHPUnit, which is a third party automated testing tool which has been integrated into the Symfony framework. This allows for a test driven approach to development where the automated series of tests can be developed and run repetitively as changes to the application are made to test that all code modules continue to successfully pass the tests and have not been impacted by the most recent changes made. This is considerably more efficient and lower in risk than relying solely on human driven functional testing. Indeed, a cornerstone of Test Driven Development is to write the automated tests first, in the knowledge that these will initially fail to run successfully and then proceeds to write the required implementation code to pass the test cases \parencite{maxwilliams}.
+\parencite{janzen} note that the use of the term \textit{unit} is the smallest possible testable software component, outlining that there is debate about the actual definition of the term. Some experts argue that it should be an individual model entity while others prefer to focus on individual methods within a class as the unit. 
+
+For the purposes of this project, the author has focused on grouping each unit test at an entity model test. Some other classes for example the reference entity for employee absence reason and which was very basic in nature and whose structure continues to be closely based on the original boilerplate created by the Symfony templating system have been exclude but otherwise detailed test classes in PHPUnit have been created for all of the core classes in the application. 
+The following test classes were created
+\begin{itemize}
+\item OfficeTest (discussed in more detail below)
+\item CustomerTest
+\item DoNotSendTest
+\item RosterTest
+\item EmployeeTest
+\item ServiceUserTest
+\item ServiceUserAssignedEmployeeTest
+\end{itemize}
+The full code library for the tests is included in the Appendix One but it is useful to delve into one class to demonstrate the testing approach taken.
+
+
+This section discusses the test units implemented for the Office entity for which the seven individual test units have been created. Two are discussed in detail to outline the testing approach taken.
+
+
+\textbf{testShowSecondOfficeItemfromIndex}. this test tests that the View link to second item (id=2) in the index view is routes correctly. This link is publicly available therefore the client can be called without supplying a user context.
+\begin{verbatim}
+
+    public function testShowSecondOfficeItemfromIndex()
+    {
+
+        $client = static::createClient();
+
+        $client->followRedirects(true);
+        $crawler = $client->request('GET', '/office');
+        $link= $crawler->selectLink('View')
+            ->eq(1)
+            ->link();
+
+        $this->assertEquals(
+
+            $link->getUri(),'http://localhost/office/2');
+
+}
+\end{verbatim}
+
+\textbf{testEditFormSubmit}.This test uses the edit facility on the office entity. Because this link is not publicly available the client class here must be supplied with a valid user context otherwise the test will fail.
+The button crawlerNode below creates a new form object and because a web page can have more than one form, the particular one to be used is identified by the text value of its submit button text value, in this case the Edit link.
+Having called up the edit form, the test submits a form with valid data and then validates that folowing submission of the form that the context is back on the show page as per the redirect in the edit controller.
+\begin{verbatim}
+
+    public function testEditFormSubmit()
+    {
+        // this link is only available to authenticated users 
+with the ROLE_ADMIN role
+
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'testuser@gmail.com',
+            'PHP_AUTH_PW'   => 'pa$$word',
+        ));
+        $client->followRedirects(true);
+        $crawler = $client->request('GET','/office/1');
+        // follow the Edit link
+        $crawler = $client->click($crawler->selectLink('Edit')->link());
+        $buttonCrawlerNode = $crawler->selectButton('Submit Changes');
+        //fill in new form values
+             $form = $buttonCrawlerNode->form(array(
+        'appbundle_office[officeName]'=> 'Clane',
+        'appbundle_office[addressLine1]' => 'Ballinagappa Road',
+        'appbundle_office[addressLine2]' => 'Clane',
+        'appbundle_office[addressLine3]'=> 'Kildare',
+        'appbundle_office[eirCode]' => 'D05W987',
+        'appbundle_office[landlineTelephone]' => '04556555',
+        'appbundle_office[mobileTelephone]' => '12456',
+        'appbundle_office[isActive]' => true,
+        'appbundle_office[countyPostcode]' => 1001009));
+        // submit the form
+        $client->submit($form);
+        $client->followRedirects(true);
+        // check that we're back on the show page
+        $this->assertEquals(
+
+            $client->getRequest()->getUri(),'http://localhost/office/1');
+
+    }
+}
+\end{verbatim}
+\subsubsection{Functional Testing report}
+A  significant amount of functional testing was completed by the author throughout and at the conclusion of the build of the initial prototype application. It would be difficult to document the operation and outcome of every individual functional test completed in an application of this size, but a small representative sample is included here.
+
+\begin{usecase}
+    \addheading{Title}{Create Service User with valid Data}
+  \addheading{Description}{User can navigate to the index view area of Service Users and a single entity record of type Service User. On Clicking Add New Service User, the user should be presented with a blank form to complete the input of a new Service User Record. If the data is valid, once the user clicks submit, the page should route back to the show page for the newly created service user. If they used a valid address, the system should have retrieved coordinates from Google Maps, saved these as part of the create action and should now be displaying the address in the map pane}
+  \addrow{Expected Outcome}{Service user is shown in the Index view with the required property values}
+  \addrow{Actual Outcome}{As expected}
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{Attempt to Create Service User with missing Data (tests x3)}
+  \addheading{Description}{User can navigate to the index view area of Service Users and a single entity record of type Service User. On Clicking Add New Service User, the user should be presented with a blank form to complete the input of a new Service User Record.User submits form without completing mandatory fields- first name, last name and address line 1 .}
+  \addrow{Expected Outcome}{If mandatory data fields are left blank , once the user clicks submit, the page should highlight these to the user giving them an opportunity to amend the form and resubmit.}
+  \addrow{Actual Outcome}{As expected}
+  \addrow{Notes}{Test repeated on other mandatory fields}
+\end{usecase}
+
+ \begin{figure}[h!]
+\includegraphics{testwithemptyname.png}
+  \caption{Test Create Service User with missing Data}
+  \label{fig:Test Create Service User with missing Data}
+\end{figure}
+
+\begin{usecase}
+    \addheading{Title}{Attempt to Create Service User with invalid date data}
+  \addheading{Description}{User can navigate to the index view area of Service Users and a single entity record of type Service User. On Clicking Add New Service User, the user should be presented with a blank form to complete the input of a new Service User Record. User enters an invalid start date and end date}
+  \addrow{Expected Outcome}{If mandatory data fields are left blank , once the user clicks submit, the page should highlight these to the user giving them an opportunity to amend the form and resubmit.}
+  \addrow{Actual Outcome}{As expected}
+  \addrow{Notes}{In this instance, the Jquery datepicker prevents an invalid date being possible}
+\end{usecase}
+
+
+\begin{usecase}
+    \addheading{Title}{Add a Roster to the service user}
+  \addheading{Description}{From the show page for a service user, the User  can click the Add New Roster button. Then the user should be presented with a roster form to input a new Roster Record. User enters an valid start date, time and end date and end time for roster}
+  \addrow{Expected Outcome}{Roster should be saved, user redirected to show service user r page and able to see roster in the calendar view.}
+  \addrow{Actual Outcome}{As expected}
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{Add a Roster to the service user with empty date or time (tests x4)}
+  \addheading{Description}{From the show page for a service user, the User  can click the Add New Roster button. Then the user should be presented with a roster form to input a new Roster Record. User clicks create without selecting a valid start date, time and end date and end time for roster}
+  \addrow{Expected Outcome}{The page should hghlight the missing form data to the user and allow them to complete and resubmit the data}
+  \addrow{Actual Outcome}{As expected}
+  \addrow{Notes}{In this instance, the Jquery datepicker prevents an invalid date being possible but a blank date is possible and correctly handled by highlighting this to the user. Test was repeatedly successfully sequentially with start time missing, end date end time}
+\end{usecase}
+
+ \begin{figure}[h!]
+\includegraphics{rosterwithemptydate.png}
+  \caption{Test Create Roster with missing date }
+  \label{fig:Test Create Roster with missing date }
+\end{figure}
+
+\begin{usecase}
+    \addheading{Title}{Set the employee to being on leave and recheck availability}
+  \addheading{Description}{Enter an employee absence and navigate to a unfilled roster during the period of the absence to verify that the absent employee is not shown as available}
+  \addrow{Expected Outcome}{The find an employee to assign should exlude the absent employee from the list of available employees}
+  \addrow{Actual Outcome}{As expected}
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{Remove the abscence for the employee and recheck availability}
+  \addheading{Description}{Remove the absence and navigate to a unfilled roster during the period of the absence to verify that the absent employee is not shown as available}
+  \addrow{Expected Outcome}{The find an employee to assign should now show the previously absent employee from the list of available employees}
+  \addrow{Actual Outcome}{As expected}
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{Create roster and leave as unassigned}
+  \addheading{Description}{Create a new roster with a requirement for one employee resource and save}
+  \addrow{Expected Outcome}{Roster should show a warning that not enough employees have been assigned}
+  \addrow{Actual Outcome}{As expected}
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{Assign roster to employee and recheck roster status}
+  \addheading{Description}{Locate an unfilled roster and assign an available employee to the roster}
+  \addrow{Expected Outcome}{Roster should now show a success message that the roster has sufficient employees, roster should no longer show the Find an Employee to Assign}
+  \addrow{Actual Outcome}{As expected}
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{Mark Employee as not to be sent to a service user}
+  \addheading{Description}{From the show page for a service user, the User  can click the Mark as Do Not Send button. Then the user should be presented with a Do Not Send form to create a new association between a service user and an employee record. User clicks Mark as do not send.}
+  \addrow{Expected Outcome}{ Association should be saved, user redirected to show service user page and able to see that the employee is now marked as do not send }
+  \addrow{Actual Outcome}{As expected}
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{Check Employee is not shown as available for a service user who they have DO NOT SEND association}
+  \addheading{Description}{From a roster which is not fully assigned service user, the User  can click the FIND AN EMPLOYEE TO ASSIGN button. The user should be presented with of available employees excluding the Do Not Send employee}
+  \addrow{Expected Outcome}{ The user should be presented with of available employees excluding the Do Not Send employee}
+  \addrow{Actual Outcome}{As expected}
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{Check Employee is restored as as available employee for a service user once their DO NOT SEND association is removed}
+  \addheading{Description}{From the show page for a service user, the User  can click the Remove button in the Do Not Send button beside the relevant employee. On navigating to an unassigned roster for that service user, the User can click the FIND AN EMPLOYEE TO ASSIGN button. The user should be presented with of available employees which now includes the previously missing employee while they were marked as Do Not Send }
+  \addrow{Expected Outcome}{ The user should be presented with of all available employees excluding the employee who has missing in the previous step }
+  \addrow{Actual Outcome}{As expected}
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{Verify Google Maps geocoding}
+  \addheading{Description}{Check coordinates against Google Maps and verify map}
+  \addrow{Expected Outcome}{ On changing an address or creating a new record, the coordinates should be updated to reflect the correct location of the record which should be consistent with Google Maps}
+  \addrow{Actual Outcome}{As expected}
+ \addrow{Notes}{Some addresses in rural areas are not always recognised by Google Maps}
+\end{usecase}
+ 
+\begin{usecase}
+    \addheading{Title}{Verify Google Maps geocoding}
+  \addheading{Description}{Check coordinates against Google Maps and verify map}
+  \addrow{Expected Outcome}{ On changing an address or creating a new record, the coordinates should be updated to reflect the correct location of the record which should be consistent with Google Maps}
+  \addrow{Actual Outcome}{As expected}
+ \addrow{Notes}{Some addresses in rural areas are not always recognised by Google Maps}
+\end{usecase}
+
+\begin{usecase}
+    \addheading{Title}{Create Service User with valid Data}
+  \addheading{Description}{User can navigate to the index view area of Service Users and a single entity record of type Service User. On Clicking Add New Service User, the user should be presented with a blank form to complete the input of a new Service User Record. If the data is valid, once the user clicks submit, the page should route back to the show page for the newly created service user. If they used a valid address, the system should have retrieved coordinates from Google Maps, saved these as part of the create action and should now be displaying the address in the map pane}
+  \addrow{Expected Outcome}{Service user is shown in the Index view with the required property values}
+  \addrow{Actual Outcome}{As expected}
+\end{usecase}
+
+
+\subsubsection{User Acceptance Testing report}
+User acceptance testing is an integral and essential part of any software development project, but frequently this important area of the implementation of a new system does not get enough resources and attention, usually to the detriment of the ensuing final deliverable. As \parencite{davis} notes:
+\begin{displayquote}
+Lack of user acceptance has long been an impediment to the success of new information systems.
+\end{displayquote}.
+
+A number of recent research efforts note the ongoing pattern of failed software projects, with a number of contemporary analysts estimating the failure rate to be in the between 50\% \parencite{florentine} and 75\% \parencite{gartner}. It is therefore crucial to devote sufficient time and resources to this important activity and to have a robust structured way to feedback the results of the testing into the overall development process so that all issues identified are resolved before the go-live.
+
+Three different users completed detailed user acceptance to attempt to complete a wide range of functions in the application independently with minimal instruction. The three users (who are all IWA employees involved in the Rostering project in various ways) willingly participated and offered highly constructive and useful feedback to the project. 
+
+\begin{itemize}
+\item KL who works as an Assisted Living Coordinator
+\item MB who works as Payroll Manager
+\item MK who works as an ICT support analyst and web designer
+\end{itemize}
+
+\subsubsection{Overview}
+The three users' individual task data entry sheets are included in Appendix 1. In summary the user were required to complete a series of sequential tasks which involved both working with existing preset service users and employee records as well as creating new service user and employee records and working to create a roster and assign an employee record to it. The value of end user testing clearly became evident to the author as one reasonably serious bug was identified through the testing process having been completely overlooked in both the development stage's functional and also in the automated unit testing. This issue primarily arose from the end users traversing through the steps in a different sequence to the well travelled route the author had been using, revealing in the process a hitherto overlooked bug in the code which only came to light as a result of the detailed user acceptance testing.
+
+\subsubsection{Outcomes from User Acceptance Testing}
+
+\begin{usecase}
+    \addheading{Title}{Bug: when editing a roster}
+  \addheading{Description}{when editing a roster, the roster reverted from the previously associated service user and showed a an empty service user drop down }
+  \addrow{Resolution}{The RosterType form class had an incorrect code entry which worked fine for new entries but dropped the service user when editing. As a workaround, the code in this RosterType class was split into two FormType modules one which was called from the Create() context and one which was called from the Edit() context}
+  \addrow{Status}{Resolved}
+\end{usecase}
+
+
+\begin{usecase}
+    \addheading{Title}{Issue: Confusion with Assigning Rosters}
+  \addheading{Description}{Some users found it a little confusing navigating from the service user screen into a roster and then clicking Find An Employee to Assign and finally clicking Assign}
+  \addrow{Resolution}{This approach was taken to avoid calling the Google Maps distance API in a scenario where the roster was already filled with sufficient assigned employees and there was no need to suggest additional employees}
+  \addrow{Status}{Open/Under review}
+\end{usecase} 
+
+
+\begin{usecase}
+    \addheading{Title}{Suggestion: Lock menu items at the top of the screen}
+  \addheading{Description}{The static menu navigation items at the top of the screen did not stay at the top once you began to scroll down the page}
+  \addrow{Resolution}{This was resolved using the navbar navbar-default navbar-fixed-top class in Bootstrap which pins a fixed navigation bar at the top of the screen}
+  \addrow{Status}{Resolved}
+\end{usecase} 
+
+
+\begin{usecase}
+    \addheading{Title}{Suggestion: Lock the Add new employee/service user button at the top of the index pages}
+  \addheading{Description}{As soon as users scroll down the index pages for service users, employees and rosters, they had to scroll back up to the top to locate the Add New button}
+  \addrow{Resolution}{This was resolved by creating a new .divide-nav class to include buttons and other navigation items which needed to be pinned at the top of the screen and also by adjusting the body css class so that it created padding at the top of the screen so that this second class was positioned below the navbar-fixed-top class}
+  \addrow{Status}{Resolved}
+\end{usecase} 
+\newpage
 \section {Implementation}
 \subsection {Implementation Plan}
 
@@ -865,7 +1141,179 @@ ServiceUserDoNotSend, EmployeeAbsence, RosterAssignment as well as lookup list c
 \item  \textbf{Calendar view of Rosters}Show monthly view of calendars using third party framework such as Bootstrap Calendar or Full Calendar.
 \item  \textbf{Calendar Add/Delete/Update }Update so that users can add/delete or update individual rosters when shown in the calendar view.
 \item  \textbf{First Pass testing} on above methods and logic
+\item  \textbf{Automated Unit testing} on above methods and logic by creating unit test classes on the main code modules
+\item  \textbf{Work on Application Visuals and aesthetics} to ensure a user friendly and consistent approach to styling throughout the site.
+\item  \textbf{Bootstrap}. Investigate the capabilities of Bootstrap and their potential applicability to the site
+\item  \textbf{User Acceptance testing }. Prepare testing script sheets to that users can work through a series of task administrative tasks which touch on both manipulating existing data and creating new records.
+\item  \textbf{Address issues from User Acceptance testing }. Work through the results of the user acceptance testing and address any bugs, issues or user suggestions.
 \end {itemize}
+
+\subsection {Web Design Approach}
+
+\subsubsection {Step1 : Symfony templating}
+
+This project started by using the Symfony facility to generate boiler plate CRUD (Create/Read/Update/Delete) templates and associated controllers. This approach yields considerable time savings for developers, obviating the need for much repetitive code generation and it is clear that a command line bundle can complete this more accurately than a human developer. In fact, as noted earlier in the Design section, the author had the experience of initially creating a basic initial prototype version of the Scheduler application initially in Silex, the light-weight version using a bare-bones approach to the Symfony framework. In this iteration, the author initially create templates and controllers to reflect the requirements in the model for each entity. Even when using the initially created template and controller for the first entity (service user) as a template to generate controllers and view templates for the other dozen or so entities, this was a very time consumiing exercise, taking many days of development. At this point a decision was made to rebuild from scratch on the full Symfony framework to leverage the power of the Security model, skeleton templating system and various other features including the very flexible Dynamic Doctrine queries. 
+
+The second iteration of the application was built using the Symfony skeleton bundle which allows for the use of a command line driven approach to 
+generating boiler plate templates and controllers. This took considerably less time to accomplish, estimated by the author to have delivered time savings in the order of 70-80\% over the original and more manual Silex approach.
+
+This powerful approach uses the following command which generates the controller templates  in a few seconds based on an already existing model class for the referenced entity is already in place.
+
+This command yields the following initial templated code which can be generated in a few seconds once the model is already in place.
+
+\begin{verbatim}
+$ php app/console generate:doctrine:crud 
+--entity=AppBundle:Employee--format=annotation --with-write
+--no-interaction
+\end{verbatim}
+
+\textbf {\underline{Templated Controller methods}}
+
+When this routine completes the following five controller actions will be created
+\begin {itemize}
+
+\item \textbf{indexAction()} This action lists all records. It can be further extended to accept an incoming parameter, for example and when linked with an appropriate Doctrine query can quickly achieve filtering of the records that are returned.
+\item \textbf{showAction()}This action shows one given record identified by its primary key which is passed by reference to the underlying object.
+\item \textbf {newAction()} This action creates a new record.
+\item \textbf{editAction()} This action edits an existing record identified by its primary key which is passed by reference to the underlying object.
+\item \textbf{deleteAction(} This action allows the user to deleting an existing record identified by its primary key which is passed by reference to the underlying object.. This approach uses the FormBuilder class via calling a special createDeleteForm() method  to build the Delete Form.
+
+\end {itemize}
+
+\textbf {\underline{View Templates}}
+
+The routine will also create the following template forms which are equivalent to the controller methods and are based on the standard templates forms in the Resources/skeleton/ directory. It is also useful to note that these skeleton templates can be customised to achieve templating of individual entities from your own modified skeleton template but this approach was not used for this project.
+\begin {itemize}
+
+\item \textbf{index} 
+\item \textbf{show}
+\item \textbf{new} 
+\item \textbf{edit} 
+\end {itemize}
+
+Two points are worth noting here:
+
+Firstly, a sample of the new view is included below in order to demonstrate the power of the Symfony templating engine.
+
+\begin{verbatim}
+{% block body %}
+    <h1>Absencereason creation</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Create"/>
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('absencereason_index') }}"
+            >Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}
+\end{verbatim}
+In a case where the entity in question had a large number of individual properties, the power of the above concise code becomes obvious where the \begin{verbatim}{{form_widget(form)}} \end{verbatim} command will automatically create form labels and input controls for each property, choosing form controls appropriate to the underlying datatype and automatically updating the template as the underlying model changes over time.
+
+Secondly, it can be noted that there is one fewer template view than controller method and this is because the deleteAction creates its form within the createDeleteForm method so there is no need to have a related template view for the Delete Action.
+
+\subsubsection {Step2 : Base Template Inheritance}
+
+The work in Step 1 above yielded a set of basic templates and controllers which were powerful in terms of functionality but were unfortunately quite plain and uninteresting in their initial styling.  This can be seen in the following screenshots of the initial list and show templates.
+
+
+ \begin{figure}[h!]
+\includegraphics{absence_reasons_list.png}
+  \caption{Absence Reasons List View}
+  \label{fig:Absence Reasons List View}
+\end{figure}
+
+
+ \begin{figure}[h!]
+\includegraphics{absence_reasons_show.png}
+  \caption{Absence Reason Show View}
+  \label{fig:Absence Reason Show View}
+\end{figure}
+
+
+In this second step of development, the author sought to leverage the power of the  capacity within the Twig framework for template inheritance. Here, we can define a base template which contains all of the html code, navigation cues and references the style sheets (CSS) which are common to every page in the site.
+
+Once this is in place,  it is easy to achieve a professional and consistent look and feel throughout the application which is vital to achieving user adoption. In a prototype or `proof of concept' application such as the one being developed in this project, these considerations are less critical than in a full  production scenario nevertheless the author attempted to achieve a professional look, within the significant limitations of his visual design talents and styling knowledge, which would give the test users confidence in navigating through the application through the use of various colour coded cues.
+
+Even more importantly, it was vital to give the users a chance to contribute to the design and aesthetics of the site at this early stage so that these suggestions could be factored into the vendor discussions in building the final production version. 
+
+A base template was developed with the following objectives
+\begin {itemize}
+
+\item \textbf{CSS classes}. Include the custom CSS classes which apply to site, these are used to style buttons and define the look and feel of tables, headings and text as well as the layout of navigation controls.
+\item \textbf{External Jquery and CSS libraries}.  The application touched lightly upon the use of Jquery libraries for areas such as calendar controls when selecting dates and also leveraged the now ubiqitous Bootstrap framework in its layout design for more complex pages. The author had hoped to use an external Jquery libary to show an interactive control to manage CRUD fucntions for viewing and updating of rosters but encountered some difficulties and reverted to a simpler dynamic HTML control to display calendars instead.
+\item \textbf{Navigation bar}.  The application sought to use a series of icon driven navigation cues at the top of the screen which are present consitently as a user navigates through the site.
+\item \textbf{Navigation bar}.  The application also sought to display the user's login information when a user had authenticated to the application together with a \textbf{logout} button or in the case where they were not yet logged in to display a \textbf{login} button which would link the user to the login authentication page. Each icon and button contained an embedded anchor tag to link the user to that section of the application.
+\item \textbf{Flash messages}.  Finally, the application used some embedded and colour coded flash messages which read from the global Session variable. In the case where a standard CRUD event completed an action successfully, a message was appended to the Notice array in the FlashBag() class which the session uses to store alerts. In the event that an error was encountered, for example a save event did not complete successfully, a message was appended to the Error array in the FlashBag() class. Then as the page was refreshed in the broswer the base template template shows these to the user, colour coded as red if the new message was an error or in green if the message was a notice.
+ 
+\end {itemize}
+
+A sample of the user interface that was achieved using this approach can be seen in the figure below
+ \begin{figure}[h!]
+\includegraphics[scale=0.4]{samplewithbase.png}
+  \caption{Sample page with underlying Base template}
+  \label{fig:Sample page with underlying Base template}
+\end{figure}
+
+The approach for using an inherited base template was sufficient for most pages in the application. 
+A reworked edit page, developed originally from the boilerplate code which was generated by the Symfony but now extended using the Base page is shown in screenshot in the figure below, this time for the customer entity.
+
+
+ \begin{figure}[h!]
+\includegraphics[scale=0.4]{editpagewithbase.png}
+  \caption{Edit page extending underlying Base template}
+  \label{fig:Edit page extending underlying Base template}
+\end{figure}
+
+
+As the reader can determine from the above screenshot, the links have now been restyled using css stored in the button class which represents anchor links styled to look similar to buttons, closely modelled on the css used in the Bootstrap model but remaining as links and not buttons. A colour coded approach was used throughout the application as shown in the screenshot below.
+ \begin{figure}[h!]
+\includegraphics[scale=0.52]{buttoncolours.png}
+  \caption{Button colour scheme}
+  \label{fig:Button colour scheme}
+\end{figure}
+\begin {itemize}
+
+\item \textbf{Blue buttons} were used to show additional detail on the selected records.
+\item \textbf{Green buttons} were used to indicate either a step to add a new record or the commit/save action following the editing of an existing record .
+\item \textbf{Grey buttons} were used to navigate backwards from the context of an individual record to a list which shows an index view of multiple records.
+\item \textbf{Amber buttons} were used to indicate a step to edit a record, implying changing the saved values.
+\item \textbf{Red buttons} were used to indicate the deletion of a record or the removal of an association between two records.
+\end {itemize}
+
+Where the entity in question had a contained address data, the underlying controller implemented the generic Mapping class which was created as part of the application to include the functionality to automatically geocode addresses using integration with the Google Maps API. The resulting coordinates were then stored individually as latitude and longitude and shown in the detail/show view of each entity which used an I-Frame using standard Google Maps code to display a map on a HTML page based on including two coordinates in the URL passed to the I-Frame.
+This approach to simply extend base pages and use the generic Symfony templates was deemed to sufficient for most simple templates throughout the application. However, some more complex pages, such as the show view for the employee and service user entity needed to expose a number of a underlying entities which relate in a many to one relationship back to the parent entity.
+
+For example, the view action for an employee record needed to show a number of different panes of information to the user, which all needed to be accessible to user from the show page for that employee, as follows:
+
+\begin {itemize}
+
+\item \textbf{Employee details} displayed on the form and editable using the edit employee button which routes to an edit page.
+\item \textbf{Rosters for the employee}. This area was of central importance to viewing employee details/ (A similar approach was taken to the Show page for a service user record.) In this case, as already noted above, it had been intended to use an available JQuery library such as Full Calendar to display a custom control which represented the dates in the roster calendar for an individual service user or employee in an Outlook or Google Calendar style planner view, with CRUD functionality available to the user in a drag and drop approach where a user could click on a time in the calendar and drag the control to the finish time of the appointment. However, some difficulties were encountered in this area, mainly related to the author's lack of experience with handling the JSON events that arise from such JQuery driven controls. As a compromise, to maintain a simpler HTML driven calendar with the ability to display and edit (each item displayed acted as an anchor link to the underlying roster record) existing roster. Users also have the ability to click the add button on a given date. The approach that was taken was to include three separate calendar controls which automatically updated base on the date context when the page is rendered. The first one shows the current calendar month, then the next calendar month and finally the previous calendar month, all shown in a top down view, with the current calendar month. The user can edit roster items in the current and next month and can only view items in the previous month.
+\item \textbf{Association to other related records}. It made sense for the user to be able to add a related record associated with the employee, for example a planned temporary employee absence (period of leave) or a time in the week when the employee was not permanently noted as unavailable, for example due to family commitments, or a second job held. Similar requirements existed on the service user record where it was needed to be able to add an association to an employee as either permanently assigned to that service user, or alternatively to mark an employee as flagged not to be sent to that service user.
+\item \textbf{Google maps}. There was a requirement identified to display the Google maps representation of the address coordinates in a static map on the employee and service user view (Show) page. 
+\end {itemize}
+
+These challenges called for a more structured approach to the user interface design than for most other pages in the site. 
+
+ \begin{figure}[h!]
+\includegraphics[scale=0.70]{Bootstraptemplate.png}
+  \caption{Bootstrap template approach}
+  \label{fig:Bootstraptemplate}
+\end{figure}
+
+The final design involved extending the base template to include the top navigation ribbon and then to apportion the page to different sized panels left centre and right. For this the Bootstrap CSS template,  originally developed by the team at Google, but now open sourced and widely used across the modern web, was an ideal fit.
+
+This approach allows you to define the amount of screen real estate to be assigned to different controls on the page and the page is then automatically resized to allow for the different resolution of different devices, including allowing for a responsive rendering of the page on mobile devices. In practice, this may mean that a series of controls are rendered left to right on wide screen devices such as a laptop or large tablet with 1080pixels available in the horizontal dimensions but will be rendered top to bottom on a narrower screen device such as smartphone. The Bootstrap template uses a grid of 12 parts so a control mapped to the the col-md-3 class  would be allocated three twelfths (or one quarter) of the overall width of the screen. The approach that was taken, bearing in mind the amounts of data to be displayed in each area was to allocate three screen units (out of 12) to the leftmost details pane, six units to the roster area control, and three units to the availabillity view for employees (which also includes the Google Maps control further down in the pane).
+
+A sample of the final Service User design using this methodology is shown on the next page.
+ \center
+\includegraphics[scale=0.57,angle=270]{fullpagesu.png}
+
 
 \section {Evaluation}
 \subsection {User Feedback}
@@ -889,3 +1337,4 @@ ServiceUserDoNotSend, EmployeeAbsence, RosterAssignment as well as lookup list c
 \subsubsection {List of Vendor tools used}
 \newpage\printbibliography[title={Bibliography}]
 \end{document}
+

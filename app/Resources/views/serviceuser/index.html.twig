@@ -1,6 +1,16 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
+
+    <div class="divide-nav">
+        <ul>
+            <li>
+                <a class="button-green" href="{{ path('serviceuser_new') }}"> Add new
+                    Service User</a>
+            </li>
+        </ul>
+    </div>
+    <hr>
     <h2>Service Users Index Page</h2>
 
     <table>
@@ -55,10 +65,5 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a class="button-green" href="{{ path('serviceuser_new') }}" class="btn btn-info" role="button">Add new
-                Service User</a>
-        </li>
-    </ul>
+
 {% endblock %}

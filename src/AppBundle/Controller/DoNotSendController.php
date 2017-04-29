@@ -8,10 +8,12 @@ use AppBundle\Entity\ServiceUser;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Donotsend controller.
  *
+ * @Security("is_granted('ROLE_ADMIN')")
  * @Route("donotsend")
  */
 class DoNotSendController extends Controller
@@ -41,7 +43,7 @@ class DoNotSendController extends Controller
      */
     public function newAction(Request $request, ServiceUser $serviceUser)
     {
-        $doNotSend = new Donotsend();
+        $doNotSend = new DoNotSend();
         $session = $request->getSession();
         $session->start();
 

@@ -1,6 +1,16 @@
 {% extends '_base.html.twig' %}
-
+{% block aboutNavStyle %}
+    current_page
+{% endblock %}
 {% block body %}
+    <div class="divide-nav">
+        <ul>
+            <li>
+                <a class="button-green" href="{{ path('employee_new') }}">Create a new Employee</a>
+            </li>
+        </ul>
+    </div>
+    <hr>
     <h2>Employee Index Page</h2>
 
     <table>
@@ -56,9 +66,4 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a class="button-green" href="{{ path('employee_new') }}">Create a new Employee</a>
-        </li>
-    </ul>
 {% endblock %}
