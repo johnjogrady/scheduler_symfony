@@ -1,10 +1,8 @@
 {% extends '_base.html.twig' %}
 {% block body %}
 
-    <div class="column_container">
-        <section class="flex">
-            <h2>Employee Details</h2>
-
+    <div class="row">
+        <section class="col-md-12">
             <ul>
                 <li>
                     <a class="button-grey" href="{{ path('employee_index') }}">Back to the
@@ -22,14 +20,16 @@
             </ul>
         </section>
     </div>
-    <div class="column_container">
-        <section>
+    <div class="row">
+        <section class="col-md-3">
+            <h2>Employee Details</h2>
+
             <table>
                 <tbody>
 
                 <tr>
-                    <th>First name</th>
-                    <td>{{ employee.firstName }}</td>
+                    <th width="40%">First name</th>
+                    <td width="60%">{{ employee.firstName }}</td>
                 </tr>
                 <tr>
                     <th>Last name</th>
@@ -94,15 +94,13 @@
                 </tr>
                 </tbody>
             </table>
-
-
         </section>
 
-        <section>
-            <section>
-                <h4>Rosters for this Employee</h4>
 
-                {% set time = "now"|date("U") %}
+        <section class="col-md-5">
+            <h2>Rosters for this Employee</h2>
+
+            {% set time = "now"|date("U") %}
 
                 <table align="stretch">
                     <thead>
@@ -140,7 +138,7 @@
 
 
                                     {% if day<10 %}
-                                        </br>
+                                        <br>
                                         {% for item in range(0,daysThisMonth[0~day]|length-1 ) %}
 
 
@@ -234,7 +232,7 @@
 
 
                                     {% if day<10 %}
-                                        </br>
+                                        <br>
                                         {% for item in range(0,daysNextMonth[0~day]|length-1 ) %}
 
 
@@ -329,7 +327,7 @@
 
 
                                     {% if day<10 %}
-                                        </br>
+                                        <br>
                                         {% for item in range(0,daysLastMonth[0~day]|length-1 ) %}
 
 
@@ -385,13 +383,12 @@
                     </tbody>
                 </table>
             </section>
-        </section>
 
-        <section>
+        <section class="col-md-4">
             <section>
                     <h4>
                     <span>
-                  <strong>Absences for this employee</strong>
+                  <strong>Employee Absences</strong>
                          <a class="button-green" href="{{ path('employeeabsence_new', { 'employee': employee.id }) }}"
                          >Add New Absence</a>
 
@@ -400,12 +397,12 @@
 
 
                         <table>
+                            <thead>
                 <tr>
                     <th>Reason</th>
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>Duration</th>
-
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -428,16 +425,12 @@
                         </td>
 
                         <td>
-                            <ul>
-                                <li>
                                     <a class="button-green"
                                        href="{{ path('employeeabsence_edit', { 'id': employeeAbsence.id }) }}"
                                     >Update</a>
                                     <a class="button-red"
                                        href="{{ path('employeeabsence_delete', { 'id': employeeAbsence.id }) }}"
                                     >Remove</a>
-                                </li>
-                            </ul>
                         </td>
                     </tr>
                 {% endfor %}
@@ -447,16 +440,16 @@
             <section>
                     <h4>
                     <span>
-                  <strong>Unavailable Times for employee</strong>
+                  <strong>Employee Unavailable Times</strong>
 
               </span>
                         <a class="button-green"
                            href="{{ path('employeeunavailability_new', { 'employee': employee.id }) }}"
-                        >Add New Unavailable Time </a>
+                        >Add Unavailable Time </a>
                     </h4>
 
             <table>
-
+                <thead>
                 <tr>
                     <th>Day Of Week</th>
                     <th>Start time</th>
@@ -493,8 +486,6 @@
 
 
                         <td>
-                            <ul>
-                                <li>
                                     <a class="button-green"
                                        href="{{ path('employeeunavailability_edit', { 'id': employeeunavailability.id }) }}"
                                     >Update</a>
@@ -502,8 +493,6 @@
                                     <a class="button-red"
                                        href="{{ path('employeeunavailability_delete', { 'id': employeeunavailability.id }) }}"
                                     >Remove</a>
-                                </li>
-                            </ul>
                         </td>
                     </tr>
                 {% endfor %}
@@ -513,8 +502,8 @@
             <section>
                 <p>
                     <iframe
-                            width="485"
-                            height="235"
+                            width="425"
+                            height="335"
                             frameborder="1" style="align-items: center"
                             src="http://maps.google.com/maps?q={{ employee.latitude }},{{ employee.longtitude }}&z=13&output=embed"></iframe>
                 </p>
