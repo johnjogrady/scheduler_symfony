@@ -1,8 +1,7 @@
 {% extends '_base.html.twig' %}
 {% block body %}
-    <div class="column_container">
-        <section class="flex">
-            <h2>Service UserDetails</h2>
+    <div class="row">
+        <section class="col-md-12">
             <ul>
                 <li>
                     <a class="button-grey" href="{{ path('serviceuser_index') }}">Back to the
@@ -20,14 +19,14 @@
             </ul>
         </section>
     </div>
-    <div class="column_container">
-
-        <section class="col-md-4">
+    <div class="row">
+        <section class="col-md-3">
+            <h2>Service UserDetails</h2>
 
             <table>
                 <tr>
                     <th width="40%">First name</th>
-                    <td width="60%">{{ serviceUser.firstName }}</td>
+                    <td width="100%">{{ serviceUser.firstName }}</td>
                 </tr>
                 <tr>
                     <th>Last name</th>
@@ -130,6 +129,7 @@
 
 
         <section class="col-md-5">
+
             <h2>Rosters for this Service User</h2>
             <a class="button-green" href="{{ path('roster_new_su', { 'serviceUser': serviceUser.id }) }}">Add New
                 Roster</a>
@@ -167,7 +167,7 @@
                         <td>
                             <div>
                                 <div><strong>{{ day }}</strong>
-                                    </br>
+                                    <br>
 
                                     {# as days in months have been extracted from dates, the first ten days have index keys of 01,02 then 10,11 #}
                                     {% if (attribute(daysThisMonth,day)is defined) or (attribute(daysThisMonth,0~day)is defined) %}
@@ -265,7 +265,7 @@
                         <td>
                             <div>
                                 <div><strong>{{ day }}</strong>
-                                    </br>
+                                    <br>
 
                                     {# as days in months have been extracted from dates, the first ten days have index keys of 01,02 then 10,11 #}
 
@@ -275,7 +275,7 @@
                                         {% for item in range(0,daysNextMonth[0~day]|length-1 ) %}
 
 
-                                            <a href="{{ path('roster_edit', { 'id': daysNextMonth[0~day][item].id}) }}"
+                                            <a href="{{ path('roster_show', { 'id': daysNextMonth[0~day][item].id}) }}"
                                                class="button-grey-xs">
 
                                                 {{ daysNextMonth[0~day][item].rosterStartTime|date(' H:i') }} to
@@ -285,7 +285,7 @@
                                     {% else %}
                                         {% for item in range(0,daysNextMonth[day]|length-1 ) %}
 
-                                            <a href="{{ path('roster_edit', { 'id': daysNextMonth[day][item].id}) }}"
+                                            <a href="{{ path('roster_show', { 'id': daysNextMonth[day][item].id}) }}"
                                                class="button-grey-xs">
 
                                                 {{ daysNextMonth[day][item].rosterStartTime|date(' H:i') }} to
@@ -366,7 +366,7 @@
                         <td>
                             <div>
                                 <div><strong>{{ day }}</strong>
-                                    </br>
+                                    <br>
 
                                     {# as days in months have been extracted from dates, the first ten days have index keys of 01,02 then 10,11 #}
 
@@ -421,7 +421,7 @@
 
 
         </section>
-        <section class="col-md-3">
+        <section class="col-md-4">
                 <p>
                     <iframe
                             width="300"
@@ -430,10 +430,13 @@
                             src="http://maps.google.com/maps?q={{ serviceUser.latitude }},{{ serviceUser.longtitude }}&z=13&output=embed"></iframe>
                 </p>
             <table width="100%">
+                <tr>
                 <th width="60%">Latitude</th>
                 <th width="60%">Longtitude</th>
-                    <tr>
-                        <td>{{ serviceUser.latitude }}</td>
+                </tr>
+                <tr>
+
+                    <td>{{ serviceUser.latitude }}</td>
                         <td>{{ serviceUser.longtitude }}</td>
 
                     </tr>
