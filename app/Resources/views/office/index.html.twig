@@ -1,4 +1,4 @@
-{% extends '_base.html.twig' %}
+{% extends '_baseportal.html.twig' %}
 
 {% block body %}
 
@@ -28,7 +28,7 @@
 
                         </li>
                         <li>
-                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            {% if is_granted('ROLE_ADMIN') %}
 
                                 <a class="button-orange" href="{{ path('office_edit', { 'id': office.id }) }}">Edit</a>
                             {% endif %}
@@ -58,6 +58,6 @@
         <a href="{{ path('security_logout') }}">
             <a class="btn btn-default btn"> You are currently logged in as {{ app.user }}</a>
             <img src="/images/logout.png" alt="customer" height="32" width="32"></a>
-        <a class="button-grey" href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
+        <a class="button-grey" href="{{ path('security_logout') }}">Logout</a>
     {% endif %}
 {% endblock %}
