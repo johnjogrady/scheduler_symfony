@@ -2,12 +2,29 @@
 {% block body %}
 
     <h1>Assign an Employee to this Roster </h1>
+    <h4>Roster Status:
+        {% if assignedEmployees|length < roster.numberResourcesNeeded %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Warning:</strong> Not enough employees assigned
+            </div>
+        {% elseif assignedEmployees|length == roster.numberResourcesNeeded %}
+            <div class="alert alert-success" role="alert">
+                <strong>Success:</strong> Correct number of employees assigned
+            </div>
+        {% elseif assignedEmployees|length > roster.numberResourcesNeeded %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Warning:</strong> Too many employees assigned
+            </div>
+        {% endif %}
+    </h4>
     <div class="column_container">
-        <section class="flex">
-            <section>
+        <section class="col-md-4">
+            <h2>Roster Details</h2>
+            <a class="button-green"
+               href="{{ path('serviceuser_show', { 'id': roster.serviceUserId.id }) }}">Go to Service User record</a>
+            <a class="button-green"
+               href="{{ path('roster_show', { 'id': roster.id }) }}">Go to Roster record</a>
 
-
-            </section>
             <table>
                 <tr>
                     <th>Id</th>
@@ -16,6 +33,11 @@
                 <tr>
                     <th>Serviceuserid</th>
                     <td>{{ roster.serviceUserId }}</td>
+                </tr>
+                <tr>
+                    <th>Service User Address</th>
+                    <td>{{ roster.serviceUserId.addressLine1 }} {{ roster.serviceUserId.addressLine2 }} {{ roster.serviceUserId.addressLine3 }}
+                        {{ roster.serviceUserId.countyPostcode }}</td>
                 </tr>
                 <tr>
                     <th>Rosterstarttime</th>
@@ -39,6 +61,12 @@
                     <td>{{ roster.numberResourcesNeeded }}</td>
                 </tr>
 
+                <tr>
+                    <th>Current staffing Assigned</th>
+                    <td>
+                        {{ assignedEmployees|length }}
+                    </td>
+                </tr>
 
                 <tr>
                     <th>Customerid</th>
@@ -46,9 +74,45 @@
                 </tr>
             </table>
         </section>
-        <section class="flex">
-            <section>
-                <h4>The following employees are currently available for this Roster:</h4>
+        <section class="col-md-4">
+            <h2>Employees already assigned to this Roster</h2>
+
+            <table>
+                <tr>
+
+                    <th></th>
+                    <th>Employee</th>
+                    <th>Mobile</th>
+                    <th>Address Line 1</th>
+                    <th>Address Line 2</th>
+                    <th>Address Line 3</th>
+                    <th>County Postcode</th>
+
+                </tr>
+
+                <tr>
+                    {% for assignedEmployee in assignedEmployees %}
+
+                    <td>
+
+                        <a class="button-red"
+                           href="{{ path('rosterassignedemployee_delete', { 'id': assignedEmployee.id }) }}"
+                        >Remove</a>
+                    </td>
+                    <td>{{ assignedEmployee.employeeId }}</td>
+                    <td>{{ assignedEmployee.employeeId.mobileTelephone }}</td>
+                    <td>{{ assignedEmployee.employeeId.addressLine1 }}</td>
+                    <td>{{ assignedEmployee.employeeId.addressLine2 }}</td>
+                    <td>{{ assignedEmployee.employeeId.addressLine3 }}</td>
+                    <td>{{ assignedEmployee.employeeId.countyPostcode }}</td>
+
+
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+        <section class="col-md-4">
+            <h2>Other employees who are currently available for this Roster:</h2>
                 <a class="button-blue" href="{{ path('rosterassignedemployee_index') }}">Back to the Assigned Employees
                     list</a>
 
@@ -93,8 +157,6 @@
                     </tr>
                 </table>
             </section>
-
-        </section>
 
 
     </div>

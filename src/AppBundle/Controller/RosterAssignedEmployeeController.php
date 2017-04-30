@@ -47,7 +47,9 @@ class RosterAssignedEmployeeController extends Controller
         $session = $request->getSession();
         $session->start();
 
+
         $em = $this->getDoctrine()->getManager();
+        $assignedEmployees = $em->getRepository('AppBundle:RosterAssignedEmployee')->findByRosterId($roster->getId());
 
         $availableEmployees = $em->getRepository('AppBundle:Employee')->findAll();
 //        $this->getDoctrine()->getRepository('MyBundle:MyTable')->findBy([], ['distance' => 'ASC']);
@@ -97,7 +99,7 @@ class RosterAssignedEmployeeController extends Controller
             $em->persist($rosterAssignedEmployee);
             $em->flush($rosterAssignedEmployee);
 
-            return $this->redirectToRoute('roster_show', array('id' => $rosterid));
+            return $this->redirectToRoute('rosterassignedemployee_show', array('id' => $rosterAssignedEmployee->getId()));
         }
 
         if (['REQUEST_METHOD'] === 'POST') {
@@ -108,6 +110,7 @@ class RosterAssignedEmployeeController extends Controller
         return $this->render('rosterassignedemployee/new.html.twig', array(
             'rosterAssignedEmployee' => $rosterAssignedEmployee,
             'roster' => $roster,
+            'assignedEmployees' => $assignedEmployees,
             'availableEmployees' => $availableEmployees,
             'form' => $form->createView(),
         ));
@@ -271,6 +274,12 @@ class RosterAssignedEmployeeController extends Controller
             return true;
         // this one checks to see if the employee has an planned absence recorded which overlaps with the time of the roster
 
+        $isDuplicate = $this->checkForDuplicate($employee, $rosterid);
+        // if an absence entry is already found for this employee on this roster  return true and break from the method
+        if ($isDuplicate === true)
+            return true;
+
+        // this one checks to see if the is already rostered at the time of the unfilled roster
         $onAbsence = $this->checkForAbsence($employee, $rosterid);
         // if an absence is found which overlaps, return true and break from the method
         if ($onAbsence === true)
@@ -333,6 +342,19 @@ class RosterAssignedEmployeeController extends Controller
             $absencestart = $item->getStartTime();
             $absenceend = $item->getEndTime();
             if ($absenceend > $rosterStartTime && $absencestart < $rosterEndTime)
+                return true;
+        }
+        return false;
+
+    }
+
+    private function checkForDuplicate($employee, $rosterid)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $rosterAssignment = $em->getRepository('AppBundle:RosterAssignedEmployee')->findByRosterId($rosterid);
+        foreach ($rosterAssignment as $item) {
+            if ($item->getEmployeeId()->getId() == $employee)
                 return true;
         }
         return false;

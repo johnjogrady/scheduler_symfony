@@ -318,6 +318,27 @@ class ServiceUserController extends Controller
         $session->start();
         $form = $this->createDeleteForm($serviceUser);
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $employeeDoNotSends = $em->getRepository('AppBundle:DoNotSend')->findByServiceUserId($serviceUser->getId());
+        if (count($employeeDoNotSends) > 0) {
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, this service user has Do Not Send relationships, please remove these and try again');
+            return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
+        }
+
+        $assignedEmployees = $em->getRepository('AppBundle:ServiceUserAssignedEmployee')->findByServiceUserId($serviceUser->getId());
+        if (count($assignedEmployees) > 0) {
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, this service user has assigned Employees, please remove these and try again');
+            return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
+        }
+        $assignedRosters = $em->getRepository('AppBundle:Roster')->findByServiceUserId($serviceUser->getId());
+        if (count($assignedRosters) > 0) {
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, this service user has assigned Rosters, please remove these and try again');
+            return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
+        }
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();

@@ -106,7 +106,7 @@ class RosterController extends Controller
 
             $em->flush($roster);
 
-            return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
+            return $this->redirectToRoute('roster_show', array('id' => $roster->getId()));
         }
 
         if (['REQUEST_METHOD'] === 'POST') {
@@ -147,7 +147,7 @@ class RosterController extends Controller
 
             $em->flush($roster);
 
-            return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUser->getId()));
+            return $this->redirectToRoute('roster_show', array('id' => $roster->getId()));
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -236,6 +236,7 @@ class RosterController extends Controller
     {
         $form = $this->createDeleteForm($roster);
         $form->handleRequest($request);
+        $serviceUserId = $roster->getServiceUserId();
         $session = $request->getSession();
         $session->start();
         $em = $this->getDoctrine()->getManager();
@@ -259,7 +260,7 @@ class RosterController extends Controller
         }
 
 
-        return $this->redirectToRoute('roster_index');
+        return $this->redirectToRoute('serviceuser_show', array('id' => $serviceUserId->getId()));
     }
 
     /**

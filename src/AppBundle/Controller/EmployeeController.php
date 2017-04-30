@@ -3,9 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Employee;
-use AppBundle\AppBundle;
 use AppBundle\Mapping;
-use AppBundle\Entity\ServiceUser;
 use AppBundle\Entity\Roster;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -176,6 +174,9 @@ class EmployeeController extends Controller
 
         }
         $employeeUnavailability = $em->getRepository('AppBundle:EmployeeUnavailability')->findByEmployeeId($employee->getId());
+
+        $doNotSends = $em->getRepository('AppBundle:DoNotSend')->findByEmployeeId($employee->getId());
+        $assignedServiceUsers = $em->getRepository('AppBundle:ServiceUserAssignedEmployee')->findByEmployeeId($employee->getId());
         return $this->render('employee/show.html.twig', array(
             'employee' => $employee,
             'employeeUnavailability' => $employeeUnavailability,
@@ -186,7 +187,8 @@ class EmployeeController extends Controller
             'daysNextMonth' => $daysNextMonth,
             'beginLastMonth' => $beginLastMonth,
             'daysLastMonth' => $daysLastMonth,
-
+            'doNotSends' => $doNotSends,
+            'assignedServiceUsers' => $assignedServiceUsers,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -247,6 +249,25 @@ class EmployeeController extends Controller
         $form = $this->createDeleteForm($employee);
         $session = $request->getSession();
         $session->start();
+        $em = $this->getDoctrine()->getManager();
+        $employeeDoNotSends = $em->getRepository('AppBundle:DoNotSend')->findByEmployeeId($employee->getId());
+        if (count($employeeDoNotSends) > 0) {
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, this employee has Do Not Send relationships, please remove these and try again');
+            return $this->redirectToRoute('employee_show', array('id' => $employee->getId()));
+        }
+        $assignedServiceUsers = $em->getRepository('AppBundle:ServiceUserAssignedEmployee')->findByEmployeeId($employee->getId());
+        if (count($assignedServiceUsers) > 0) {
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, this employee has Service User Assignments , please remove these and try again');
+            return $this->redirectToRoute('employee_show', array('id' => $employee->getId()));
+        }
+        $assignedRosters = $em->getRepository('AppBundle:RosterAssignedEmployee')->findByEmployeeId($employee->getId());
+        if (count(assignedRosters) > 0) {
+            $session->getFlashBag('error');
+            $session->getFlashBag()->add('error', 'Error, this employee has assigned Rosters, please remove these and try again');
+            return $this->redirectToRoute('employee_show', array('id' => $employee->getId()));
+        }
 
         $form->handleRequest($request);
 

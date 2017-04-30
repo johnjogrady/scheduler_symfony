@@ -1,7 +1,7 @@
 {% extends '_base.html.twig' %}
 
 {% block body %}
-    <h1>Rosterassignedemployee</h1>
+    <h1>Manage Assigned Employee for this Roster </h1>
 
     <table>
         <tbody>
@@ -10,8 +10,18 @@
             <td>{{ rosterAssignedEmployee.employeeId }}</td>
         </tr>
         <tr>
+            <th>Employee Address</th>
+            <td>{{ rosterAssignedEmployee.employeeId.addressLine1 }} {{ rosterAssignedEmployee.employeeId.addressLine2 }} {{ rosterAssignedEmployee.employeeId.addressLine3 }}
+                {{ rosterAssignedEmployee.employeeId.countyPostcode }}</td>
+        </tr>
+        <tr>
             <th>Service User</th>
             <td>{{ rosterAssignedEmployee.rosterId.serviceUserId }}</td>
+        </tr>
+        <tr>
+            <th>Service User Address</th>
+            <td>{{ rosterAssignedEmployee.rosterId.serviceUserId.addressLine1 }} {{ rosterAssignedEmployee.rosterId.serviceUserId.addressLine2 }} {{ rosterAssignedEmployee.rosterId.serviceUserId.addressLine3 }}
+                {{ rosterAssignedEmployee.rosterId.serviceUserId.countyPostcode }}</td>
         </tr>
         <tr>
             <th>Start Time</th>
@@ -23,6 +33,26 @@
             <td>{% if rosterAssignedEmployee.rosterId.rosterEndTime %}{{ rosterAssignedEmployee.rosterId.rosterEndTime|date('D d-m-y H:i:s') }}{% endif %}</td>
 
         </tr>
+        <tr>
+            <th>Status</th>
+            <td>
+                {{ rosterAssignedEmployee.rosterId.rosterStatus }}
+            </td>
+        </tr>
+        <tr>
+            <th>Required staffing</th>
+            <td>
+                {{ rosterAssignedEmployee.rosterId.numberResourcesNeeded }}
+            </td>
+        </tr>
+        <tr>
+            <th>Current staffing</th>
+            <td>
+                {{ rosterAssignedEmployee|length }}
+            </td>
+        </tr>
+
+
         </tbody>
     </table>
 

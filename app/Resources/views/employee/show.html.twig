@@ -94,6 +94,44 @@
                 </tr>
                 </tbody>
             </table>
+            <h2>Do Not Send To these Service Users</h2>
+
+            <table align="center">
+
+                {% for doNotSend in doNotSends %}
+
+                    <tr>
+                        <td>
+                            {{ doNotSend.serviceUserId }}  </td>
+                        <td><a class="button-red" href="{{ path('donotsend_delete', { 'id': doNotSend.id }) }}"
+                            >Remove DoNotSend Flag</a>
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+            <h2>Assigned to these Service Users</h2>
+
+            <table align="center">
+
+                {% for assignedServiceUser in assignedServiceUsers %}
+
+                    <tr>
+                        <td>
+                            {{ assignedServiceUser.serviceUserId }}  </td>
+                        <td><a class="button-red"
+                               href="{{ path('serviceuserassignedemployee_delete', { 'id': assignedServiceUser.id }) }}"
+                            >Remove Assignment</a>
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+
         </section>
 
 
